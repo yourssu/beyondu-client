@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
+import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import countries from "~/shared/constants/countries.json";
 import languageCertificates from "~/shared/constants/language-certificates.json";
@@ -39,7 +40,7 @@ export default function Home() {
 		const params = new URLSearchParams();
 		if (major) params.set("major", major);
 		if (gpa) params.set("gpa", gpa);
-		if (languageCert) params.set("languageCert", languageCert);
+		if (languageCert && languageCert !== "없음") params.set("languageCert", languageCert);
 		if (score) params.set("score", score);
 		if (country) params.set("country", country);
 		if (requireReview) params.set("requireReview", "true");
@@ -50,11 +51,7 @@ export default function Home() {
 	return (
 		<div className="relative min-h-screen">
 			{/* Blurred campus background */}
-			<img
-				alt=""
-				className="absolute inset-0 h-full w-full scale-105 object-cover blur-[25.2px]"
-				src="/campus-bg.jpg"
-			/>
+			<CampusBackground />
 
 			<div className="relative z-10">
 				<Header />

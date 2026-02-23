@@ -26,9 +26,16 @@
 	--color-surface-tooltip: #fbfff3;
 	--color-surface-hover: #cde79a;
 	--color-surface-glass: rgba(255, 255, 255, 0.8);
+	--color-surface-header: rgba(255, 255, 255, 0.6);
 
 	/* Colors - Misc */
 	--color-logo: #062c05;
+
+	/* Spacing */
+	--spacing-header: 82px;
+
+	/* Blur */
+	--blur-campus: 25.2px;
 
 	/* Container */
 	--container-form: 700px;

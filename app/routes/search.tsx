@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 import { BackButton } from "~/shared/components/back-button";
+import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import { SearchFilterBar } from "~/shared/components/search-filter-bar";
 import { UniversityCard } from "~/shared/components/university-card";
@@ -114,7 +115,8 @@ export default function Search() {
 		const params = new URLSearchParams();
 		if (filters.major) params.set("major", filters.major);
 		if (filters.gpa) params.set("gpa", filters.gpa);
-		if (filters.languageCert) params.set("languageCert", filters.languageCert);
+		if (filters.languageCert && filters.languageCert !== "없음")
+			params.set("languageCert", filters.languageCert);
 		if (filters.score) params.set("score", filters.score);
 		if (filters.country) params.set("country", filters.country);
 		if (filters.requireReview) params.set("requireReview", "true");
@@ -124,11 +126,7 @@ export default function Search() {
 	return (
 		<div className="relative min-h-screen">
 			{/* Blurred campus background */}
-			<img
-				alt=""
-				className="absolute inset-0 h-full w-full scale-105 object-cover blur-[25.2px]"
-				src="/campus-bg.jpg"
-			/>
+			<CampusBackground />
 
 			<div className="relative z-10">
 				<Header />
@@ -173,7 +171,7 @@ export default function Search() {
 								{[
 									filters.major,
 									filters.gpa ? `${filters.gpa}점` : "",
-									filters.languageCert && filters.score
+									filters.languageCert && filters.languageCert !== "없음" && filters.score
 										? `${filters.languageCert} ${filters.score}점`
 										: "",
 									filters.country,
