@@ -24,6 +24,7 @@
 	--color-surface-page: #fafafa;
 	--color-surface-tag: #f2f2f2;
 	--color-surface-tooltip: #fbfff3;
+	--color-surface-hover: #cde79a;
 	--color-surface-glass: rgba(255, 255, 255, 0.8);
 
 	/* Colors - Misc */
@@ -45,6 +46,8 @@
 	--animate-tooltip-in: tooltip-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
 	--animate-tooltip-out: tooltip-out 150ms cubic-bezier(0.4, 0, 1, 1) forwards;
 	--animate-check-in: check-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+	--animate-dropdown-in: dropdown-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-dropdown-out: dropdown-out 150ms cubic-bezier(0.4, 0, 1, 1) forwards;
 	--animate-error-in: error-in 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -137,6 +140,28 @@
 	}
 	to {
 		transform: scale(1);
+	}
+}
+
+@keyframes dropdown-in {
+	from {
+		opacity: 0;
+		transform: translateY(-4px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes dropdown-out {
+	from {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-4px) scale(0.96);
 	}
 }
 

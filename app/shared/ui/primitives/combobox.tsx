@@ -113,31 +113,35 @@ export function Combobox({
 				type="text"
 				value={value}
 			/>
-			{isOpen && filtered.length > 0 && (
-				<div
-					className="absolute top-full left-0 z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-input border border-base-400 bg-white shadow-lg"
-					id={listboxId}
-					role="listbox"
-				>
-					{filtered.map((item, index) => (
-						<div
-							aria-selected={index === activeIndex}
-							className={cn(
-								"cursor-pointer px-4 py-2 text-style-body hover:bg-surface-page",
-								index === activeIndex && "bg-surface-page",
-							)}
-							id={`${id}-option-${index}`}
-							key={item}
-							onMouseDown={() => selectItem(item)}
-							onMouseEnter={() => setActiveIndex(index)}
-							role="option"
-							tabIndex={-1}
-						>
-							{item}
-						</div>
-					))}
-				</div>
-			)}
+			<div
+				className={cn(
+					"absolute top-full left-0 z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-input border border-base-400 bg-white shadow-lg",
+					"spring-bounce-20 spring-duration-200 transition-[opacity,transform]",
+					isOpen && filtered.length > 0
+						? "scale-100 opacity-100"
+						: "pointer-events-none scale-[0.96] opacity-0",
+				)}
+				id={listboxId}
+				role="listbox"
+			>
+				{filtered.map((item, index) => (
+					<div
+						aria-selected={index === activeIndex}
+						className={cn(
+							"cursor-pointer px-4 py-2 text-style-body spring-bounce-0 spring-duration-150 transition-colors hover:bg-surface-hover",
+							index === activeIndex && "bg-surface-hover",
+						)}
+						id={`${id}-option-${index}`}
+						key={item}
+						onMouseDown={() => selectItem(item)}
+						onMouseEnter={() => setActiveIndex(index)}
+						role="option"
+						tabIndex={-1}
+					>
+						{item}
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }
