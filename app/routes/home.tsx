@@ -5,15 +5,9 @@ import { useNavigate } from "react-router";
 import { serializeFilterParams } from "~/lib/filter-params";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
-import countries from "~/shared/constants/countries.json";
-import languageCertificates from "~/shared/constants/language-certificates.json";
-import majors from "~/shared/constants/majors.json";
+import { SearchFilterBar } from "~/shared/components/search-filter-bar";
+import type { FilterFormData } from "~/shared/types/filter";
 import { Button } from "~/shared/ui/primitives/button";
-import { Checkbox } from "~/shared/ui/primitives/checkbox";
-import { Combobox } from "~/shared/ui/primitives/combobox";
-import { FormField } from "~/shared/ui/primitives/form-field";
-import { NumberInput } from "~/shared/ui/primitives/number-input";
-import { Select } from "~/shared/ui/primitives/select";
 
 import type { Route } from "./+types/home";
 
@@ -30,25 +24,24 @@ export function meta(_args: Route.MetaArgs) {
 export default function Home() {
 	const navigate = useNavigate();
 
-	const [major, setMajor] = useState("");
-	const [gpa, setGpa] = useState("");
-	const [languageCert, setLanguageCert] = useState("NONE");
-	const [score, setScore] = useState("");
-	const [country, setCountry] = useState("");
-	const [requireReview, setRequireReview] = useState(false);
+	const [filters, setFilters] = useState<FilterFormData>({
+		major: "",
+		gpa: "",
+		languageCert: "NONE",
+		score: "",
+		country: "",
+		requireReview: false,
+	});
 
 	const isFormComplete =
-		major && gpa && languageCert && (languageCert === "NONE" || score) && country;
+		filters.major &&
+		filters.gpa &&
+		filters.languageCert &&
+		(filters.languageCert === "NONE" || filters.score) &&
+		filters.country;
 
 	function handleSubmit() {
-		const params = serializeFilterParams({
-			country,
-			gpa,
-			languageCert,
-			major,
-			requireReview,
-			score,
-		});
+		const params = serializeFilterParams(filters);
 		navigate(`/search?${params.toString()}`);
 	}
 
@@ -71,75 +64,12 @@ export default function Home() {
 						</div>
 
 						{/* Form fields */}
-						<div className="flex w-full flex-col gap-9">
-							{/* Row 1: Major + GPA */}
-							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-								<FormField label="전공">
-									<Combobox
-										onChange={setMajor}
-										placeholder="e.g. Business, Computer Science"
-										restrictToSuggestions
-										suggestions={majors}
-										value={major}
-									/>
-								</FormField>
-								<FormField label="학점 (4.5 만점)">
-									<NumberInput
-										max={4.5}
-										min={0}
-										onChange={(e) => setGpa(e.target.value)}
-										placeholder="예: 3.8"
-										step={0.1}
-										value={gpa}
-									/>
-								</FormField>
-							</div>
-
-							{/* Row 2: Language cert + Score */}
-							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-								<FormField label="보유한 언어 자격증">
-									<Select
-										onChange={(value) => {
-											setLanguageCert(value);
-											if (value === "NONE") setScore("");
-										}}
-										options={languageCertificates}
-										placeholder="선택"
-										value={languageCert}
-									/>
-								</FormField>
-								<FormField label="점수">
-									<NumberInput
-										disabled={languageCert === "NONE"}
-										onChange={(e) => setScore(e.target.value)}
-										placeholder="예: 800"
-										value={score}
-									/>
-								</FormField>
-							</div>
-
-							{/* Row 3: Country */}
-							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-								<FormField label="희망 나라">
-									<Combobox
-										onChange={setCountry}
-										placeholder="예: 미국"
-										restrictToSuggestions
-										suggestions={countries}
-										value={country}
-									/>
-								</FormField>
-							</div>
-						</div>
-
-						{/* Checkbox */}
-						<div className="flex w-full items-center">
-							<Checkbox
-								checked={requireReview}
-								label="후기 보고서 필수 여부"
-								onChange={setRequireReview}
-							/>
-						</div>
+						<SearchFilterBar
+							filters={filters}
+							onFiltersChange={setFilters}
+							onSubmit={handleSubmit}
+							variant="full"
+						/>
 
 						{/* CTA Button */}
 						{!isFormComplete && (

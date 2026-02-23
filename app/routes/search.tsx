@@ -8,9 +8,6 @@ import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import { SearchFilterBar } from "~/shared/components/search-filter-bar";
 import { UniversityCard } from "~/shared/components/university-card";
-import countries from "~/shared/constants/countries.json";
-import languageCertificates from "~/shared/constants/language-certificates.json";
-import majors from "~/shared/constants/majors.json";
 import type { FilterFormData } from "~/shared/types/filter";
 
 import type { Route } from "./+types/search";
@@ -121,22 +118,9 @@ export default function Search() {
 								내 정보를 입력하고 갈 수 있는 학교를 확인해보세요!
 							</h2>
 							<SearchFilterBar
-								country={filters.country}
-								countrySuggestions={countries}
-								gpa={filters.gpa}
-								languageCert={filters.languageCert}
-								languageCertOptions={languageCertificates}
-								major={filters.major}
-								majorSuggestions={majors}
-								onCountryChange={(v) => setFilters((prev) => ({ ...prev, country: v }))}
-								onGpaChange={(v) => setFilters((prev) => ({ ...prev, gpa: v }))}
-								onLanguageCertChange={(v) => setFilters((prev) => ({ ...prev, languageCert: v }))}
-								onMajorChange={(v) => setFilters((prev) => ({ ...prev, major: v }))}
-								onRequireReviewChange={(v) => setFilters((prev) => ({ ...prev, requireReview: v }))}
-								onScoreChange={(v) => setFilters((prev) => ({ ...prev, score: v }))}
+								filters={filters}
+								onFiltersChange={setFilters}
 								onSubmit={handleSearch}
-								requireReview={filters.requireReview}
-								score={filters.score}
 							/>
 						</div>
 
