@@ -1,4 +1,5 @@
 [
+	{ "label": "없음", "languageGroup": "NONE", "value": "NONE" },
 	{ "label": "TOEFL", "languageGroup": "ENGLISH", "value": "TOEFL" },
 	{ "label": "IELTS", "languageGroup": "ENGLISH", "value": "IELTS" },
 	{ "label": "TOEIC", "languageGroup": "ENGLISH", "value": "TOEIC" },

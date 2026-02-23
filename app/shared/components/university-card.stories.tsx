@@ -5,13 +5,16 @@ import { UniversityCard } from "./university-card";
 
 const meta = {
 	args: {
-		country: "미국",
-		exchangeType: "교환학생",
-		hasReview: false,
-		id: "1",
-		languageRequirements: [],
-		nameEn: "University of California, Berkeley",
-		nameKr: "캘리포니아 대학교 버클리",
+		badge: "교환학생",
+		id: 1,
+		isExchange: true,
+		isVisit: false,
+		languageRequirementSummary: null,
+		nameEng: "University of California, Berkeley",
+		nameKor: "캘리포니아 대학교 버클리",
+		nation: "미국",
+		programType: "",
+		reviewStatus: "없음",
 	},
 	component: UniversityCard,
 	decorators: [withRouter],
@@ -25,18 +28,14 @@ export const Default: Story = {};
 
 export const WithReview: Story = {
 	args: {
-		hasReview: true,
-		reviewYears: "2024, 2025",
+		reviewStatus: "있음",
 	},
 };
 
 export const WithLanguageReqs: Story = {
 	args: {
-		hasReview: true,
-		languageRequirements: [
-			{ name: "TOEFL", score: "90" },
-			{ name: "IELTS", score: "6.5" },
-		],
-		program: "GKS",
+		languageRequirementSummary: "TOEFL 90 / IELTS 6.5",
+		programType: "GKS",
+		reviewStatus: "있음",
 	},
 };

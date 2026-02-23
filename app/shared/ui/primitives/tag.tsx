@@ -1,12 +1,11 @@
 import { cn } from "~/lib/cn";
 
 interface TagProps {
-	exchangeType: string;
-	program?: string;
+	programType: string;
 	className?: string;
 }
 
-export function Tag({ className, exchangeType, program }: TagProps) {
+export function Tag({ className, programType }: TagProps) {
 	return (
 		<span
 			className={cn(
@@ -14,7 +13,7 @@ export function Tag({ className, exchangeType, program }: TagProps) {
 				className,
 			)}
 		>
-			{program ? `${exchangeType} | ${program}` : exchangeType}
+			{programType}
 		</span>
 	);
 }

@@ -61,15 +61,21 @@ export function SearchFilterBar({
 
 				<FormField label="학점 (4.5 만점)">
 					<NumberInput
+						max={4.5}
+						min={0}
 						onChange={(e) => onGpaChange(e.target.value)}
 						placeholder="예: 3.8"
+						step={0.1}
 						value={gpa}
 					/>
 				</FormField>
 
 				<FormField label="보유한 언어 자격증">
 					<Select
-						onChange={onLanguageCertChange}
+						onChange={(value) => {
+							onLanguageCertChange(value);
+							if (value === "NONE") onScoreChange("");
+						}}
 						options={languageCertOptions}
 						placeholder="선택"
 						value={languageCert}
@@ -78,6 +84,7 @@ export function SearchFilterBar({
 
 				<FormField label="점수">
 					<NumberInput
+						disabled={languageCert === "NONE"}
 						onChange={(e) => onScoreChange(e.target.value)}
 						placeholder="예: 800"
 						value={score}

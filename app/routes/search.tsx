@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 
+import { serializeFilterParams } from "~/lib/serialize-filter-params";
+import type { UniversitySummaryDto } from "~/shared/api/types";
 import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
@@ -13,18 +15,6 @@ import type { FilterFormData } from "~/shared/types/filter";
 
 import type { Route } from "./+types/search";
 
-export interface UniversityResult {
-	id: string;
-	country: string;
-	exchangeType: string;
-	program?: string;
-	nameEn: string;
-	nameKr: string;
-	languageRequirements: { name: string; score: string }[];
-	hasReview: boolean;
-	reviewYears?: string;
-}
-
 export function meta(_args: Route.MetaArgs) {
 	return [
 		{ title: "검색 결과 - Beyond U" },
@@ -35,67 +25,66 @@ export function meta(_args: Route.MetaArgs) {
 	];
 }
 
-const mockResults: UniversityResult[] = [
+const mockResults: UniversitySummaryDto[] = [
 	{
-		country: "미국, Oklahoma",
-		exchangeType: "일반교환",
-		hasReview: true,
-		id: "1",
-		languageRequirements: [
-			{ name: "TOEFL", score: "79" },
-			{ name: "IELTS", score: "6.5" },
-		],
-		nameEn: "University of Oklahoma",
-		nameKr: "오클라호마 대학교",
-		program: "학부",
-		reviewYears: "2023-2024",
+		badge: "일반교환",
+		id: 1,
+		isExchange: true,
+		isVisit: false,
+		languageRequirementSummary: "TOEFL 79 / IELTS 6.5",
+		nameEng: "University of Oklahoma",
+		nameKor: "오클라호마 대학교",
+		nation: "미국",
+		programType: "학부",
+		reviewStatus: "있음",
 	},
 	{
-		country: "호주, Sydney",
-		exchangeType: "일반교환",
-		hasReview: true,
-		id: "2",
-		languageRequirements: [
-			{ name: "IELTS", score: "6.5" },
-			{ name: "TOEFL", score: "85" },
-		],
-		nameEn: "University of Sydney",
-		nameKr: "시드니 대학교",
-		reviewYears: "2022-2023",
+		badge: "일반교환",
+		id: 2,
+		isExchange: true,
+		isVisit: false,
+		languageRequirementSummary: "IELTS 6.5 / TOEFL 85",
+		nameEng: "University of Sydney",
+		nameKor: "시드니 대학교",
+		nation: "호주",
+		programType: "",
+		reviewStatus: "있음",
 	},
 	{
-		country: "일본, Tokyo",
-		exchangeType: "교환학생",
-		hasReview: false,
-		id: "3",
-		languageRequirements: [{ name: "JLPT", score: "N2" }],
-		nameEn: "University of Tokyo",
-		nameKr: "도쿄 대학교",
-		program: "대학원",
+		badge: "교환학생",
+		id: 3,
+		isExchange: true,
+		isVisit: false,
+		languageRequirementSummary: "JLPT N2",
+		nameEng: "University of Tokyo",
+		nameKor: "도쿄 대학교",
+		nation: "일본",
+		programType: "대학원",
+		reviewStatus: "없음",
 	},
 	{
-		country: "독일, Berlin",
-		exchangeType: "일반교환",
-		hasReview: true,
-		id: "4",
-		languageRequirements: [{ name: "IELTS", score: "6.0" }],
-		nameEn: "Freie Universität Berlin",
-		nameKr: "베를린 자유대학교",
-		reviewYears: "2023",
+		badge: "일반교환",
+		id: 4,
+		isExchange: true,
+		isVisit: false,
+		languageRequirementSummary: "IELTS 6.0",
+		nameEng: "Freie Universität Berlin",
+		nameKor: "베를린 자유대학교",
+		nation: "독일",
+		programType: "",
+		reviewStatus: "있음",
 	},
 	{
-		country: "영국, London",
-		exchangeType: "일반교환",
-		hasReview: true,
-		id: "5",
-		languageRequirements: [
-			{ name: "IELTS", score: "7.0" },
-			{ name: "TOEFL", score: "100" },
-		],
-		nameEn: "King's College London",
-		nameKr: "킹스칼리지 런던",
-		program: "학부",
-		reviewYears: "2024",
+		badge: "일반교환",
+		id: 5,
+		isExchange: true,
+		isVisit: false,
+		languageRequirementSummary: "IELTS 7.0 / TOEFL 100",
+		nameEng: "King's College London",
+		nameKor: "킹스칼리지 런던",
+		nation: "영국",
+		programType: "학부",
+		reviewStatus: "있음",
 	},
 ];
 
@@ -105,21 +94,14 @@ export default function Search() {
 	const [filters, setFilters] = useState<FilterFormData>({
 		country: searchParams.get("country") ?? "",
 		gpa: searchParams.get("gpa") ?? "",
-		languageCert: searchParams.get("languageCert") ?? "",
+		languageCert: searchParams.get("languageCert") ?? "NONE",
 		major: searchParams.get("major") ?? "",
 		requireReview: searchParams.get("requireReview") === "true",
 		score: searchParams.get("score") ?? "",
 	});
 
 	function handleSearch() {
-		const params = new URLSearchParams();
-		if (filters.major) params.set("major", filters.major);
-		if (filters.gpa) params.set("gpa", filters.gpa);
-		if (filters.languageCert) params.set("languageCert", filters.languageCert);
-		if (filters.score) params.set("score", filters.score);
-		if (filters.country) params.set("country", filters.country);
-		if (filters.requireReview) params.set("requireReview", "true");
-		setSearchParams(params);
+		setSearchParams(serializeFilterParams(filters));
 	}
 
 	return (
@@ -170,7 +152,7 @@ export default function Search() {
 								{[
 									filters.major,
 									filters.gpa ? `${filters.gpa}점` : "",
-									filters.languageCert && filters.score
+									filters.languageCert && filters.languageCert !== "NONE" && filters.score
 										? `${filters.languageCert} ${filters.score}점`
 										: "",
 									filters.country,

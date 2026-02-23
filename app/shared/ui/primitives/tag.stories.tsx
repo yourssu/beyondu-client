@@ -4,7 +4,7 @@ import { Tag } from "./tag";
 
 const meta = {
 	args: {
-		exchangeType: "교환학생",
+		programType: "학부",
 	},
 	component: Tag,
 	title: "Primitives/Tag",
@@ -13,8 +13,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ExchangeOnly: Story = {};
+export const Default: Story = {};
 
-export const WithProgram: Story = {
-	args: { program: "GKS" },
+export const GKS: Story = {
+	args: { programType: "GKS" },
 };
