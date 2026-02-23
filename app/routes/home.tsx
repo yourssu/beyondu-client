@@ -54,7 +54,7 @@ export default function Home() {
 				<Header />
 
 				<main className="mx-auto flex max-w-5xl justify-center px-4 py-9">
-					<div className="flex w-full max-w-form flex-col items-start gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-18">
+					<div className="flex w-full max-w-form flex-col gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-18">
 						{/* Title */}
 						<div className="flex flex-col gap-2">
 							<h1 className="text-base-900 text-style-heading-lg">내 정보 입력하기</h1>
@@ -73,9 +73,7 @@ export default function Home() {
 
 						{/* CTA Button */}
 						{!isFormComplete && (
-							<p className="text-center text-red-500 text-style-caption">
-								빈칸에 정보를 입력해주세요
-							</p>
+							<p className="text-red-500 text-style-caption">빈칸에 정보를 입력해주세요</p>
 						)}
 						<Button
 							disabled={!isFormComplete}

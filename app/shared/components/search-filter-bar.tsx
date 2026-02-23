@@ -122,7 +122,7 @@ export function SearchFilterBar({
 					{scoreField}
 				</div>
 				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{countryField}</div>
-				<div className="flex w-full items-center">{checkboxField}</div>
+				{checkboxField}
 			</div>
 		);
 	}

@@ -26,7 +26,7 @@ export function Button({
 				"inline-flex items-center justify-center rounded-button text-style-body-bold",
 				"spring-bounce-20 spring-duration-200 transition",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-brown/50 focus-visible:ring-offset-2",
-				"active:scale-[0.97]",
+				"active:scale-97",
 				"disabled:pointer-events-none disabled:opacity-50",
 				variant === "primary" &&
 					"border border-base-900 bg-primary-brown text-white hover:bg-primary-brown/90",

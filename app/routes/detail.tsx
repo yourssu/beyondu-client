@@ -93,7 +93,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 					</div>
 
 					{/* InfoCards */}
-					<div className="flex flex-col gap-3 sm:flex-row sm:gap-3">
+					<div className="flex flex-col gap-3 sm:flex-row">
 						<InfoCard className="flex-1" title="어학 요구사항">
 							<p className="text-primary-olive text-style-heading-lg">{languageText}</p>
 							{university.significantNote && (
@@ -127,7 +127,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 					{/* 참고사항 */}
 					{university.remark && (
 						<ContentSection title="참고사항">
-							<div className="flex flex-col text-base-900 text-style-body-bold">
+							<div className="text-base-900 text-style-body-bold">
 								{university.remark.split("\n").map((line) => (
 									<p key={line}>{line}</p>
 								))}

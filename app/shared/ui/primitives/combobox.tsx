@@ -122,7 +122,7 @@ export function Combobox({
 					"spring-bounce-20 spring-duration-200 transition-[opacity,transform]",
 					isOpen && filtered.length > 0
 						? "scale-100 opacity-100"
-						: "pointer-events-none scale-[0.96] opacity-0",
+						: "pointer-events-none scale-96 opacity-0",
 				)}
 				id={listboxId}
 				role="listbox"
