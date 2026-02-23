@@ -84,7 +84,10 @@ export function Combobox({
 		setTimeout(() => {
 			setIsOpen(false);
 			setActiveIndex(-1);
-			if (restrictToSuggestions && !suggestions.includes(value)) {
+			if (
+				restrictToSuggestions &&
+				!suggestions.some((s) => s.toLowerCase() === value.toLowerCase())
+			) {
 				onChange?.("");
 			}
 		}, 150);

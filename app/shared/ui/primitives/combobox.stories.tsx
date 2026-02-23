@@ -25,3 +25,13 @@ export const Prefilled: Story = {
 export const RestrictToSuggestions: Story = {
 	args: { restrictToSuggestions: true },
 };
+
+const englishSuggestions = ["Business", "Computer Science", "Economics", "English Literature"];
+
+export const RestrictToSuggestionsEnglish: Story = {
+	args: {
+		placeholder: "e.g. Business, Computer Science",
+		restrictToSuggestions: true,
+		suggestions: englishSuggestions,
+	},
+};
