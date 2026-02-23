@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { serializeFilterParams } from "~/lib/serialize-filter-params";
+import { serializeFilterParams } from "~/lib/filter-params";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import countries from "~/shared/constants/countries.json";

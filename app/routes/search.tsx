@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 
-import { serializeFilterParams } from "~/lib/serialize-filter-params";
+import { deserializeFilterParams, serializeFilterParams } from "~/lib/filter-params";
 import type { UniversitySummaryDto } from "~/shared/api/types";
 import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
@@ -91,14 +91,9 @@ const mockResults: UniversitySummaryDto[] = [
 export default function Search() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	const [filters, setFilters] = useState<FilterFormData>({
-		country: searchParams.get("country") ?? "",
-		gpa: searchParams.get("gpa") ?? "",
-		languageCert: searchParams.get("languageCert") ?? "NONE",
-		major: searchParams.get("major") ?? "",
-		requireReview: searchParams.get("requireReview") === "true",
-		score: searchParams.get("score") ?? "",
-	});
+	const [filters, setFilters] = useState<FilterFormData>(() =>
+		deserializeFilterParams(searchParams),
+	);
 
 	function handleSearch() {
 		setSearchParams(serializeFilterParams(filters));
