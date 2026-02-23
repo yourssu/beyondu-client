@@ -1,6 +1,8 @@
 import { MapPin, Users } from "lucide-react";
 
-import type { UniversityDetailResponse } from "~/shared/api/types";
+import { HTTPError } from "ky";
+
+import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
 import { ContentSection } from "~/shared/components/content-section";
 import { Header } from "~/shared/components/header";
@@ -11,82 +13,24 @@ import { Tooltip } from "~/shared/ui/primitives/tooltip";
 
 import type { Route } from "./+types/detail";
 
-const mockUniversities: Record<string, UniversityDetailResponse> = {
-	"1": {
-		availableMajors: [
-			"Science",
-			"Technology",
-			"Engineering and Mathematics",
-			"Humanities",
-			"Arts and Social Sciences",
-			"Business",
-		],
-		badge: "일반교환",
-		courseListUrl: "https://www.ou.edu/academics",
-		hasReview: true,
-		id: 1,
-		isExchange: true,
-		isVisit: false,
-		languageRequirements: [
-			{ examType: "IELTS", languageGroup: "ENGLISH", minScore: 6.5 },
-			{ examType: "TOEFL", languageGroup: "ENGLISH", minScore: 79 },
-		],
-		minGpa: 3.0,
-		nameEng: "University of Oklahoma",
-		nameKor: "오클라호마 대학교",
-		nation: "미국",
-		region: "Oklahoma",
-		remark:
-			"Oklahoma에 위치한 연구 중심 공립대학\n등록금 약 $27,200/년\n132 in national universities\n(2020 US News & World Report 랭킹)",
-		significantNote: "TOEIC, TOEFL ITP 제외",
-		studentCount: "약 28,600 명",
-		websiteUrl: "https://www.ou.edu",
-	},
-	"2": {
-		availableMajors: [
-			"Science",
-			"Technology",
-			"Engineering and Mathematics",
-			"Humanities",
-			"Arts and Social Sciences",
-			"Business",
-			"Creativity and Practice",
-			"Nursing",
-			"Education",
-			"Health Sciences and Human Movement",
-		],
-		badge: "일반교환",
-		courseListUrl: null,
-		hasReview: true,
-		id: 2,
-		isExchange: true,
-		isVisit: false,
-		languageRequirements: [
-			{ examType: "IELTS", languageGroup: "ENGLISH", minScore: 6.5 },
-			{ examType: "TOEFL", languageGroup: "ENGLISH", minScore: 85 },
-		],
-		minGpa: 3.8,
-		nameEng: "University of Sydney",
-		nameKor: "시드니 대학교",
-		nation: "호주",
-		region: "Sydney",
-		remark: "호주 최초의 대학교 (1850년 설립)\n세계 대학 랭킹 상위 50위\n시드니 도심에 위치",
-		significantNote: null,
-		studentCount: "약 73,000 명",
-		websiteUrl: "https://www.sydney.edu.au",
-	},
-};
-
 export function meta({ data }: Route.MetaArgs) {
 	return [{ title: `${data.university.nameEng} - Beyond U` }];
 }
 
-export function loader({ params }: Route.LoaderArgs) {
-	const university = mockUniversities[params.id];
-	if (!university) {
-		throw new Response("Not Found", { status: 404 });
+export async function loader({ params, context }: Route.LoaderArgs) {
+	const id = Number(params.id);
+	if (Number.isNaN(id)) throw new Response("Not Found", { status: 404 });
+
+	const client = createApiClient(context.cloudflare.env.API_BASE_URL);
+	try {
+		const response = await getUniversityDetail(client, id);
+		return { university: response.result };
+	} catch (error) {
+		if (error instanceof HTTPError && error.response.status === 404) {
+			throw new Response("Not Found", { status: 404 });
+		}
+		throw error;
 	}
-	return { university };
 }
 
 export default function Detail({ loaderData }: Route.ComponentProps) {
