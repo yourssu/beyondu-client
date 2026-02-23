@@ -12,6 +12,8 @@
 		"format": "biome format --write .",
 		"postinstall": "pnpm run cf-typegen",
 		"preview": "pnpm run build && vite preview",
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build",
 		"typecheck": "pnpm run cf-typegen && react-router typegen && tsc -b"
 	},
 	"dependencies": {
@@ -30,10 +32,12 @@
 		"@biomejs/biome": "^2.4.4",
 		"@cloudflare/vite-plugin": "^1.13.5",
 		"@react-router/dev": "^7.10.0",
+		"@storybook/react-vite": "^10.2.10",
 		"@tailwindcss/vite": "^4.1.13",
 		"@types/node": "^22",
 		"@types/react": "^19.1.13",
 		"@types/react-dom": "^19.1.9",
+		"storybook": "^10.2.10",
 		"tailwindcss": "^4.1.13",
 		"typescript": "^5.9.2",
 		"vite": "^7.1.7",
