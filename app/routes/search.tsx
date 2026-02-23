@@ -186,13 +186,15 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 								[{" "}
 								<span className="text-style-body-bold">
 									{[
-										filters.major,
-										filters.gpa ? `${filters.gpa}점` : "",
-										filters.languageCert && filters.languageCert !== "NONE" && filters.score
-											? `${filters.languageCert} ${filters.score}점`
+										loaderData.filters.major,
+										loaderData.filters.gpa ? `${loaderData.filters.gpa}점` : "",
+										loaderData.filters.languageCert &&
+										loaderData.filters.languageCert !== "NONE" &&
+										loaderData.filters.score
+											? `${loaderData.filters.languageCert} ${loaderData.filters.score}점`
 											: "",
-										filters.country,
-										filters.requireReview ? "후기 보고서 필수" : "",
+										loaderData.filters.country,
+										loaderData.filters.requireReview ? "후기 보고서 필수" : "",
 									]
 										.filter(Boolean)
 										.join(" / ")}
