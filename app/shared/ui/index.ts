@@ -1,1 +1,1 @@
-export * from "./primitives";
+export * from "~/shared/ui/primitives";
