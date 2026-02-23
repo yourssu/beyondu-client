@@ -128,7 +128,7 @@ export function Combobox({
 					<div
 						aria-selected={index === activeIndex}
 						className={cn(
-							"cursor-pointer px-4 py-2 text-style-body spring-bounce-0 spring-duration-150 transition-colors hover:bg-surface-hover",
+							"spring-bounce-0 spring-duration-150 cursor-pointer px-4 py-2 text-style-body transition-colors hover:bg-surface-hover",
 							index === activeIndex && "bg-surface-hover",
 						)}
 						id={`${id}-option-${index}`}

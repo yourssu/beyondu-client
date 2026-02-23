@@ -44,14 +44,14 @@ export function Select({
 
 			<SelectPrimitive.Portal>
 				<SelectPrimitive.Content
-					className="z-50 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-input border border-base-400 bg-white shadow-lg animate-dropdown-in data-[state=closed]:animate-dropdown-out"
+					className="z-50 w-[var(--radix-select-trigger-width)] animate-dropdown-in overflow-hidden rounded-input border border-base-400 bg-white shadow-lg data-[state=closed]:animate-dropdown-out"
 					position="popper"
 					sideOffset={4}
 				>
 					<SelectPrimitive.Viewport>
 						{options.map((option) => (
 							<SelectPrimitive.Item
-								className="flex cursor-pointer items-center gap-2 px-4 py-2 text-style-body outline-none spring-bounce-0 spring-duration-150 transition-colors data-[highlighted]:bg-surface-hover"
+								className="spring-bounce-0 spring-duration-150 flex cursor-pointer items-center gap-2 px-4 py-2 text-style-body outline-none transition-colors data-[highlighted]:bg-surface-hover"
 								key={option.value}
 								value={option.value}
 							>
