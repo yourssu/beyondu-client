@@ -1,122 +1,111 @@
-# Plan: Figma 디자인 불일치 수정
+# Plan: 코드 리뷰 이슈 수정
 
 ## Context
 
-이전 리팩토링(frames 삭제)은 완료되었으나, Figma 검증 결과 여러 디자인 불일치가 발견되었습니다. 사용자의 3가지 요청을 처리합니다:
-1. CSS 그라디언트를 Figma 블러 캠퍼스 사진으로 교체
-2. 폼 타이틀("내 정보 입력하기") 좌측 정렬
-3. 모든 페이지의 Figma 디자인 불일치 수정
+커밋 `17d985c`에 대한 코드 리뷰에서 발견된 이슈들을 수정합니다:
+- 이미지 2.5MB → 압축 필요
+- `languageCert` 기본값 `"없음"`이 URL/필터 요약에서 의도치 않게 포함됨
+- 배경 이미지 코드 중복 (home.tsx / search.tsx)
+- Header `bg-white/60` 하드코딩 → 디자인 토큰화
+- 매직 넘버 `h-[82px]`, `blur-[25.2px]` → Tailwind 토큰화
 
-## Step 1: 배경 이미지 다운로드 및 적용
+## Step 1: 이미지 압축
 
-**Figma 에셋 URL**: `https://www.figma.com/api/mcp/asset/a2572723-e486-43c4-8815-64d5e171ec60`
+macOS 내장 `sips`로 리사이즈 후 경량화:
+- 1536×1024 → 768×512 (blur 처리되므로 충분)
+- 목표: 200KB 이하
 
-- 이미지를 다운로드하여 `public/campus-bg.jpg`로 저장
-- `app/routes/home.tsx` (line 51): CSS 그라디언트를 `<img>` + `blur-[25.2px]`로 교체
-- `app/routes/search.tsx` (line 125): 동일하게 교체
-
-변경 전:
-```html
-<div className="absolute inset-0 bg-gradient-to-br from-green-100 via-amber-50 to-emerald-100" />
+```bash
+sips -z 512 768 public/campus-bg.jpg
 ```
 
-변경 후:
-```html
-<img
-  alt=""
-  className="absolute inset-0 h-full w-full object-cover blur-[25.2px] scale-105"
-  src="/campus-bg.jpg"
-/>
+> 현재 PNG 형식(확장자만 .jpg). 포맷은 유지하되 해상도만 줄여 용량 절감.
+
+## Step 2: 디자인 토큰 추가
+
+**파일**: `app/app.css` — `@theme` 블록에 추가
+
+Tailwind CSS v4 네임스페이스 규칙에 따라:
+- `--spacing-*` → `h-header` 등으로 사용 가능
+- `--blur-*` → `blur-campus` 로 사용 가능
+- `--color-surface-*` → `bg-surface-header` 로 사용 가능
+
+```css
+/* @theme 블록 내부에 추가 */
+
+/* Spacing */
+--spacing-header: 82px;
+
+/* Blur */
+--blur-campus: 25.2px;
+
+/* Colors - Surface (기존 토큰 아래에 추가) */
+--color-surface-header: rgba(255, 255, 255, 0.6);
 ```
-> `scale-105`는 blur 적용 시 가장자리 투명 영역을 방지
 
-## Step 2: 폼 타이틀 좌측 정렬
-
-**파일**: `app/routes/home.tsx` (line 62)
-
-현재 타이틀 컨테이너가 `items-center`로 중앙 정렬됨. `items-start`로 변경하여 "전공" 라벨과 x좌표를 맞춤.
-
-변경: 카드 컨테이너의 `items-center` → `items-start`
-
-## Step 3: Header 높이 및 투명도 수정
+## Step 3: 토큰 적용 — Header
 
 **파일**: `app/shared/components/header.tsx`
 
-| 속성 | Figma | 현재 코드 | 수정 |
-|------|-------|----------|------|
-| 높이 | 82px | `h-20` (80px) | `h-[82px]` |
-| 배경 | `rgba(255,255,255,0.6)` | `bg-surface-glass` (0.8) | `bg-white/60` |
+| 변경 전 | 변경 후 |
+|---------|---------|
+| `bg-white/60` | `bg-surface-header` |
+| `h-[82px]` | `h-header` |
 
-`bg-surface-glass`는 다른 곳(폼 카드 등)에서도 사용되므로 CSS 변수는 유지하고, header에만 `bg-white/60`을 직접 적용.
+## Step 4: 토큰 적용 — 배경 이미지 + 중복 제거
 
-## Step 4: Checkbox 순서 반전 (라벨 → 체크박스)
+배경 이미지 `<img>` 태그를 공유 컴포넌트로 추출하여 중복 제거.
 
-**파일**: `app/shared/ui/primitives/checkbox.tsx`
+**생성**: `app/shared/components/campus-background.tsx`
 
-Figma에서는 라벨이 먼저, 체크박스가 뒤에 옵니다.
-
-변경: JSX에서 `<label>` 요소를 `<CheckboxPrimitive.Root>` 앞으로 이동
-
-## Step 5: 검색 결과 요약 텍스트 수정
-
-**파일**: `app/routes/search.tsx` (line 162-165)
-
-현재: `총 5개의 학교가 검색되었습니다.`
-Figma: `[ 글로벌미디어학부 / 3.8점 / TOEIC 904점 / 미국 / 후기 보고서 필수 ] 의 조건으로 분석한 34개의 학교입니다.`
-
-`filters` 상태에서 동적으로 조건 문자열을 생성:
 ```tsx
-const conditions = [
-  filters.major,
-  filters.gpa ? `${filters.gpa}점` : "",
-  filters.languageCert && filters.score ? `${filters.languageCert} ${filters.score}점` : "",
-  filters.country,
-  filters.requireReview ? "후기 보고서 필수" : "",
-].filter(Boolean).join(" / ");
-
-// JSX
-<p>
-  [ <span className="text-style-body-bold">{conditions}</span> ] 의 조건으로 분석한{" "}
-  <span className="text-style-body-bold">{mockResults.length}개</span>의 학교입니다.
-</p>
+export function CampusBackground() {
+  return (
+    <img
+      alt=""
+      className="absolute inset-0 h-full w-full scale-105 object-cover blur-campus"
+      src="/campus-bg.jpg"
+    />
+  );
+}
 ```
 
-## Step 6: 대학 카드 레이아웃 수정
+**수정**: `app/routes/home.tsx`, `app/routes/search.tsx`
+- 인라인 `<img>` → `<CampusBackground />` 교체
 
-**파일**: `app/shared/components/university-card.tsx`
-
-Figma 카드 구조:
-1. **1행**: `📍 국가` (좌) + `Badge | Tag` (우) — justify-between
-2. **2행**: 대학 영문명 (bold)
-3. **3행**: 대학 한글명
-4. **4행**: 어학 요구사항 (slash 구분자: "IELTS 6.5 / TOEFL 90")
-5. **5행**: 후기 뱃지 (항상 표시: 있음=green, 없음=dark)
-
-변경사항:
-- 국가 정보를 Badge/Tag와 같은 첫 행으로 이동 (justify-between)
-- 어학 요구사항: 개별 span → "/" 구분자로 join한 단일 텍스트
-- 후기 정보: `hasReview`가 false일 때도 "후기 없음" 표시, Badge 스타일 적용
-
-## Step 7: Select 기본값 변경
+## Step 5: `languageCert` 기본값 처리 수정
 
 **파일**: `app/routes/home.tsx`
 
-`languageCert` 초기값을 `""` → `"없음"`으로 변경하여 Figma의 기본 표시 상태와 일치시킴.
+`handleSubmit`에서 `"없음"`을 미선택으로 취급:
+
+```tsx
+if (languageCert && languageCert !== "없음") params.set("languageCert", languageCert);
+```
+
+**파일**: `app/routes/search.tsx`
+
+필터 요약에서도 `"없음"`을 제외:
+
+```tsx
+filters.languageCert && filters.languageCert !== "없음" && filters.score
+  ? `${filters.languageCert} ${filters.score}점`
+  : "",
+```
 
 ## 수정 파일 요약
 
 | 동작 | 파일 |
 |------|------|
-| 생성 | `public/campus-bg.jpg` |
+| 압축 | `public/campus-bg.jpg` |
+| 수정 | `app/app.css` |
+| 생성 | `app/shared/components/campus-background.tsx` |
+| 수정 | `app/shared/components/header.tsx` |
 | 수정 | `app/routes/home.tsx` |
 | 수정 | `app/routes/search.tsx` |
-| 수정 | `app/shared/components/header.tsx` |
-| 수정 | `app/shared/ui/primitives/checkbox.tsx` |
-| 수정 | `app/shared/components/university-card.tsx` |
 
 ## 검증
 
 1. `pnpm build` — 빌드 성공 확인
 2. `npx biome check app/` — lint 통과 확인
-3. dev 서버(localhost:5173)에서 각 페이지 시각적 확인
-4. 직접 수정한 파일만 선별하여 커밋
+3. 이미지 파일 크기 확인 (200KB 이하 목표)
