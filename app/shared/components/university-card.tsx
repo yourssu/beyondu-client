@@ -39,9 +39,15 @@ export function UniversityCard({
 	return (
 		<Link className="block" to={`/detail/${id}`}>
 			<Card className={cn("flex flex-col gap-3 p-5", className)}>
-				<div className="flex items-center gap-2">
-					<Badge>{exchangeType}</Badge>
-					<Tag exchangeType={exchangeType} program={program} />
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-1 text-base-700">
+						<MapPin className="size-4 shrink-0" />
+						<span className="text-style-body-sm">{country}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<Badge>{exchangeType}</Badge>
+						<Tag exchangeType={exchangeType} program={program} />
+					</div>
 				</div>
 
 				<div className="flex flex-col gap-1">
@@ -49,26 +55,15 @@ export function UniversityCard({
 					<p className="text-base-700 text-style-body-sm">{nameKr}</p>
 				</div>
 
-				<div className="flex items-center gap-1 text-base-700">
-					<MapPin className="size-4 shrink-0" />
-					<span className="text-style-body-sm">{country}</span>
-				</div>
-
 				{languageRequirements.length > 0 && (
-					<div className="flex flex-wrap gap-1.5">
-						{languageRequirements.map((req) => (
-							<span className="text-primary-olive text-style-caption" key={req.name}>
-								{req.name} {req.score}
-							</span>
-						))}
-					</div>
-				)}
-
-				{hasReview && (
-					<p className="text-base-700 text-style-caption">
-						후기 있음{reviewYears ? ` (${reviewYears})` : ""}
+					<p className="text-primary-olive text-style-caption">
+						{languageRequirements.map((req) => `${req.name} ${req.score}`).join(" / ")}
 					</p>
 				)}
+
+				<Badge variant={hasReview ? "green" : "neutral"}>
+					{hasReview ? `후기 있음${reviewYears ? ` (${reviewYears})` : ""}` : "후기 없음"}
+				</Badge>
 			</Card>
 		</Link>
 	);

@@ -20,6 +20,9 @@ export function Checkbox({ label, checked, onChange, name, className }: Checkbox
 				className,
 			)}
 		>
+			<label className="cursor-pointer select-none" htmlFor={id}>
+				{label}
+			</label>
 			<CheckboxPrimitive.Root
 				checked={checked}
 				className={cn(
@@ -39,9 +42,6 @@ export function Checkbox({ label, checked, onChange, name, className }: Checkbox
 					<Check className="size-4 text-white" />
 				</CheckboxPrimitive.Indicator>
 			</CheckboxPrimitive.Root>
-			<label className="cursor-pointer select-none" htmlFor={id}>
-				{label}
-			</label>
 		</div>
 	);
 }

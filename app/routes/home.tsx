@@ -28,7 +28,7 @@ export default function Home() {
 
 	const [major, setMajor] = useState("");
 	const [gpa, setGpa] = useState("");
-	const [languageCert, setLanguageCert] = useState("");
+	const [languageCert, setLanguageCert] = useState("없음");
 	const [score, setScore] = useState("");
 	const [country, setCountry] = useState("");
 	const [requireReview, setRequireReview] = useState(false);
@@ -47,14 +47,18 @@ export default function Home() {
 
 	return (
 		<div className="relative min-h-screen">
-			{/* Gradient placeholder for blurred campus background */}
-			<div className="absolute inset-0 bg-gradient-to-br from-green-100 via-amber-50 to-emerald-100" />
+			{/* Blurred campus background */}
+			<img
+				alt=""
+				className="absolute inset-0 h-full w-full scale-105 object-cover blur-[25.2px]"
+				src="/campus-bg.jpg"
+			/>
 
 			<div className="relative z-10">
 				<Header />
 
 				<main className="mx-auto flex max-w-5xl justify-center px-4 py-9">
-					<div className="flex w-full max-w-form flex-col items-center gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-18">
+					<div className="flex w-full max-w-form flex-col items-start gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-18">
 						{/* Title */}
 						<div className="flex flex-col gap-2">
 							<h1 className="text-base-900 text-style-heading-lg">내 정보 입력하기</h1>

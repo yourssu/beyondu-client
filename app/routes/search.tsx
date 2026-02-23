@@ -121,8 +121,12 @@ export default function Search() {
 
 	return (
 		<div className="relative min-h-screen">
-			{/* Gradient placeholder for blurred campus background */}
-			<div className="absolute inset-0 bg-gradient-to-br from-green-100 via-amber-50 to-emerald-100" />
+			{/* Blurred campus background */}
+			<img
+				alt=""
+				className="absolute inset-0 h-full w-full scale-105 object-cover blur-[25.2px]"
+				src="/campus-bg.jpg"
+			/>
 
 			<div className="relative z-10">
 				<Header />
@@ -160,8 +164,22 @@ export default function Search() {
 
 						{/* Result summary */}
 						<p className="mt-8 text-base-700 text-style-body">
-							총 <span className="text-style-body-bold">{mockResults.length}개</span>의 학교가
-							검색되었습니다.
+							[{" "}
+							<span className="text-style-body-bold">
+								{[
+									filters.major,
+									filters.gpa ? `${filters.gpa}점` : "",
+									filters.languageCert && filters.score
+										? `${filters.languageCert} ${filters.score}점`
+										: "",
+									filters.country,
+									filters.requireReview ? "후기 보고서 필수" : "",
+								]
+									.filter(Boolean)
+									.join(" / ")}
+							</span>{" "}
+							] 의 조건으로 분석한{" "}
+							<span className="text-style-body-bold">{mockResults.length}개</span>의 학교입니다.
 						</p>
 
 						{/* University cards grid */}
