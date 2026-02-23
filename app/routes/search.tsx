@@ -115,8 +115,7 @@ export default function Search() {
 		const params = new URLSearchParams();
 		if (filters.major) params.set("major", filters.major);
 		if (filters.gpa) params.set("gpa", filters.gpa);
-		if (filters.languageCert && filters.languageCert !== "없음")
-			params.set("languageCert", filters.languageCert);
+		if (filters.languageCert) params.set("languageCert", filters.languageCert);
 		if (filters.score) params.set("score", filters.score);
 		if (filters.country) params.set("country", filters.country);
 		if (filters.requireReview) params.set("requireReview", "true");
@@ -171,7 +170,7 @@ export default function Search() {
 								{[
 									filters.major,
 									filters.gpa ? `${filters.gpa}점` : "",
-									filters.languageCert && filters.languageCert !== "없음" && filters.score
+									filters.languageCert && filters.score
 										? `${filters.languageCert} ${filters.score}점`
 										: "",
 									filters.country,

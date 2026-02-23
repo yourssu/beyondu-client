@@ -24,7 +24,7 @@ interface SearchFilterBarProps {
 	onSubmit: () => void;
 	majorSuggestions?: string[];
 	countrySuggestions?: string[];
-	languageCertOptions?: { value: string; label: string }[];
+	languageCertOptions?: { value: string; label: string; languageGroup?: string }[];
 	className?: string;
 }
 
@@ -53,7 +53,7 @@ export function SearchFilterBar({
 				<FormField label="전공">
 					<Combobox
 						onChange={onMajorChange}
-						placeholder="예: 경영학과, 컴퓨터학부"
+						placeholder="e.g. Business, Computer Science"
 						suggestions={majorSuggestions}
 						value={major}
 					/>

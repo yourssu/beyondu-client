@@ -1,22 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
+import countries from "~/shared/constants/countries.json";
+import languageCertificates from "~/shared/constants/language-certificates.json";
+import majors from "~/shared/constants/majors.json";
+
 import { SearchFilterBar } from "./search-filter-bar";
 
 const meta = {
 	args: {
 		country: "",
-		countrySuggestions: ["미국", "일본", "독일", "프랑스", "영국"],
+		countrySuggestions: countries,
 		gpa: "",
 		languageCert: "",
-		languageCertOptions: [
-			{ label: "TOEFL", value: "toefl" },
-			{ label: "IELTS", value: "ielts" },
-			{ label: "TOEIC", value: "toeic" },
-			{ label: "JLPT", value: "jlpt" },
-		],
+		languageCertOptions: languageCertificates,
 		major: "",
-		majorSuggestions: ["경영학과", "컴퓨터학부", "경제학과", "국제통상학과"],
+		majorSuggestions: majors,
 		onCountryChange: fn(),
 		onGpaChange: fn(),
 		onLanguageCertChange: fn(),

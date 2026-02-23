@@ -31,7 +31,7 @@ export default function Home() {
 
 	const [major, setMajor] = useState("");
 	const [gpa, setGpa] = useState("");
-	const [languageCert, setLanguageCert] = useState("없음");
+	const [languageCert, setLanguageCert] = useState("");
 	const [score, setScore] = useState("");
 	const [country, setCountry] = useState("");
 	const [requireReview, setRequireReview] = useState(false);
@@ -40,7 +40,7 @@ export default function Home() {
 		const params = new URLSearchParams();
 		if (major) params.set("major", major);
 		if (gpa) params.set("gpa", gpa);
-		if (languageCert && languageCert !== "없음") params.set("languageCert", languageCert);
+		if (languageCert) params.set("languageCert", languageCert);
 		if (score) params.set("score", score);
 		if (country) params.set("country", country);
 		if (requireReview) params.set("requireReview", "true");
@@ -73,7 +73,7 @@ export default function Home() {
 								<FormField label="전공">
 									<Combobox
 										onChange={setMajor}
-										placeholder="예: 경영학과, 컴퓨터학부"
+										placeholder="e.g. Business, Computer Science"
 										suggestions={majors}
 										value={major}
 									/>
