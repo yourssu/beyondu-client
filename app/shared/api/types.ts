@@ -21,7 +21,7 @@ export interface UniversitySummaryDto {
 	isVisit: boolean;
 	programType: string;
 	languageRequirementSummary: string | null;
-	reviewStatus: string;
+	reviewStatus: "있음" | "없음";
 }
 
 export interface UniversityListResponse {
