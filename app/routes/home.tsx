@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
+import { serializeFilterParams } from "~/lib/serialize-filter-params";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import countries from "~/shared/constants/countries.json";
@@ -31,20 +32,23 @@ export default function Home() {
 
 	const [major, setMajor] = useState("");
 	const [gpa, setGpa] = useState("");
-	const [languageCert, setLanguageCert] = useState("");
+	const [languageCert, setLanguageCert] = useState("NONE");
 	const [score, setScore] = useState("");
 	const [country, setCountry] = useState("");
 	const [requireReview, setRequireReview] = useState(false);
 
-	function handleSubmit() {
-		const params = new URLSearchParams();
-		if (major) params.set("major", major);
-		if (gpa) params.set("gpa", gpa);
-		if (languageCert) params.set("languageCert", languageCert);
-		if (score) params.set("score", score);
-		if (country) params.set("country", country);
-		if (requireReview) params.set("requireReview", "true");
+	const isFormComplete =
+		major && gpa && languageCert && (languageCert === "NONE" || score) && country;
 
+	function handleSubmit() {
+		const params = serializeFilterParams({
+			country,
+			gpa,
+			languageCert,
+			major,
+			requireReview,
+			score,
+		});
 		navigate(`/search?${params.toString()}`);
 	}
 
@@ -80,8 +84,11 @@ export default function Home() {
 								</FormField>
 								<FormField label="학점 (4.5 만점)">
 									<NumberInput
+										max={4.5}
+										min={0}
 										onChange={(e) => setGpa(e.target.value)}
 										placeholder="예: 3.8"
+										step={0.1}
 										value={gpa}
 									/>
 								</FormField>
@@ -91,7 +98,10 @@ export default function Home() {
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 								<FormField label="보유한 언어 자격증">
 									<Select
-										onChange={setLanguageCert}
+										onChange={(value) => {
+											setLanguageCert(value);
+											if (value === "NONE") setScore("");
+										}}
 										options={languageCertificates}
 										placeholder="선택"
 										value={languageCert}
@@ -99,6 +109,7 @@ export default function Home() {
 								</FormField>
 								<FormField label="점수">
 									<NumberInput
+										disabled={languageCert === "NONE"}
 										onChange={(e) => setScore(e.target.value)}
 										placeholder="예: 800"
 										value={score}
@@ -129,7 +140,13 @@ export default function Home() {
 						</div>
 
 						{/* CTA Button */}
+						{!isFormComplete && (
+							<p className="text-center text-red-500 text-style-caption">
+								빈칸에 정보를 입력해주세요
+							</p>
+						)}
 						<Button
+							disabled={!isFormComplete}
 							fullWidth
 							onClick={handleSubmit}
 							rightIcon={<ArrowRight className="size-5" />}
