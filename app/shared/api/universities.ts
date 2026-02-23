@@ -1,4 +1,5 @@
 import type { KyInstance } from "ky";
+
 import type {
 	ApiResponse,
 	UniversityDetailResponse,
@@ -22,7 +23,5 @@ export async function getUniversityDetail(
 	client: KyInstance,
 	id: number,
 ): Promise<ApiResponse<UniversityDetailResponse>> {
-	return client
-		.get(`api/v1/universities/${id}`)
-		.json<ApiResponse<UniversityDetailResponse>>();
+	return client.get(`api/v1/universities/${id}`).json<ApiResponse<UniversityDetailResponse>>();
 }

@@ -1,12 +1,12 @@
 [
-  { "label": "TOEFL", "value": "TOEFL", "languageGroup": "ENGLISH" },
-  { "label": "IELTS", "value": "IELTS", "languageGroup": "ENGLISH" },
-  { "label": "TOEIC", "value": "TOEIC", "languageGroup": "ENGLISH" },
-  { "label": "TOEFL ITP", "value": "TOEFL_ITP", "languageGroup": "ENGLISH" },
-  { "label": "DUOLINGO", "value": "DUOLINGO", "languageGroup": "ENGLISH" },
-  { "label": "HSK", "value": "HSK", "languageGroup": "CHINESE" },
-  { "label": "JLPT", "value": "JLPT", "languageGroup": "JAPANESE" },
-  { "label": "JPT", "value": "JPT", "languageGroup": "JAPANESE" },
-  { "label": "DELF", "value": "DELF", "languageGroup": "FRENCH" },
-  { "label": "ZD", "value": "ZD", "languageGroup": "GERMAN" }
+	{ "label": "TOEFL", "languageGroup": "ENGLISH", "value": "TOEFL" },
+	{ "label": "IELTS", "languageGroup": "ENGLISH", "value": "IELTS" },
+	{ "label": "TOEIC", "languageGroup": "ENGLISH", "value": "TOEIC" },
+	{ "label": "TOEFL ITP", "languageGroup": "ENGLISH", "value": "TOEFL_ITP" },
+	{ "label": "DUOLINGO", "languageGroup": "ENGLISH", "value": "DUOLINGO" },
+	{ "label": "HSK", "languageGroup": "CHINESE", "value": "HSK" },
+	{ "label": "JLPT", "languageGroup": "JAPANESE", "value": "JLPT" },
+	{ "label": "JPT", "languageGroup": "JAPANESE", "value": "JPT" },
+	{ "label": "DELF", "languageGroup": "FRENCH", "value": "DELF" },
+	{ "label": "ZD", "languageGroup": "GERMAN", "value": "ZD" }
 ]
