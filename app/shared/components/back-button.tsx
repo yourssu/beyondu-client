@@ -19,6 +19,9 @@ export function BackButton({ href, onClick, className }: BackButtonProps) {
 
 	const sharedClassName = cn(
 		"inline-flex items-center gap-2 text-base-700 text-style-body",
+		"spring-bounce-20 spring-duration-200 transition",
+		"hover:text-base-900",
+		"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-brown/50 focus-visible:ring-offset-2",
 		className,
 	);
 

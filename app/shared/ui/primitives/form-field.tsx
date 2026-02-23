@@ -15,7 +15,7 @@ export function FormField({ label, htmlFor, error, children, className }: FormFi
 				{label}
 			</label>
 			{children}
-			{error && <p className="animate-error-in text-red-500 text-sm">{error}</p>}
+			{error && <p className="mt-1 animate-error-in text-red-500 text-sm">{error}</p>}
 		</div>
 	);
 }
