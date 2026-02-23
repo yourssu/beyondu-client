@@ -1,11 +1,26 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 
-import type { FilterFormData } from "~/frames/main-frame";
-import type { UniversityResult } from "~/frames/search-frame";
-import { SearchFrame } from "~/frames/search-frame";
+import { BackButton } from "~/shared/components/back-button";
+import { Header } from "~/shared/components/header";
+import { SearchFilterBar } from "~/shared/components/search-filter-bar";
+import { UniversityCard } from "~/shared/components/university-card";
+import type { FilterFormData } from "~/shared/types/filter";
+import { languageCertOptions } from "~/shared/types/filter";
 
 import type { Route } from "./+types/search";
+
+export interface UniversityResult {
+	id: string;
+	country: string;
+	exchangeType: string;
+	program?: string;
+	nameEn: string;
+	nameKr: string;
+	languageRequirements: { name: string; score: string }[];
+	hasReview: boolean;
+	reviewYears?: string;
+}
 
 export function meta(_args: Route.MetaArgs) {
 	return [
@@ -105,12 +120,59 @@ export default function Search() {
 	}
 
 	return (
-		<SearchFrame
-			filters={filters}
-			onFiltersChange={setFilters}
-			onSearch={handleSearch}
-			resultCount={mockResults.length}
-			results={mockResults}
-		/>
+		<div className="relative min-h-screen">
+			{/* Gradient placeholder for blurred campus background */}
+			<div className="absolute inset-0 bg-gradient-to-br from-green-100 via-amber-50 to-emerald-100" />
+
+			<div className="relative z-10">
+				<Header />
+
+				<div className="border-base-700 border-b bg-surface-glass">
+					<div className="mx-auto max-w-5xl px-8 pt-8 pb-5">
+						<BackButton href="/" />
+					</div>
+				</div>
+
+				<main className="bg-surface-glass">
+					<div className="mx-auto max-w-5xl px-8 py-10">
+						{/* Search filter bar */}
+						<div className="border-primary-green border-b pb-5">
+							<h2 className="mb-10 text-base-900 text-style-heading-lg">
+								내 정보를 입력하고 갈 수 있는 학교를 확인해보세요!
+							</h2>
+							<SearchFilterBar
+								country={filters.country}
+								gpa={filters.gpa}
+								languageCert={filters.languageCert}
+								languageCertOptions={languageCertOptions}
+								major={filters.major}
+								onCountryChange={(v) => setFilters({ ...filters, country: v })}
+								onGpaChange={(v) => setFilters({ ...filters, gpa: v })}
+								onLanguageCertChange={(v) => setFilters({ ...filters, languageCert: v })}
+								onMajorChange={(v) => setFilters({ ...filters, major: v })}
+								onRequireReviewChange={(v) => setFilters({ ...filters, requireReview: v })}
+								onScoreChange={(v) => setFilters({ ...filters, score: v })}
+								onSubmit={handleSearch}
+								requireReview={filters.requireReview}
+								score={filters.score}
+							/>
+						</div>
+
+						{/* Result summary */}
+						<p className="mt-8 text-base-700 text-style-body">
+							총 <span className="text-style-body-bold">{mockResults.length}개</span>의 학교가
+							검색되었습니다.
+						</p>
+
+						{/* University cards grid */}
+						<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{mockResults.map((university) => (
+								<UniversityCard key={university.id} {...university} />
+							))}
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
 	);
 }
