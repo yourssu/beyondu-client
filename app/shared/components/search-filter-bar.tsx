@@ -17,6 +17,7 @@ interface SearchFilterBarProps {
 	onFiltersChange: (filters: FilterFormData) => void;
 	onSubmit: () => void;
 	variant?: "compact" | "full";
+	disabled?: boolean;
 	className?: string;
 }
 
@@ -25,6 +26,7 @@ export function SearchFilterBar({
 	onFiltersChange,
 	onSubmit,
 	variant = "compact",
+	disabled = false,
 	className,
 }: SearchFilterBarProps) {
 	function updateField<K extends keyof FilterFormData>(field: K, value: FilterFormData[K]) {
@@ -167,7 +169,13 @@ export function SearchFilterBar({
 				</div>
 			</div>
 
-			<Button fullWidth onClick={onSubmit} rightIcon={<ArrowRight className="size-5" />} size="lg">
+			<Button
+				disabled={disabled}
+				fullWidth
+				onClick={onSubmit}
+				rightIcon={<ArrowRight className="size-5" />}
+				size="lg"
+			>
 				위의 조건으로 확인해보기
 			</Button>
 		</div>
