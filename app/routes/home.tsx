@@ -3,7 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import { Header } from "~/shared/components/header";
-import { languageCertOptions } from "~/shared/types/filter";
+import countries from "~/shared/constants/countries.json";
+import languageCertificates from "~/shared/constants/language-certificates.json";
+import majors from "~/shared/constants/majors.json";
 import { Button } from "~/shared/ui/primitives/button";
 import { Checkbox } from "~/shared/ui/primitives/checkbox";
 import { Combobox } from "~/shared/ui/primitives/combobox";
@@ -75,7 +77,7 @@ export default function Home() {
 									<Combobox
 										onChange={setMajor}
 										placeholder="예: 경영학과, 컴퓨터학부"
-										suggestions={[]}
+										suggestions={majors}
 										value={major}
 									/>
 								</FormField>
@@ -93,7 +95,7 @@ export default function Home() {
 								<FormField label="보유한 언어 자격증">
 									<Select
 										onChange={setLanguageCert}
-										options={languageCertOptions}
+										options={languageCertificates}
 										placeholder="선택"
 										value={languageCert}
 									/>
@@ -113,7 +115,7 @@ export default function Home() {
 									<Combobox
 										onChange={setCountry}
 										placeholder="예: 미국"
-										suggestions={[]}
+										suggestions={countries}
 										value={country}
 									/>
 								</FormField>

@@ -5,8 +5,10 @@ import { BackButton } from "~/shared/components/back-button";
 import { Header } from "~/shared/components/header";
 import { SearchFilterBar } from "~/shared/components/search-filter-bar";
 import { UniversityCard } from "~/shared/components/university-card";
+import countries from "~/shared/constants/countries.json";
+import languageCertificates from "~/shared/constants/language-certificates.json";
+import majors from "~/shared/constants/majors.json";
 import type { FilterFormData } from "~/shared/types/filter";
-import { languageCertOptions } from "~/shared/types/filter";
 
 import type { Route } from "./+types/search";
 
@@ -146,10 +148,12 @@ export default function Search() {
 							</h2>
 							<SearchFilterBar
 								country={filters.country}
+								countrySuggestions={countries}
 								gpa={filters.gpa}
 								languageCert={filters.languageCert}
-								languageCertOptions={languageCertOptions}
+								languageCertOptions={languageCertificates}
 								major={filters.major}
+								majorSuggestions={majors}
 								onCountryChange={(v) => setFilters({ ...filters, country: v })}
 								onGpaChange={(v) => setFilters({ ...filters, gpa: v })}
 								onLanguageCertChange={(v) => setFilters({ ...filters, languageCert: v })}
