@@ -265,11 +265,15 @@
 ::view-transition-old(root),
 ::view-transition-new(root),
 ::view-transition-old(header-logo),
-::view-transition-new(header-logo),
-::view-transition-old(campus-bg),
-::view-transition-new(campus-bg) {
+::view-transition-new(header-logo) {
 	animation-duration: var(--duration-vt-page);
 	animation-timing-function: var(--ease-spring-subtle);
+}
+
+/* Campus background: persist without cross-fade between home ↔ search */
+::view-transition-old(campus-bg),
+::view-transition-new(campus-bg) {
+	animation: none;
 }
 
 /* University card → detail page hero morphing */
