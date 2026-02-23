@@ -1,4 +1,5 @@
-import { ChevronDown } from "lucide-react";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import { Check, ChevronDown } from "lucide-react";
 
 import { cn } from "~/lib/cn";
 
@@ -27,29 +28,42 @@ export function Select({
 	name,
 }: SelectProps) {
 	return (
-		<div className="relative">
-			<select
+		<SelectPrimitive.Root name={name} value={value} onValueChange={onChange}>
+			<SelectPrimitive.Trigger
 				className={cn(
-					"h-[50px] w-full appearance-none rounded-input border border-base-400 bg-white px-4 py-3 pr-10 text-style-body text-base-900 focus:border-primary-brown focus:outline-none",
+					"flex h-[50px] w-full items-center justify-between rounded-input border border-base-400 bg-white px-4 py-3 text-style-body text-base-900 focus:border-primary-brown focus:outline-none",
 					error && "border-red-500",
 					className,
 				)}
-				name={name}
-				value={value}
-				onChange={(e) => onChange?.(e.target.value)}
 			>
-				{placeholder && (
-					<option disabled value="">
-						{placeholder}
-					</option>
-				)}
-				{options.map((option) => (
-					<option key={option.value} value={option.value}>
-						{option.label}
-					</option>
-				))}
-			</select>
-			<ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-5 -translate-y-1/2 text-base-700" />
-		</div>
+				<SelectPrimitive.Value placeholder={placeholder} />
+				<SelectPrimitive.Icon>
+					<ChevronDown className="size-5 text-base-700" />
+				</SelectPrimitive.Icon>
+			</SelectPrimitive.Trigger>
+
+			<SelectPrimitive.Portal>
+				<SelectPrimitive.Content
+					className="z-50 overflow-hidden rounded-input border border-base-400 bg-white shadow-lg"
+					position="popper"
+					sideOffset={4}
+				>
+					<SelectPrimitive.Viewport>
+						{options.map((option) => (
+							<SelectPrimitive.Item
+								className="flex cursor-pointer items-center gap-2 px-4 py-2 text-style-body outline-none data-[highlighted]:bg-surface-page"
+								key={option.value}
+								value={option.value}
+							>
+								<SelectPrimitive.ItemIndicator>
+									<Check className="size-4" />
+								</SelectPrimitive.ItemIndicator>
+								<SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
+							</SelectPrimitive.Item>
+						))}
+					</SelectPrimitive.Viewport>
+				</SelectPrimitive.Content>
+			</SelectPrimitive.Portal>
+		</SelectPrimitive.Root>
 	);
 }

@@ -1,3 +1,4 @@
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 
 import { cn } from "~/lib/cn";
@@ -12,24 +13,25 @@ interface CheckboxProps {
 
 export function Checkbox({ label, checked, onChange, name, className }: CheckboxProps) {
 	return (
-		<label className={cn("text-style-body-bold flex cursor-pointer items-center gap-1 text-base-900", className)}>
-			<input
+		<label
+			className={cn(
+				"text-style-body-bold flex cursor-pointer items-center gap-1 text-base-900",
+				className,
+			)}
+		>
+			<CheckboxPrimitive.Root
 				checked={checked}
-				className="sr-only"
-				name={name}
-				type="checkbox"
-				onChange={(e) => onChange?.(e.target.checked)}
-			/>
-			<span
 				className={cn(
 					"flex size-6 items-center justify-center rounded border",
-					checked
-						? "border-primary-brown bg-primary-brown"
-						: "border-base-400 bg-white",
+					checked ? "border-primary-brown bg-primary-brown" : "border-base-400 bg-white",
 				)}
+				name={name}
+				onCheckedChange={(value) => onChange?.(value === true)}
 			>
-				{checked && <Check className="size-4 text-white" />}
-			</span>
+				<CheckboxPrimitive.Indicator>
+					<Check className="size-4 text-white" />
+				</CheckboxPrimitive.Indicator>
+			</CheckboxPrimitive.Root>
 			{label}
 		</label>
 	);
