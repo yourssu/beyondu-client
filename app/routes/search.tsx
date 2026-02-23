@@ -1,5 +1,6 @@
+import { Search as SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { useSearchParams } from "react-router";
+import { Link, isRouteErrorResponse, useNavigation, useSearchParams } from "react-router";
 
 import { deserializeFilterParams, serializeFilterParams, toSearchApiParams } from "~/lib/filter-params";
 import { createApiClient, getUniversities } from "~/shared/api";
@@ -39,6 +40,8 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 export default function Search({ loaderData }: Route.ComponentProps) {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const navigation = useNavigation();
+	const isLoading = navigation.state === "loading";
 
 	const [filters, setFilters] = useState<FilterFormData>(loaderData.filters);
 
@@ -68,6 +71,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 								내 정보를 입력하고 갈 수 있는 학교를 확인해보세요!
 							</h2>
 							<SearchFilterBar
+								disabled={isLoading}
 								filters={filters}
 								onFiltersChange={setFilters}
 								onSubmit={handleSearch}
@@ -98,14 +102,45 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 						</p>
 
 						{/* University cards grid */}
-						<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-							{loaderData.universities.map((university) => (
-								<UniversityCard key={university.id} {...university} />
-							))}
+						<div
+							className={`mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 transition-opacity spring-duration-200 ${isLoading ? "pointer-events-none opacity-50" : ""}`}
+						>
+							{loaderData.universities.length > 0 ? (
+								loaderData.universities.map((university) => (
+									<UniversityCard key={university.id} {...university} />
+								))
+							) : (
+								<div className="col-span-full flex flex-col items-center justify-center gap-4 py-20">
+									<SearchIcon className="size-12 text-base-400" />
+									<p className="text-base-700 text-style-body">
+										조건에 맞는 학교가 없습니다
+									</p>
+								</div>
+							)}
 						</div>
 					</div>
 				</main>
 			</div>
+		</div>
+	);
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+	const is404 = isRouteErrorResponse(error) && error.status === 404;
+
+	return (
+		<div className="flex min-h-screen flex-col items-center justify-center gap-6">
+			<h1 className="text-base-900 text-style-heading-lg">
+				{is404 ? "페이지를 찾을 수 없습니다" : "오류가 발생했습니다"}
+			</h1>
+			<p className="text-base-700 text-style-body">
+				{is404
+					? "요청하신 페이지가 존재하지 않습니다."
+					: "잠시 후 다시 시도해주세요."}
+			</p>
+			<Link className="text-primary-brown text-style-body-bold underline" to="/">
+				홈으로 돌아가기
+			</Link>
 		</div>
 	);
 }
