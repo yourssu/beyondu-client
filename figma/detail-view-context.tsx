@@ -12,42 +12,31 @@
 export default function DetailViewReference() {
 	return (
 		<div
-			className="bg-white relative size-full"
+			className="relative size-full bg-white"
 			data-name="학교 상세 페이지"
 			data-node-id="121:1054"
 		>
 			{/* 헤더 + 뒤로가기 */}
 			<div className="flex flex-col items-start" data-node-id="135:244">
 				{/* 헤더 영역 */}
-				<div
-					className="bg-white h-[90px] w-[1440px] overflow-clip"
-					data-node-id="143:310"
-				>
-					<p
-						className="font-['Chilanka'] text-[32px] text-[#062c05]"
-						data-node-id="143:311"
-					>
+				<div className="h-[90px] w-[1440px] overflow-clip bg-white" data-node-id="143:310">
+					<p className="font-['Chilanka'] text-[#062c05] text-[32px]" data-node-id="143:311">
 						Beyond U
 					</p>
 				</div>
 
 				{/* 뒤로가기 버튼 */}
 				<div className="h-[37px] w-full" data-node-id="121:1127">
-					<div
-						className="flex items-center gap-[8px]"
-						data-node-id="121:1128"
-					>
+					<div className="flex items-center gap-[8px]" data-node-id="121:1128">
 						{/* ArrowLeft icon */}
-						<p className="text-[16px] leading-[24px] text-[#443f3b] text-center">
-							뒤로가기
-						</p>
+						<p className="text-center text-[#443f3b] text-[16px] leading-[24px]">뒤로가기</p>
 					</div>
 				</div>
 			</div>
 
 			{/* 메인 컨텐츠 */}
 			<div
-				className="flex items-center justify-center pb-[64px] pt-[42px] w-[1440px]"
+				className="flex w-[1440px] items-center justify-center pt-[42px] pb-[64px]"
 				data-node-id="135:241"
 			>
 				<div className="flex flex-col gap-[40px]" data-node-id="135:231">
@@ -55,58 +44,51 @@ export default function DetailViewReference() {
 					<div className="flex flex-col gap-[8px]" data-node-id="135:228">
 						{/* 뱃지: 일반교환 */}
 						<div
-							className="bg-[#cde79a] rounded-full px-[11px] py-[4px] inline-flex"
+							className="inline-flex rounded-full bg-[#cde79a] px-[11px] py-[4px]"
 							data-node-id="121:1172"
 						>
-							<p className="font-semibold text-[10px] leading-[20px] text-[#443f3b] tracking-[-0.15px]">
+							<p className="font-semibold text-[#443f3b] text-[10px] leading-[20px] tracking-[-0.15px]">
 								일반교환
 							</p>
 						</div>
 
 						{/* 대학명 영문 + 한글 */}
 						<div className="flex flex-col gap-[8px]" data-node-id="135:225">
-							<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#0a0a0a]">
+							<p className="font-bold text-[#0a0a0a] text-[30px] leading-[36px] tracking-[0.4px]">
 								Universit of Oklahoma
 							</p>
-							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
+							<p className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]">
 								오클라호마 대학교
 							</p>
 						</div>
 
 						{/* 홈페이지 링크 */}
-						<p className="text-[16px] leading-[24px] text-[#443f3b] underline">
+						<p className="text-[#443f3b] text-[16px] leading-[24px] underline">
 							오클라호마 대학교 홈페이지 가기→
 						</p>
 					</div>
 
 					{/* 위치 + 인원 + 후기 버튼 */}
-					<div
-						className="flex items-center justify-between w-[848px]"
-						data-node-id="188:950"
-					>
+					<div className="flex w-[848px] items-center justify-between" data-node-id="188:950">
 						<div className="flex flex-col gap-[5px]" data-node-id="135:227">
 							{/* MapPin + 위치 */}
-							<div className="flex gap-[8px] items-center">
+							<div className="flex items-center gap-[8px]">
 								{/* MapPin icon 20x20 */}
-								<p className="text-[16px] leading-[24px] text-[#443f3b]">
-									Australia, Sydney
-								</p>
+								<p className="text-[#443f3b] text-[16px] leading-[24px]">Australia, Sydney</p>
 							</div>
 							{/* Users + 인원 */}
-							<div className="flex gap-[8px] items-center">
+							<div className="flex items-center gap-[8px]">
 								{/* Users icon 20x20 */}
-								<p className="text-[16px] leading-[24px] text-[#443f3b]">
-									약 28,600 명
-								</p>
+								<p className="text-[#443f3b] text-[16px] leading-[24px]">약 28,600 명</p>
 							</div>
 						</div>
 
 						{/* 후기 보고서 보러가기 버튼 */}
 						<div
-							className="bg-[#4f3109] border border-[#0a0a0a] rounded-[5px] px-[278px] py-[16px] flex items-center justify-center"
+							className="flex items-center justify-center rounded-[5px] border border-[#0a0a0a] bg-[#4f3109] px-[278px] py-[16px]"
 							data-node-id="188:943"
 						>
-							<span className="font-bold text-[16px] leading-[24px] text-white">
+							<span className="font-bold text-[16px] text-white leading-[24px]">
 								맞춤 학교 찾아보기
 							</span>
 						</div>
@@ -114,8 +96,8 @@ export default function DetailViewReference() {
 
 					{/* 툴팁 (후기 버튼 위에 표시) */}
 					<div className="flex flex-col items-center" data-node-id="225:430">
-						<div className="bg-[#fbfff3] border border-[#c5c5c5] rounded-[4px] px-[10px]">
-							<p className="text-[10px] leading-[24px] text-black text-center">
+						<div className="rounded-[4px] border border-[#c5c5c5] bg-[#fbfff3] px-[10px]">
+							<p className="text-center text-[10px] text-black leading-[24px]">
 								생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!
 							</p>
 						</div>
@@ -123,51 +105,41 @@ export default function DetailViewReference() {
 					</div>
 
 					{/* 어학/학점 요구사항 InfoCards */}
-					<div
-						className="flex gap-[12px]"
-						data-name="Container"
-						data-node-id="121:1193"
-					>
+					<div className="flex gap-[12px]" data-name="Container" data-node-id="121:1193">
 						{/* 어학 요구사항 InfoCard */}
 						<div
-							className="bg-white border-2 border-[#cde79a] rounded-[14px] p-[30px] flex flex-col gap-[12px]"
+							className="flex flex-col gap-[12px] rounded-[14px] border-2 border-[#cde79a] bg-white p-[30px]"
 							data-node-id="121:1203"
 						>
-							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
-								어학 요구사항
-							</p>
-							<div className="flex gap-[12px] items-center">
-								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+							<p className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]">어학 요구사항</p>
+							<div className="flex items-center gap-[12px]">
+								<p className="font-bold text-[#838c00] text-[30px] leading-[36px] tracking-[0.4px]">
 									IELTS 6.5
 								</p>
-								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+								<p className="font-bold text-[#838c00] text-[30px] leading-[36px] tracking-[0.4px]">
 									/
 								</p>
-								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+								<p className="font-bold text-[#838c00] text-[30px] leading-[36px] tracking-[0.4px]">
 									TOEFL 90
 								</p>
 							</div>
-							<p className="text-[16px] leading-[24px] text-[#443f3b]">
-								TOEIC, TOEFL ITP 제외
-							</p>
+							<p className="text-[#443f3b] text-[16px] leading-[24px]">TOEIC, TOEFL ITP 제외</p>
 						</div>
 
 						{/* 학점 요구사항 InfoCard */}
 						<div
-							className="bg-white border-2 border-[#cde79a] rounded-[14px] p-[30px] w-[240px] flex flex-col gap-[12px]"
+							className="flex w-[240px] flex-col gap-[12px] rounded-[14px] border-2 border-[#cde79a] bg-white p-[30px]"
 							data-node-id="121:1194"
 						>
-							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
-								학점 요구사항
-							</p>
-							<div className="flex gap-[12px] items-center">
-								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+							<p className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]">학점 요구사항</p>
+							<div className="flex items-center gap-[12px]">
+								<p className="font-bold text-[#838c00] text-[30px] leading-[36px] tracking-[0.4px]">
 									3.8
 								</p>
-								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+								<p className="font-bold text-[#838c00] text-[30px] leading-[36px] tracking-[0.4px]">
 									/
 								</p>
-								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+								<p className="font-bold text-[#838c00] text-[30px] leading-[36px] tracking-[0.4px]">
 									4.5
 								</p>
 							</div>
@@ -176,19 +148,19 @@ export default function DetailViewReference() {
 
 					{/* 수학 가능 학과 ContentSection */}
 					<div className="flex flex-col gap-[16px]" data-node-id="123:1247">
-						<p className="font-bold text-[24px] leading-[32px] tracking-[0.07px] text-[#0a0a0a]">
+						<p className="font-bold text-[#0a0a0a] text-[24px] leading-[32px] tracking-[0.07px]">
 							수학 가능 학과
 						</p>
 						<div
-							className="bg-[#fafafa] rounded-[14px] p-[24px] w-[848px] flex flex-col gap-[16px]"
+							className="flex w-[848px] flex-col gap-[16px] rounded-[14px] bg-[#fafafa] p-[24px]"
 							data-node-id="123:1250"
 						>
-							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a] w-[800px]">
-								Science_Technology_Engineering and Mathematics,
-								Humanities_Arts and Social Sciences, Business, Creativity and
-								Practice, Nursing, Education, Health Sciences and Human Movement
+							<p className="w-[800px] font-bold text-[#0a0a0a] text-[16px] leading-[24px]">
+								Science_Technology_Engineering and Mathematics, Humanities_Arts and Social Sciences,
+								Business, Creativity and Practice, Nursing, Education, Health Sciences and Human
+								Movement
 							</p>
-							<p className="text-[16px] leading-[24px] text-[#443f3b] underline">
+							<p className="text-[#443f3b] text-[16px] leading-[24px] underline">
 								수학가능과목 보러가기 →
 							</p>
 						</div>
@@ -196,14 +168,11 @@ export default function DetailViewReference() {
 
 					{/* 참고사항 ContentSection */}
 					<div className="flex flex-col gap-[16px]" data-node-id="135:217">
-						<p className="font-bold text-[24px] leading-[32px] tracking-[0.07px] text-[#0a0a0a]">
+						<p className="font-bold text-[#0a0a0a] text-[24px] leading-[32px] tracking-[0.07px]">
 							참고사항
 						</p>
-						<div
-							className="bg-[#fafafa] rounded-[14px] p-[24px] w-[848px]"
-							data-node-id="135:220"
-						>
-							<div className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
+						<div className="w-[848px] rounded-[14px] bg-[#fafafa] p-[24px]" data-node-id="135:220">
+							<div className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]">
 								<p>oklahoma에 위치한 연구 중심 공립대학</p>
 								<p>등록금 약 $27,200/년</p>
 								<p>132 in national universities</p>

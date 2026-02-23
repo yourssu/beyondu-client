@@ -18,7 +18,7 @@ export function BackButton({ href, onClick, className }: BackButtonProps) {
 	);
 
 	const sharedClassName = cn(
-		"inline-flex items-center gap-2 text-style-body text-base-700",
+		"inline-flex items-center gap-2 text-base-700 text-style-body",
 		className,
 	);
 
@@ -31,7 +31,7 @@ export function BackButton({ href, onClick, className }: BackButtonProps) {
 	}
 
 	return (
-		<button className={sharedClassName} type="button" onClick={onClick}>
+		<button className={sharedClassName} onClick={onClick} type="button">
 			{content}
 		</button>
 	);

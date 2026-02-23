@@ -61,9 +61,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 	if (isRouteErrorResponse(error)) {
 		message = error.status === 404 ? "404" : "오류";
 		details =
-			error.status === 404
-				? "요청하신 페이지를 찾을 수 없습니다."
-				: error.statusText || details;
+			error.status === 404 ? "요청하신 페이지를 찾을 수 없습니다." : error.statusText || details;
 	} else if (import.meta.env.DEV && error && error instanceof Error) {
 		details = error.message;
 		stack = error.stack;

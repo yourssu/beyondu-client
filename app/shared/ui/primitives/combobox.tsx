@@ -93,49 +93,50 @@ export function Combobox({
 	return (
 		<div className="relative">
 			<input
-				ref={inputRef}
 				aria-activedescendant={activeIndex >= 0 ? `${id}-option-${activeIndex}` : undefined}
 				aria-autocomplete="list"
 				aria-controls={listboxId}
 				aria-expanded={isOpen}
 				className={cn(
-					"h-[50px] w-full rounded-input border border-base-400 bg-white px-4 py-3 text-style-body text-base-900 placeholder:text-base-400 focus:border-primary-brown focus:outline-none",
+					"h-[50px] w-full rounded-input border border-base-400 bg-white px-4 py-3 text-base-900 text-style-body placeholder:text-base-400 focus:border-primary-brown focus:outline-none",
 					error && "border-red-500",
 					className,
 				)}
 				name={name}
-				placeholder={placeholder}
-				role="combobox"
-				type="text"
-				value={value}
 				onBlur={handleBlur}
 				onChange={handleInputChange}
 				onFocus={() => value && setIsOpen(true)}
 				onKeyDown={handleKeyDown}
+				placeholder={placeholder}
+				ref={inputRef}
+				role="combobox"
+				type="text"
+				value={value}
 			/>
 			{isOpen && filtered.length > 0 && (
-				<ul
-					className="absolute left-0 top-full z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-input border border-base-400 bg-white shadow-lg"
+				<div
+					className="absolute top-full left-0 z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-input border border-base-400 bg-white shadow-lg"
 					id={listboxId}
 					role="listbox"
 				>
 					{filtered.map((item, index) => (
-						<li
+						<div
+							aria-selected={index === activeIndex}
 							className={cn(
 								"cursor-pointer px-4 py-2 text-style-body hover:bg-surface-page",
 								index === activeIndex && "bg-surface-page",
 							)}
 							id={`${id}-option-${index}`}
 							key={item}
-							role="option"
-							aria-selected={index === activeIndex}
 							onMouseDown={() => selectItem(item)}
 							onMouseEnter={() => setActiveIndex(index)}
+							role="option"
+							tabIndex={-1}
 						>
 							{item}
-						</li>
+						</div>
 					))}
-				</ul>
+				</div>
 			)}
 		</div>
 	);

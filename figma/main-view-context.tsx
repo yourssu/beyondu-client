@@ -17,18 +17,15 @@
 // --white: #ffffff
 // --logo: #062c05
 
-const imgChatGptImageFeb42026063806Pm1 = "https://www.figma.com/api/mcp/asset/0f52df74-d7d7-47c1-bb3d-4f4be5407cab";
+const imgChatGptImageFeb42026063806Pm1 =
+	"https://www.figma.com/api/mcp/asset/0f52df74-d7d7-47c1-bb3d-4f4be5407cab";
 
 export default function MainViewReference() {
 	return (
-		<div
-			className="bg-white relative size-full"
-			data-name="필터 화면"
-			data-node-id="83:84"
-		>
+		<div className="relative size-full bg-white" data-name="필터 화면" data-node-id="83:84">
 			{/* 배경 이미지: 블러 처리된 캠퍼스 이미지 */}
 			<div
-				className="-translate-x-1/2 absolute blur-[25.2px] h-[1064px] left-[calc(54.17%-33.5px)] top-0 w-[1597px]"
+				className="absolute top-0 left-[calc(54.17%-33.5px)] h-[1064px] w-[1597px] -translate-x-1/2 blur-[25.2px]"
 				data-node-id="117:981"
 			>
 				<img alt="" src={imgChatGptImageFeb42026063806Pm1} />
@@ -36,26 +33,23 @@ export default function MainViewReference() {
 
 			{/* 메인 폼 컨테이너 */}
 			<div
-				className="-translate-x-1/2 absolute content-stretch flex flex-col h-[942px] items-center left-1/2 py-[36px] top-[82px] w-[1440px]"
+				className="absolute top-[82px] left-1/2 flex h-[942px] w-[1440px] -translate-x-1/2 flex-col content-stretch items-center py-[36px]"
 				data-node-id="90:173"
 			>
 				{/* 반투명 폼 카드 */}
 				<div
-					className="bg-[rgba(255,255,255,0.8)] border border-[#4f3109] border-solid flex flex-col gap-[40px] items-center px-[73px] py-[40px]"
+					className="flex flex-col items-center gap-[40px] border border-[#4f3109] border-solid bg-[rgba(255,255,255,0.8)] px-[73px] py-[40px]"
 					data-node-id="90:90"
 				>
 					{/* 타이틀 섹션 */}
 					<div className="flex flex-col gap-[8px]" data-node-id="94:283">
 						<p
-							className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#0a0a0a]"
+							className="font-bold text-[#0a0a0a] text-[30px] leading-[36px] tracking-[0.4px]"
 							data-node-id="90:97"
 						>
 							내 정보 입력하기
 						</p>
-						<p
-							className="text-[16px] leading-[24px] text-[#0a0a0a]"
-							data-node-id="90:99"
-						>
+						<p className="text-[#0a0a0a] text-[16px] leading-[24px]" data-node-id="90:99">
 							입력하신 정보를 바탕으로 지원 가능 여부를 분석합니다
 						</p>
 					</div>
@@ -67,16 +61,16 @@ export default function MainViewReference() {
 							{/* 전공 (TextInput/Combobox) */}
 							<div className="flex flex-col gap-[8px]" data-node-id="90:101">
 								<p
-									className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]"
+									className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]"
 									data-node-id="90:103"
 								>
 									전공
 								</p>
 								<div
-									className="bg-white border border-[#b4bc9f] rounded-[10px] h-[50px] w-[343px] px-[16px] py-[12px]"
+									className="h-[50px] w-[343px] rounded-[10px] border border-[#b4bc9f] bg-white px-[16px] py-[12px]"
 									data-node-id="90:104"
 								>
-									<p className="text-[16px] leading-[24px] text-[#b4bc9f]">
+									<p className="text-[#b4bc9f] text-[16px] leading-[24px]">
 										예: 경영학과, 컴퓨터학부
 									</p>
 								</div>
@@ -85,18 +79,16 @@ export default function MainViewReference() {
 							{/* 학점 (NumberInput) */}
 							<div className="flex flex-col gap-[8px]" data-node-id="90:106">
 								<p
-									className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]"
+									className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]"
 									data-node-id="90:108"
 								>
 									학점 (4.5 만점)
 								</p>
 								<div
-									className="bg-white border border-[#b4bc9f] rounded-[10px] h-[50px] w-[343px] px-[16px] py-[12px]"
+									className="h-[50px] w-[343px] rounded-[10px] border border-[#b4bc9f] bg-white px-[16px] py-[12px]"
 									data-node-id="90:109"
 								>
-									<p className="text-[16px] leading-[24px] text-[#b4bc9f]">
-										예: 3.8
-									</p>
+									<p className="text-[#b4bc9f] text-[16px] leading-[24px]">예: 3.8</p>
 								</div>
 							</div>
 						</div>
@@ -106,16 +98,16 @@ export default function MainViewReference() {
 							{/* 보유한 언어 자격증 (Select/Dropdown) */}
 							<div className="flex flex-col gap-[8px]" data-node-id="90:112">
 								<p
-									className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]"
+									className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]"
 									data-node-id="90:114"
 								>
 									보유한 언어 자격증
 								</p>
 								<div
-									className="bg-white border border-[#b4bc9f] rounded-[10px] h-[50px] relative"
+									className="relative h-[50px] rounded-[10px] border border-[#b4bc9f] bg-white"
 									data-node-id="90:115"
 								>
-									<span className="text-[16px] text-[#0a0a0a]">없음</span>
+									<span className="text-[#0a0a0a] text-[16px]">없음</span>
 									{/* ChevronDown icon at right */}
 								</div>
 							</div>
@@ -123,18 +115,16 @@ export default function MainViewReference() {
 							{/* 점수 (NumberInput) */}
 							<div className="flex flex-col gap-[8px]" data-node-id="90:130">
 								<p
-									className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]"
+									className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]"
 									data-node-id="90:132"
 								>
 									점수
 								</p>
 								<div
-									className="bg-white border border-[#b4bc9f] rounded-[10px] h-[50px] px-[16px] py-[12px]"
+									className="h-[50px] rounded-[10px] border border-[#b4bc9f] bg-white px-[16px] py-[12px]"
 									data-node-id="90:133"
 								>
-									<p className="text-[16px] leading-[24px] text-[#b4bc9f]">
-										예: 800
-									</p>
+									<p className="text-[#b4bc9f] text-[16px] leading-[24px]">예: 800</p>
 								</div>
 							</div>
 						</div>
@@ -142,26 +132,24 @@ export default function MainViewReference() {
 						{/* Row 3: 희망 나라 */}
 						<div className="flex flex-col gap-[8px]" data-node-id="90:135">
 							<p
-								className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]"
+								className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]"
 								data-node-id="90:137"
 							>
 								희망 나라
 							</p>
 							<div
-								className="bg-white border border-[#b4bc9f] rounded-[10px] h-[50px] w-[343px] px-[16px] py-[12px]"
+								className="h-[50px] w-[343px] rounded-[10px] border border-[#b4bc9f] bg-white px-[16px] py-[12px]"
 								data-node-id="105:108"
 							>
-								<p className="text-[16px] leading-[24px] text-[#b4bc9f]">
-									예: 미국
-								</p>
+								<p className="text-[#b4bc9f] text-[16px] leading-[24px]">예: 미국</p>
 							</div>
 						</div>
 					</div>
 
 					{/* 후기 보고서 필수 여부 체크박스 */}
-					<div className="flex items-center w-full" data-node-id="236:3075">
+					<div className="flex w-full items-center" data-node-id="236:3075">
 						<p
-							className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]"
+							className="font-bold text-[#0a0a0a] text-[16px] leading-[24px]"
 							data-node-id="236:3077"
 						>
 							후기 보고서 필수 여부
@@ -171,10 +159,10 @@ export default function MainViewReference() {
 
 					{/* CTA 버튼 */}
 					<div
-						className="bg-[#4f3109] border border-[#0a0a0a] rounded-[5px] px-[278px] py-[16px] flex items-center justify-center"
+						className="flex items-center justify-center rounded-[5px] border border-[#0a0a0a] bg-[#4f3109] px-[278px] py-[16px]"
 						data-node-id="94:305"
 					>
-						<span className="font-bold text-[16px] leading-[24px] text-white text-center">
+						<span className="text-center font-bold text-[16px] text-white leading-[24px]">
 							맞춤 학교 찾아보기
 						</span>
 						{/* ArrowRight icon */}
@@ -184,13 +172,10 @@ export default function MainViewReference() {
 
 			{/* 헤더 */}
 			<div
-				className="absolute bg-[rgba(255,255,255,0.6)] h-[82px] left-0 top-0 w-[1440px] overflow-clip"
+				className="absolute top-0 left-0 h-[82px] w-[1440px] overflow-clip bg-[rgba(255,255,255,0.6)]"
 				data-node-id="110:153"
 			>
-				<p
-					className="font-['Chilanka'] text-[32px] text-[#062c05]"
-					data-node-id="141:105"
-				>
+				<p className="font-['Chilanka'] text-[#062c05] text-[32px]" data-node-id="141:105">
 					Beyond U
 				</p>
 			</div>

@@ -28,10 +28,10 @@ export function Select({
 	name,
 }: SelectProps) {
 	return (
-		<SelectPrimitive.Root name={name} value={value} onValueChange={onChange}>
+		<SelectPrimitive.Root name={name} onValueChange={onChange} value={value}>
 			<SelectPrimitive.Trigger
 				className={cn(
-					"flex h-[50px] w-full items-center justify-between rounded-input border border-base-400 bg-white px-4 py-3 text-style-body text-base-900 focus:border-primary-brown focus:outline-none",
+					"flex h-[50px] w-full items-center justify-between rounded-input border border-base-400 bg-white px-4 py-3 text-base-900 text-style-body focus:border-primary-brown focus:outline-none",
 					error && "border-red-500",
 					className,
 				)}

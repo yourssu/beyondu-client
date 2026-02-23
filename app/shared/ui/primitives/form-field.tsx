@@ -11,11 +11,11 @@ interface FormFieldProps {
 export function FormField({ label, htmlFor, error, children, className }: FormFieldProps) {
 	return (
 		<div className={cn("flex flex-col gap-2", className)}>
-			<label className="text-style-body-bold text-base-900" htmlFor={htmlFor}>
+			<label className="text-base-900 text-style-body-bold" htmlFor={htmlFor}>
 				{label}
 			</label>
 			{children}
-			{error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+			{error && <p className="mt-1 text-red-500 text-sm">{error}</p>}
 		</div>
 	);
 }

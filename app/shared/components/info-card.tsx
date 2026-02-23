@@ -12,7 +12,7 @@ interface InfoCardProps {
 export function InfoCard({ title, children, className }: InfoCardProps) {
 	return (
 		<Card className={cn("flex flex-col gap-3 p-7.5", className)} variant="bordered">
-			<h3 className="text-style-body-bold text-base-900">{title}</h3>
+			<h3 className="text-base-900 text-style-body-bold">{title}</h3>
 			{children}
 		</Card>
 	);

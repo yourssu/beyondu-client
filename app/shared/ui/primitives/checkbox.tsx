@@ -12,10 +12,11 @@ interface CheckboxProps {
 }
 
 export function Checkbox({ label, checked, onChange, name, className }: CheckboxProps) {
+	const id = `checkbox-${name ?? label}`;
 	return (
-		<label
+		<div
 			className={cn(
-				"text-style-body-bold flex cursor-pointer items-center gap-1 text-base-900",
+				"flex cursor-pointer items-center gap-1 text-base-900 text-style-body-bold",
 				className,
 			)}
 		>
@@ -25,6 +26,7 @@ export function Checkbox({ label, checked, onChange, name, className }: Checkbox
 					"flex size-6 items-center justify-center rounded border",
 					checked ? "border-primary-brown bg-primary-brown" : "border-base-400 bg-white",
 				)}
+				id={id}
 				name={name}
 				onCheckedChange={(value) => onChange?.(value === true)}
 			>
@@ -32,7 +34,7 @@ export function Checkbox({ label, checked, onChange, name, className }: Checkbox
 					<Check className="size-4 text-white" />
 				</CheckboxPrimitive.Indicator>
 			</CheckboxPrimitive.Root>
-			{label}
-		</label>
+			<label htmlFor={id}>{label}</label>
+		</div>
 	);
 }

@@ -52,44 +52,44 @@ export function SearchFilterBar({
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				<FormField label="전공">
 					<Combobox
+						onChange={onMajorChange}
 						placeholder="예: 경영학과, 컴퓨터학부"
 						suggestions={majorSuggestions}
 						value={major}
-						onChange={onMajorChange}
 					/>
 				</FormField>
 
 				<FormField label="학점 (4.5 만점)">
 					<NumberInput
+						onChange={(e) => onGpaChange(e.target.value)}
 						placeholder="예: 3.8"
 						value={gpa}
-						onChange={(e) => onGpaChange(e.target.value)}
 					/>
 				</FormField>
 
 				<FormField label="보유한 언어 자격증">
 					<Select
+						onChange={onLanguageCertChange}
 						options={languageCertOptions}
 						placeholder="선택"
 						value={languageCert}
-						onChange={onLanguageCertChange}
 					/>
 				</FormField>
 
 				<FormField label="점수">
 					<NumberInput
+						onChange={(e) => onScoreChange(e.target.value)}
 						placeholder="예: 800"
 						value={score}
-						onChange={(e) => onScoreChange(e.target.value)}
 					/>
 				</FormField>
 
 				<FormField label="희망 나라">
 					<Combobox
+						onChange={onCountryChange}
 						placeholder="예: 미국"
 						suggestions={countrySuggestions}
 						value={country}
-						onChange={onCountryChange}
 					/>
 				</FormField>
 
@@ -102,12 +102,7 @@ export function SearchFilterBar({
 				</div>
 			</div>
 
-			<Button
-				fullWidth
-				rightIcon={<ArrowRight className="size-5" />}
-				size="lg"
-				onClick={onSubmit}
-			>
+			<Button fullWidth onClick={onSubmit} rightIcon={<ArrowRight className="size-5" />} size="lg">
 				위의 조건으로 확인해보기
 			</Button>
 		</div>

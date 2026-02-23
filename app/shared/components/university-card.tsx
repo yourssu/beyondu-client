@@ -45,8 +45,8 @@ export function UniversityCard({
 				</div>
 
 				<div className="flex flex-col gap-1">
-					<h3 className="text-style-body-bold text-base-900">{nameEn}</h3>
-					<p className="text-style-body-sm text-base-700">{nameKr}</p>
+					<h3 className="text-base-900 text-style-body-bold">{nameEn}</h3>
+					<p className="text-base-700 text-style-body-sm">{nameKr}</p>
 				</div>
 
 				<div className="flex items-center gap-1 text-base-700">
@@ -57,10 +57,7 @@ export function UniversityCard({
 				{languageRequirements.length > 0 && (
 					<div className="flex flex-wrap gap-1.5">
 						{languageRequirements.map((req) => (
-							<span
-								className="text-style-caption text-primary-olive"
-								key={req.name}
-							>
+							<span className="text-primary-olive text-style-caption" key={req.name}>
 								{req.name} {req.score}
 							</span>
 						))}
@@ -68,7 +65,7 @@ export function UniversityCard({
 				)}
 
 				{hasReview && (
-					<p className="text-style-caption text-base-700">
+					<p className="text-base-700 text-style-caption">
 						후기 있음{reviewYears ? ` (${reviewYears})` : ""}
 					</p>
 				)}
