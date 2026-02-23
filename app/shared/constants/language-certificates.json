@@ -1,0 +1,12 @@
+[
+  { "label": "TOEFL", "value": "TOEFL", "languageGroup": "ENGLISH" },
+  { "label": "IELTS", "value": "IELTS", "languageGroup": "ENGLISH" },
+  { "label": "TOEIC", "value": "TOEIC", "languageGroup": "ENGLISH" },
+  { "label": "TOEFL ITP", "value": "TOEFL_ITP", "languageGroup": "ENGLISH" },
+  { "label": "DUOLINGO", "value": "DUOLINGO", "languageGroup": "ENGLISH" },
+  { "label": "HSK", "value": "HSK", "languageGroup": "CHINESE" },
+  { "label": "JLPT", "value": "JLPT", "languageGroup": "JAPANESE" },
+  { "label": "JPT", "value": "JPT", "languageGroup": "JAPANESE" },
+  { "label": "DELF", "value": "DELF", "languageGroup": "FRENCH" },
+  { "label": "ZD", "value": "ZD", "languageGroup": "GERMAN" }
+]
