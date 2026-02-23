@@ -23,8 +23,8 @@ export function UniversityCard({
 	className,
 }: UniversityCardProps) {
 	return (
-		<Link className="block" to={`/detail/${id}`}>
-			<Card className={cn("flex flex-col gap-3 p-5", className)}>
+		<Link className="block h-full" to={`/detail/${id}`}>
+			<Card className={cn("flex h-full flex-col gap-3 p-5", className)}>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-1 text-base-700">
 						<MapPin className="size-4 shrink-0" />
@@ -45,7 +45,10 @@ export function UniversityCard({
 					<p className="text-primary-olive text-style-caption">{languageRequirementSummary}</p>
 				)}
 
-				<Badge variant={reviewStatus === "없음" ? "neutral" : "green"}>
+				<Badge
+					className="mt-auto self-start"
+					variant={reviewStatus === "없음" ? "neutral" : "green"}
+				>
 					{reviewStatus === "없음" ? "후기 없음" : "후기 있음"}
 				</Badge>
 			</Card>

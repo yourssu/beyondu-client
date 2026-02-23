@@ -52,7 +52,9 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 				<div className="flex flex-col gap-10">
 					{/* 상단 정보 */}
 					<div className="flex flex-col gap-2">
-						<Badge variant="green">{university.badge}</Badge>
+						<Badge className="self-start" variant="green">
+							{university.badge}
+						</Badge>
 						<h1 className="text-base-900 text-style-heading-lg">{university.nameEng}</h1>
 						<p className="text-base-900 text-style-body-bold">{university.nameKor}</p>
 						{university.websiteUrl && (
