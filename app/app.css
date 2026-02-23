@@ -1,16 +1,99 @@
 @import "tailwindcss" source(".");
 
 @theme {
+	/* Font families */
 	--font-sans:
-		"Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-		"Segoe UI Symbol", "Noto Color Emoji";
+		"Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-display: "Chilanka", cursive;
+
+	/* Colors - Primary */
+	--color-primary-olive: #838c00;
+	--color-primary-brown: #4f3109;
+	--color-primary-green: #cde79a;
+
+	/* Colors - Base */
+	--color-base-900: #0a0a0a;
+	--color-base-700: #443f3b;
+	--color-base-400: #b4bc9f;
+
+	/* Colors - Surface */
+	--color-surface-white: #ffffff;
+	--color-surface-page: #fafafa;
+	--color-surface-tag: #f2f2f2;
+	--color-surface-tooltip: #fbfff3;
+	--color-surface-glass: rgba(255, 255, 255, 0.8);
+
+	/* Colors - Misc */
+	--color-logo: #062c05;
+
+	/* Border Radius */
+	--radius-button: 5px;
+	--radius-input: 10px;
+	--radius-card: 14px;
+	--radius-tag: 4px;
+}
+
+/* Typography utilities */
+
+@utility text-style-heading-lg {
+	font-size: 30px;
+	line-height: 36px;
+	letter-spacing: 0.4px;
+	font-weight: 700;
+}
+
+@utility text-style-heading-md {
+	font-size: 24px;
+	line-height: 32px;
+	letter-spacing: 0.07px;
+	font-weight: 700;
+}
+
+@utility text-style-body-bold {
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: 0;
+	font-weight: 700;
+}
+
+@utility text-style-body {
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: 0;
+	font-weight: 400;
+}
+
+@utility text-style-body-sm {
+	font-size: 14px;
+	line-height: 24px;
+	letter-spacing: 0;
+	font-weight: 400;
+}
+
+@utility text-style-caption {
+	font-size: 12px;
+	line-height: 16px;
+	letter-spacing: 0;
+	font-weight: 400;
+}
+
+@utility text-style-badge-sm {
+	font-size: 10px;
+	line-height: 20px;
+	letter-spacing: 0;
+	font-weight: 600;
+}
+
+@utility text-style-logo {
+	font-family: var(--font-display);
+	font-size: 32px;
+	line-height: normal;
+	letter-spacing: 0;
+	font-weight: 400;
 }
 
 html,
 body {
-	@apply bg-white dark:bg-gray-950;
-
-	@media (prefers-color-scheme: dark) {
-		color-scheme: dark;
-	}
+	background-color: var(--color-surface-white);
 }
