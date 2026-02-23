@@ -110,9 +110,9 @@ export default function Search() {
 			<CampusBackground />
 
 			<div className="relative z-10">
-				<Header />
+				<Header className="border-base-700 border-b" />
 
-				<div className="border-base-700 border-b bg-surface-glass">
+				<div className="bg-surface-glass">
 					<div className="mx-auto max-w-5xl px-8 pt-8 pb-5">
 						<BackButton href="/" />
 					</div>
