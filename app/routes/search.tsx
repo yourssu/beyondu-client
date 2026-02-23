@@ -1,9 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Loader2, Search as SearchIcon } from "lucide-react";
+import { Loader2, RotateCw, Search as SearchIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 
-import { cn } from "~/lib/cn";
 import {
 	deserializeFilterParams,
 	serializeFilterParams,
@@ -118,15 +117,16 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
 	const apiParams = toSearchApiParams(loaderData.filters);
 
-	const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteQuery({
-		getNextPageParam: (lastPage) => {
-			const { currentPage, isLast } = lastPage.result.pageInfo;
-			return isLast ? undefined : currentPage + 1;
-		},
-		initialPageParam: 0,
-		queryFn: ({ pageParam }) => fetchUniversities(loaderData.filters, pageParam),
-		queryKey: ["universities", apiParams],
-	});
+	const { data, isLoading, isError, refetch, isFetchingNextPage, hasNextPage, fetchNextPage } =
+		useInfiniteQuery({
+			getNextPageParam: (lastPage) => {
+				const { currentPage, isLast } = lastPage.result.pageInfo;
+				return isLast ? undefined : currentPage + 1;
+			},
+			initialPageParam: 0,
+			queryFn: ({ pageParam }) => fetchUniversities(loaderData.filters, pageParam),
+			queryKey: ["universities", apiParams],
+		});
 
 	useEffect(() => {
 		const sentinel = sentinelRef.current;
@@ -205,12 +205,25 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 						)}
 
 						{/* University cards grid */}
-						<div className={cn("mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3")}>
+						<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 							{isLoading ? (
 								Array.from({ length: PAGE_SIZE }).map((_, i) => (
 									// biome-ignore lint/suspicious/noArrayIndexKey: static skeleton list
 									<SkeletonCard key={i} />
 								))
+							) : isError ? (
+								<div className="col-span-full flex flex-col items-center justify-center gap-4 py-20">
+									<SearchIcon className="size-12 text-base-400" />
+									<p className="text-base-700 text-style-body">학교 목록을 불러오지 못했습니다</p>
+									<button
+										className="flex items-center gap-2 text-primary-green text-style-body-bold"
+										onClick={() => refetch()}
+										type="button"
+									>
+										<RotateCw className="size-4" />
+										다시 시도
+									</button>
+								</div>
 							) : universities.length > 0 ? (
 								universities.map((university) => (
 									<UniversityCard key={university.id} {...university} />

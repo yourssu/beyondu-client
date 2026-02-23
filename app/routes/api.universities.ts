@@ -14,9 +14,9 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const nation = url.searchParams.get("nation");
 	const hasReview = url.searchParams.get("hasReview");
 
-	if (page) params.page = Number(page);
-	if (size) params.size = Number(size);
-	if (gpa) params.gpa = Number(gpa);
+	if (page && !Number.isNaN(Number(page))) params.page = Number(page);
+	if (size && !Number.isNaN(Number(size))) params.size = Number(size);
+	if (gpa && !Number.isNaN(Number(gpa))) params.gpa = Number(gpa);
 	if (major) params.major = major;
 	if (nation) params.nation = nation;
 	if (hasReview) params.hasReview = hasReview === "true";
