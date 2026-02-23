@@ -19,7 +19,7 @@ export function RouteErrorFallback({
 			<p className="text-base-700 text-style-body">
 				{is404 ? notFoundMessage : "잠시 후 다시 시도해주세요."}
 			</p>
-			<Link className="text-primary-brown text-style-body-bold underline" to="/">
+			<Link className="text-primary-brown text-style-body-bold underline" to="/" viewTransition>
 				홈으로 돌아가기
 			</Link>
 		</div>

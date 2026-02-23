@@ -27,7 +27,7 @@ export function BackButton({ href, onClick, className }: BackButtonProps) {
 
 	if (href) {
 		return (
-			<Link className={sharedClassName} to={href}>
+			<Link className={sharedClassName} to={href} viewTransition>
 				{content}
 			</Link>
 		);

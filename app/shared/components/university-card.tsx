@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useViewTransitionState } from "react-router";
 
 import { cn } from "~/lib/cn";
 import type { UniversitySummaryDto } from "~/shared/api/types";
@@ -22,9 +22,14 @@ export function UniversityCard({
 	reviewStatus,
 	className,
 }: UniversityCardProps) {
+	const isTransitioning = useViewTransitionState(`/detail/${id}`);
+
 	return (
-		<Link className="block h-full" to={`/detail/${id}`}>
-			<Card className={cn("flex h-full flex-col gap-3 p-5", className)}>
+		<Link className="block h-full" to={`/detail/${id}`} viewTransition>
+			<Card
+				className={cn("flex h-full flex-col gap-3 p-5", className)}
+				style={isTransitioning ? { viewTransitionName: "university-hero" } : undefined}
+			>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-1 text-base-700">
 						<MapPin className="size-4 shrink-0" />

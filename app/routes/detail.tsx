@@ -48,7 +48,10 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 				</div>
 			</Header>
 
-			<main className="mx-auto max-w-5xl px-8 py-10">
+			<main
+				className="mx-auto max-w-5xl px-8 py-10"
+				style={{ viewTransitionName: "university-hero" }}
+			>
 				<div className="flex flex-col gap-10">
 					{/* 상단 정보 */}
 					<div className="flex flex-col gap-2">

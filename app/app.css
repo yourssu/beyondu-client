@@ -60,6 +60,14 @@
 	--animate-dropdown-in: dropdown-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
 	--animate-dropdown-out: dropdown-out 150ms cubic-bezier(0.4, 0, 1, 1) forwards;
 	--animate-error-in: error-in 250ms cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-card-stagger-in: card-stagger-in 400ms both;
+
+	/* View Transition durations */
+	--duration-vt-page: 300ms;
+	--duration-vt-hero: 400ms;
+
+	/* Card stagger delay */
+	--delay-card-stagger: 50ms;
 }
 
 /* Typography utilities */
@@ -184,6 +192,110 @@
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+/* View Transition spring easings (extracted from tailwindcss-spring generateEase()) */
+
+:root {
+	--ease-spring-subtle: linear(
+		0,
+		0.0014,
+		0.0053 1.02%,
+		0.0225 2.18%,
+		0.0512 3.41%,
+		0.0903 4.72%,
+		0.1772 7.11%,
+		0.3978 12.56%,
+		0.5033 15.31%,
+		0.6026,
+		0.6881 21.12%,
+		0.7255 22.57%,
+		0.7611,
+		0.7931,
+		0.8217 27.14%,
+		0.8482,
+		0.8715 30.34%,
+		0.8935,
+		0.9124 33.82%,
+		0.929 35.64%,
+		0.9436 37.52%,
+		0.956 39.48%,
+		0.9668 41.59%,
+		0.9759 43.84%,
+		0.9834 46.23%,
+		0.994,
+		0.999 57.12%,
+		1.0012 64.16%,
+		1.0002 99.94%
+	);
+	--ease-spring-bouncy: linear(
+		0,
+		0.0014 0.51%,
+		0.0061 1.09%,
+		0.0243 2.25%,
+		0.0564 3.56%,
+		0.1004 4.94%,
+		0.1964 7.4%,
+		0.4369 12.92%,
+		0.5444 15.53%,
+		0.6487 18.36%,
+		0.7338 21.05%,
+		0.8066 23.81%,
+		0.8376 25.19%,
+		0.8666,
+		0.8921 28.09%,
+		0.9153 29.61%,
+		0.9361,
+		0.9535 32.81%,
+		0.9668 34.26%,
+		0.9785 35.78%,
+		0.9883 37.38%,
+		0.9965 39.05%,
+		1.0081 42.68%,
+		1.0141 46.96%,
+		1.0145 53.42%,
+		1.0054 68.37%,
+		1.0019 77.37%,
+		0.9998 99.94%
+	);
+}
+
+/* Page-level view transitions with spring easing */
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-old(header-logo),
+::view-transition-new(header-logo),
+::view-transition-old(campus-bg),
+::view-transition-new(campus-bg) {
+	animation-duration: var(--duration-vt-page);
+	animation-timing-function: var(--ease-spring-subtle);
+}
+
+/* University card → detail page hero morphing */
+::view-transition-old(university-hero),
+::view-transition-new(university-hero) {
+	animation-duration: var(--duration-vt-hero);
+	animation-timing-function: var(--ease-spring-bouncy);
+	overflow: hidden;
+	border-radius: var(--radius-card);
+}
+
+/* Card stagger entrance keyframe */
+@keyframes card-stagger-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animate-card-stagger-in {
+		animation: none;
 	}
 }
 

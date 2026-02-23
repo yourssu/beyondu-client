@@ -225,8 +225,17 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 									</button>
 								</div>
 							) : universities.length > 0 ? (
-								universities.map((university) => (
-									<UniversityCard key={university.id} {...university} />
+								universities.map((university, index) => (
+									<div
+										className="h-full animate-card-stagger-in"
+										key={university.id}
+										style={{
+											animationDelay: `calc(${index % PAGE_SIZE} * var(--delay-card-stagger))`,
+											animationTimingFunction: "var(--ease-spring-bouncy)",
+										}}
+									>
+										<UniversityCard {...university} />
+									</div>
 								))
 							) : (
 								<div className="col-span-full flex flex-col items-center justify-center gap-4 py-20">
