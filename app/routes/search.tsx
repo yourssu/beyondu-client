@@ -133,12 +133,12 @@ export default function Search() {
 								languageCertOptions={languageCertificates}
 								major={filters.major}
 								majorSuggestions={majors}
-								onCountryChange={(v) => setFilters({ ...filters, country: v })}
-								onGpaChange={(v) => setFilters({ ...filters, gpa: v })}
-								onLanguageCertChange={(v) => setFilters({ ...filters, languageCert: v })}
-								onMajorChange={(v) => setFilters({ ...filters, major: v })}
-								onRequireReviewChange={(v) => setFilters({ ...filters, requireReview: v })}
-								onScoreChange={(v) => setFilters({ ...filters, score: v })}
+								onCountryChange={(v) => setFilters((prev) => ({ ...prev, country: v }))}
+								onGpaChange={(v) => setFilters((prev) => ({ ...prev, gpa: v }))}
+								onLanguageCertChange={(v) => setFilters((prev) => ({ ...prev, languageCert: v }))}
+								onMajorChange={(v) => setFilters((prev) => ({ ...prev, major: v }))}
+								onRequireReviewChange={(v) => setFilters((prev) => ({ ...prev, requireReview: v }))}
+								onScoreChange={(v) => setFilters((prev) => ({ ...prev, score: v }))}
 								onSubmit={handleSearch}
 								requireReview={filters.requireReview}
 								score={filters.score}
