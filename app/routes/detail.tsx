@@ -1,7 +1,6 @@
-import { MapPin, Users } from "lucide-react";
-import { Link, isRouteErrorResponse } from "react-router";
-
 import { HTTPError } from "ky";
+import { MapPin, Users } from "lucide-react";
+import { isRouteErrorResponse, Link } from "react-router";
 
 import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
@@ -85,7 +84,10 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 							)}
 						</div>
 
-						<Tooltip defaultOpen content="생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!">
+						<Tooltip
+							content="생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!"
+							defaultOpen
+						>
 							<Button disabled={!university.hasReview}>후기 보고서 보러가기 &gt;</Button>
 						</Tooltip>
 					</div>
@@ -147,9 +149,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 				{is404 ? "페이지를 찾을 수 없습니다" : "오류가 발생했습니다"}
 			</h1>
 			<p className="text-base-700 text-style-body">
-				{is404
-					? "요청하신 학교 정보를 찾을 수 없습니다."
-					: "잠시 후 다시 시도해주세요."}
+				{is404 ? "요청하신 학교 정보를 찾을 수 없습니다." : "잠시 후 다시 시도해주세요."}
 			</p>
 			<Link className="text-primary-brown text-style-body-bold underline" to="/">
 				홈으로 돌아가기

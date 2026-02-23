@@ -25,12 +25,12 @@ export default function Home() {
 	const navigate = useNavigate();
 
 	const [filters, setFilters] = useState<FilterFormData>({
-		major: "",
+		country: "",
 		gpa: "",
 		languageCert: "NONE",
-		score: "",
-		country: "",
+		major: "",
 		requireReview: false,
+		score: "",
 	});
 
 	const isFormComplete =
