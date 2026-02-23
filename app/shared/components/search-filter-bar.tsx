@@ -54,6 +54,7 @@ export function SearchFilterBar({
 					<Combobox
 						onChange={onMajorChange}
 						placeholder="e.g. Business, Computer Science"
+						restrictToSuggestions
 						suggestions={majorSuggestions}
 						value={major}
 					/>
@@ -95,6 +96,7 @@ export function SearchFilterBar({
 					<Combobox
 						onChange={onCountryChange}
 						placeholder="예: 미국"
+						restrictToSuggestions
 						suggestions={countrySuggestions}
 						value={country}
 					/>

@@ -78,6 +78,7 @@ export default function Home() {
 									<Combobox
 										onChange={setMajor}
 										placeholder="e.g. Business, Computer Science"
+										restrictToSuggestions
 										suggestions={majors}
 										value={major}
 									/>
@@ -123,6 +124,7 @@ export default function Home() {
 									<Combobox
 										onChange={setCountry}
 										placeholder="예: 미국"
+										restrictToSuggestions
 										suggestions={countries}
 										value={country}
 									/>

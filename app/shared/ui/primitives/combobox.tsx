@@ -105,7 +105,7 @@ export function Combobox({
 				name={name}
 				onBlur={handleBlur}
 				onChange={handleInputChange}
-				onFocus={() => value && setIsOpen(true)}
+				onFocus={() => setIsOpen(true)}
 				onKeyDown={handleKeyDown}
 				placeholder={placeholder}
 				ref={inputRef}
