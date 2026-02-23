@@ -18,7 +18,7 @@ export function Tooltip({ children, className, content, open }: TooltipProps) {
 				<TooltipPrimitive.Portal>
 					<TooltipPrimitive.Content
 						className={cn(
-							"z-50 whitespace-nowrap rounded-tag border border-[#c5c5c5] bg-surface-tooltip px-2.5 py-0.5 text-center text-[10px] leading-6",
+							"z-50 whitespace-nowrap rounded-tag border border-base-300 bg-surface-tooltip px-2.5 py-0.5 text-center text-2xs leading-6",
 							"animate-tooltip-in data-[state=closed]:animate-tooltip-out",
 							className,
 						)}

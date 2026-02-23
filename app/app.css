@@ -17,6 +17,7 @@
 	--color-base-900: #0a0a0a;
 	--color-base-700: #443f3b;
 	--color-base-400: #b4bc9f;
+	--color-base-300: #c5c5c5;
 
 	/* Colors - Surface */
 	--color-surface-white: #ffffff;
@@ -27,6 +28,12 @@
 
 	/* Colors - Misc */
 	--color-logo: #062c05;
+
+	/* Container */
+	--container-form: 700px;
+
+	/* Font Size */
+	--text-2xs: 0.625rem;
 
 	/* Border Radius */
 	--radius-button: 5px;

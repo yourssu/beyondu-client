@@ -98,7 +98,7 @@ export function Combobox({
 				aria-controls={listboxId}
 				aria-expanded={isOpen}
 				className={cn(
-					"h-[50px] w-full rounded-input border border-base-400 bg-white px-4 py-3 text-base-900 text-style-body placeholder:text-base-400 focus:border-primary-brown focus:outline-none",
+					"h-12.5 w-full rounded-input border border-base-400 bg-white px-4 py-3 text-base-900 text-style-body placeholder:text-base-400 focus:border-primary-brown focus:outline-none",
 					error && "border-red-500",
 					className,
 				)}

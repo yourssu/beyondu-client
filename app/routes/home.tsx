@@ -54,7 +54,7 @@ export default function Home() {
 				<Header />
 
 				<main className="mx-auto flex max-w-5xl justify-center px-4 py-9">
-					<div className="flex w-full max-w-[702px] flex-col items-center gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-[73px]">
+					<div className="flex w-full max-w-form flex-col items-center gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-18">
 						{/* Title */}
 						<div className="flex flex-col gap-2">
 							<h1 className="text-base-900 text-style-heading-lg">내 정보 입력하기</h1>
