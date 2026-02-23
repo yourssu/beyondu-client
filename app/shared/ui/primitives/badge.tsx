@@ -13,6 +13,7 @@ export function Badge({ children, className, variant = "green" }: BadgeProps) {
 		<span
 			className={cn(
 				"inline-flex rounded-full px-2.75 py-1 text-base-700 text-style-badge-sm",
+				"spring-bounce-0 spring-duration-150 transition-colors",
 				variant === "green" && "bg-primary-green",
 				variant === "neutral" && "bg-surface-tag",
 				className,

@@ -24,17 +24,24 @@ export function Checkbox({ label, checked, onChange, name, className }: Checkbox
 				checked={checked}
 				className={cn(
 					"flex size-6 items-center justify-center rounded border",
-					checked ? "border-primary-brown bg-primary-brown" : "border-base-400 bg-white",
+					"spring-bounce-20 spring-duration-200 transition",
+					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-brown/50 focus-visible:ring-offset-2",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+					checked
+						? "border-primary-brown bg-primary-brown"
+						: "border-base-400 bg-white hover:border-base-700",
 				)}
 				id={id}
 				name={name}
 				onCheckedChange={(value) => onChange?.(value === true)}
 			>
-				<CheckboxPrimitive.Indicator>
+				<CheckboxPrimitive.Indicator className="animate-check-in">
 					<Check className="size-4 text-white" />
 				</CheckboxPrimitive.Indicator>
 			</CheckboxPrimitive.Root>
-			<label htmlFor={id}>{label}</label>
+			<label className="cursor-pointer select-none" htmlFor={id}>
+				{label}
+			</label>
 		</div>
 	);
 }

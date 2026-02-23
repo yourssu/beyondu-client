@@ -23,7 +23,8 @@
 		"lucide-react": "^0.575.0",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
-		"react-router": "^7.10.0"
+		"react-router": "^7.10.0",
+		"tailwindcss-spring": "^1.0.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4",

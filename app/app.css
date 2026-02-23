@@ -1,4 +1,5 @@
 @import "tailwindcss" source(".");
+@plugin "tailwindcss-spring";
 
 @theme {
 	/* Font families */
@@ -32,6 +33,12 @@
 	--radius-input: 10px;
 	--radius-card: 14px;
 	--radius-tag: 4px;
+
+	/* Animations */
+	--animate-tooltip-in: tooltip-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+	--animate-tooltip-out: tooltip-out 150ms cubic-bezier(0.4, 0, 1, 1) forwards;
+	--animate-check-in: check-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+	--animate-error-in: error-in 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Typography utilities */
@@ -91,6 +98,50 @@
 	line-height: normal;
 	letter-spacing: 0;
 	font-weight: 400;
+}
+
+/* Keyframe animations */
+
+@keyframes tooltip-in {
+	from {
+		opacity: 0;
+		transform: scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes tooltip-out {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0.96);
+	}
+}
+
+@keyframes check-in {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+@keyframes error-in {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 html,

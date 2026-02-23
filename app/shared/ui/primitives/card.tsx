@@ -13,8 +13,9 @@ export function Card({ children, className, variant = "default" }: CardProps) {
 		<div
 			className={cn(
 				"rounded-card bg-white",
-				variant === "default" && "border border-base-400",
-				variant === "bordered" && "border-2 border-primary-green",
+				"spring-bounce-10 spring-duration-300 transition",
+				variant === "default" && "border border-base-400 hover:shadow-sm",
+				variant === "bordered" && "border-2 border-primary-green hover:shadow-sm",
 				className,
 			)}
 		>
