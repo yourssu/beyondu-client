@@ -1,0 +1,218 @@
+// Figma Design Context - 상세 뷰 (/detail/:id)
+// Node ID: 121:1054, File Key: Jr6rZtdgE5nUcjdtgDX6nq
+// Figma URL: https://www.figma.com/design/Jr6rZtdgE5nUcjdtgDX6nq/?node-id=121-1054&m=dev
+//
+// Design Styles:
+// pretendard/bold/30: Font(family: "Pretendard Variable", style: Bold, size: 30, weight: 700, lineHeight: 36, letterSpacing: 0.3955)
+// pretendard/reg/16: Font(family: "Pretendard Variable", style: Regular, size: 16, weight: 400, lineHeight: 24, letterSpacing: 0)
+// pretendard/bold/16: Font(family: "Pretendard Variable", style: Bold, size: 16, weight: 700, lineHeight: 24, letterSpacing: 0)
+// heading-md: Font(family: "Inter/Noto Sans KR", style: Bold, size: 24, weight: 700, lineHeight: 32, letterSpacing: 0.07)
+// badge-sm: Font(family: "Inter/Noto Sans KR", style: SemiBold, size: 10, weight: 600, lineHeight: 20, letterSpacing: -0.15)
+
+export default function DetailViewReference() {
+	return (
+		<div
+			className="bg-white relative size-full"
+			data-name="학교 상세 페이지"
+			data-node-id="121:1054"
+		>
+			{/* 헤더 + 뒤로가기 */}
+			<div className="flex flex-col items-start" data-node-id="135:244">
+				{/* 헤더 영역 */}
+				<div
+					className="bg-white h-[90px] w-[1440px] overflow-clip"
+					data-node-id="143:310"
+				>
+					<p
+						className="font-['Chilanka'] text-[32px] text-[#062c05]"
+						data-node-id="143:311"
+					>
+						Beyond U
+					</p>
+				</div>
+
+				{/* 뒤로가기 버튼 */}
+				<div className="h-[37px] w-full" data-node-id="121:1127">
+					<div
+						className="flex items-center gap-[8px]"
+						data-node-id="121:1128"
+					>
+						{/* ArrowLeft icon */}
+						<p className="text-[16px] leading-[24px] text-[#443f3b] text-center">
+							뒤로가기
+						</p>
+					</div>
+				</div>
+			</div>
+
+			{/* 메인 컨텐츠 */}
+			<div
+				className="flex items-center justify-center pb-[64px] pt-[42px] w-[1440px]"
+				data-node-id="135:241"
+			>
+				<div className="flex flex-col gap-[40px]" data-node-id="135:231">
+					{/* 상단: 뱃지 + 대학명 + 메타정보 */}
+					<div className="flex flex-col gap-[8px]" data-node-id="135:228">
+						{/* 뱃지: 일반교환 */}
+						<div
+							className="bg-[#cde79a] rounded-full px-[11px] py-[4px] inline-flex"
+							data-node-id="121:1172"
+						>
+							<p className="font-semibold text-[10px] leading-[20px] text-[#443f3b] tracking-[-0.15px]">
+								일반교환
+							</p>
+						</div>
+
+						{/* 대학명 영문 + 한글 */}
+						<div className="flex flex-col gap-[8px]" data-node-id="135:225">
+							<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#0a0a0a]">
+								Universit of Oklahoma
+							</p>
+							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
+								오클라호마 대학교
+							</p>
+						</div>
+
+						{/* 홈페이지 링크 */}
+						<p className="text-[16px] leading-[24px] text-[#443f3b] underline">
+							오클라호마 대학교 홈페이지 가기→
+						</p>
+					</div>
+
+					{/* 위치 + 인원 + 후기 버튼 */}
+					<div
+						className="flex items-center justify-between w-[848px]"
+						data-node-id="188:950"
+					>
+						<div className="flex flex-col gap-[5px]" data-node-id="135:227">
+							{/* MapPin + 위치 */}
+							<div className="flex gap-[8px] items-center">
+								{/* MapPin icon 20x20 */}
+								<p className="text-[16px] leading-[24px] text-[#443f3b]">
+									Australia, Sydney
+								</p>
+							</div>
+							{/* Users + 인원 */}
+							<div className="flex gap-[8px] items-center">
+								{/* Users icon 20x20 */}
+								<p className="text-[16px] leading-[24px] text-[#443f3b]">
+									약 28,600 명
+								</p>
+							</div>
+						</div>
+
+						{/* 후기 보고서 보러가기 버튼 */}
+						<div
+							className="bg-[#4f3109] border border-[#0a0a0a] rounded-[5px] px-[278px] py-[16px] flex items-center justify-center"
+							data-node-id="188:943"
+						>
+							<span className="font-bold text-[16px] leading-[24px] text-white">
+								맞춤 학교 찾아보기
+							</span>
+						</div>
+					</div>
+
+					{/* 툴팁 (후기 버튼 위에 표시) */}
+					<div className="flex flex-col items-center" data-node-id="225:430">
+						<div className="bg-[#fbfff3] border border-[#c5c5c5] rounded-[4px] px-[10px]">
+							<p className="text-[10px] leading-[24px] text-black text-center">
+								생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!
+							</p>
+						</div>
+						{/* 삼각형 꼬리 */}
+					</div>
+
+					{/* 어학/학점 요구사항 InfoCards */}
+					<div
+						className="flex gap-[12px]"
+						data-name="Container"
+						data-node-id="121:1193"
+					>
+						{/* 어학 요구사항 InfoCard */}
+						<div
+							className="bg-white border-2 border-[#cde79a] rounded-[14px] p-[30px] flex flex-col gap-[12px]"
+							data-node-id="121:1203"
+						>
+							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
+								어학 요구사항
+							</p>
+							<div className="flex gap-[12px] items-center">
+								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+									IELTS 6.5
+								</p>
+								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+									/
+								</p>
+								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+									TOEFL 90
+								</p>
+							</div>
+							<p className="text-[16px] leading-[24px] text-[#443f3b]">
+								TOEIC, TOEFL ITP 제외
+							</p>
+						</div>
+
+						{/* 학점 요구사항 InfoCard */}
+						<div
+							className="bg-white border-2 border-[#cde79a] rounded-[14px] p-[30px] w-[240px] flex flex-col gap-[12px]"
+							data-node-id="121:1194"
+						>
+							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
+								학점 요구사항
+							</p>
+							<div className="flex gap-[12px] items-center">
+								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+									3.8
+								</p>
+								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+									/
+								</p>
+								<p className="font-bold text-[30px] leading-[36px] tracking-[0.4px] text-[#838c00]">
+									4.5
+								</p>
+							</div>
+						</div>
+					</div>
+
+					{/* 수학 가능 학과 ContentSection */}
+					<div className="flex flex-col gap-[16px]" data-node-id="123:1247">
+						<p className="font-bold text-[24px] leading-[32px] tracking-[0.07px] text-[#0a0a0a]">
+							수학 가능 학과
+						</p>
+						<div
+							className="bg-[#fafafa] rounded-[14px] p-[24px] w-[848px] flex flex-col gap-[16px]"
+							data-node-id="123:1250"
+						>
+							<p className="font-bold text-[16px] leading-[24px] text-[#0a0a0a] w-[800px]">
+								Science_Technology_Engineering and Mathematics,
+								Humanities_Arts and Social Sciences, Business, Creativity and
+								Practice, Nursing, Education, Health Sciences and Human Movement
+							</p>
+							<p className="text-[16px] leading-[24px] text-[#443f3b] underline">
+								수학가능과목 보러가기 →
+							</p>
+						</div>
+					</div>
+
+					{/* 참고사항 ContentSection */}
+					<div className="flex flex-col gap-[16px]" data-node-id="135:217">
+						<p className="font-bold text-[24px] leading-[32px] tracking-[0.07px] text-[#0a0a0a]">
+							참고사항
+						</p>
+						<div
+							className="bg-[#fafafa] rounded-[14px] p-[24px] w-[848px]"
+							data-node-id="135:220"
+						>
+							<div className="font-bold text-[16px] leading-[24px] text-[#0a0a0a]">
+								<p>oklahoma에 위치한 연구 중심 공립대학</p>
+								<p>등록금 약 $27,200/년</p>
+								<p>132 in national universities</p>
+								<p>(2020 us news&world report 랭킹)</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
