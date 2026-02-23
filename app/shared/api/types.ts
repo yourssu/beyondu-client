@@ -52,15 +52,18 @@ export interface UniversityDetailResponse {
 	languageRequirements: LanguageRequirementResponse[];
 	availableMajors: string[] | null;
 	courseListUrl: string | null;
+	/** 파견 학생 수 (e.g. "5~10명") */
 	studentCount: string | null;
 }
 
 export interface UniversitySearchParams {
+	/** 단일 국가 필터 (e.g. "일본") */
 	nation?: string;
 	isExchange?: boolean;
 	isVisit?: boolean;
 	search?: string;
 	gpa?: number;
+	/** 복수 국가 필터, 쉼표 구분 (e.g. "일본,미국") */
 	nations?: string;
 	major?: string;
 	hasReview?: boolean;

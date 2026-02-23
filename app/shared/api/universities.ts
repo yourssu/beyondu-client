@@ -10,10 +10,11 @@ export async function getUniversities(
 	client: KyInstance,
 	params?: UniversitySearchParams,
 ): Promise<ApiResponse<UniversityListResponse>> {
+	const searchParams = Object.fromEntries(
+		Object.entries(params ?? {}).filter(([, v]) => v !== undefined),
+	);
 	return client
-		.get("api/v1/universities", {
-			searchParams: params as Record<string, string | number | boolean>,
-		})
+		.get("api/v1/universities", { searchParams })
 		.json<ApiResponse<UniversityListResponse>>();
 }
 
