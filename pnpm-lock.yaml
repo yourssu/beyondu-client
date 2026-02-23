@@ -17,6 +17,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@suspensive/react':
+        specifier: ^3.19.0
+        version: 3.19.0(react@19.2.4)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1240,6 +1243,11 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  '@suspensive/react@3.19.0':
+    resolution: {integrity: sha512-EzR7KuJj0k8MtS+COcrt7aANh4MLUlA2B1mIZVlPUdUuhFnbU8AvvmG5Knl2e6JFttpZBoB0keUovQxg99EKHA==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tailwindcss/node@4.2.1':
     resolution: {integrity: sha512-jlx6sLk4EOwO6hHe1oCGm1Q4AN/s0rSrTTPBGPM0/RQ6Uylwq17FuU8IeJJKEjtc6K6O07zsvP+gDO6MMWo7pg==}
@@ -3209,6 +3217,10 @@ snapshots:
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
+
+  '@suspensive/react@3.19.0(react@19.2.4)':
+    dependencies:
+      react: 19.2.4
 
   '@tailwindcss/node@4.2.1':
     dependencies:

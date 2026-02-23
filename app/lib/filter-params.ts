@@ -28,7 +28,7 @@ export function deserializeFilterParams(params: URLSearchParams): FilterFormData
 export function toSearchApiParams(filters: FilterFormData): UniversitySearchParams {
 	return {
 		...(filters.major && { major: filters.major }),
-		...(filters.gpa && { gpa: Number(filters.gpa) }),
+		...(filters.gpa !== "" && { gpa: Number(filters.gpa) }),
 		...(filters.country && { nation: filters.country }),
 		...(filters.requireReview && { hasReview: true }),
 	};

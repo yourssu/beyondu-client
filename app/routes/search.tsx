@@ -1,7 +1,8 @@
 import { Search as SearchIcon } from "lucide-react";
-import { useState } from "react";
-import { isRouteErrorResponse, Link, useNavigation, useSearchParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigation, useSearchParams } from "react-router";
 
+import { cn } from "~/lib/cn";
 import {
 	deserializeFilterParams,
 	serializeFilterParams,
@@ -11,6 +12,7 @@ import { createApiClient, getUniversities } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
+import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
 import { SearchFilterBar } from "~/shared/components/search-filter-bar";
 import { UniversityCard } from "~/shared/components/university-card";
 import type { FilterFormData } from "~/shared/types/filter";
@@ -48,6 +50,10 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 	const isLoading = navigation.state === "loading";
 
 	const [filters, setFilters] = useState<FilterFormData>(loaderData.filters);
+
+	useEffect(() => {
+		setFilters(loaderData.filters);
+	}, [loaderData.filters]);
 
 	function handleSearch() {
 		setSearchParams(serializeFilterParams(filters));
@@ -105,7 +111,10 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
 						{/* University cards grid */}
 						<div
-							className={`spring-duration-200 mt-8 grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 lg:grid-cols-3 ${isLoading ? "pointer-events-none opacity-50" : ""}`}
+							className={cn(
+								"spring-duration-200 mt-8 grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 lg:grid-cols-3",
+								isLoading && "pointer-events-none opacity-50",
+							)}
 						>
 							{loaderData.universities.length > 0 ? (
 								loaderData.universities.map((university) => (
@@ -126,19 +135,5 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-	const is404 = isRouteErrorResponse(error) && error.status === 404;
-
-	return (
-		<div className="flex min-h-screen flex-col items-center justify-center gap-6">
-			<h1 className="text-base-900 text-style-heading-lg">
-				{is404 ? "페이지를 찾을 수 없습니다" : "오류가 발생했습니다"}
-			</h1>
-			<p className="text-base-700 text-style-body">
-				{is404 ? "요청하신 페이지가 존재하지 않습니다." : "잠시 후 다시 시도해주세요."}
-			</p>
-			<Link className="text-primary-brown text-style-body-bold underline" to="/">
-				홈으로 돌아가기
-			</Link>
-		</div>
-	);
+	return <RouteErrorFallback error={error} />;
 }

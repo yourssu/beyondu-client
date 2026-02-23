@@ -1,12 +1,12 @@
 import { HTTPError } from "ky";
 import { MapPin, Users } from "lucide-react";
-import { isRouteErrorResponse, Link } from "react-router";
 
 import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
 import { ContentSection } from "~/shared/components/content-section";
 import { Header } from "~/shared/components/header";
 import { InfoCard } from "~/shared/components/info-card";
+import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
 import { Badge } from "~/shared/ui/primitives/badge";
 import { Button } from "~/shared/ui/primitives/button";
 import { Tooltip } from "~/shared/ui/primitives/tooltip";
@@ -141,19 +141,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-	const is404 = isRouteErrorResponse(error) && error.status === 404;
-
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center gap-6">
-			<h1 className="text-base-900 text-style-heading-lg">
-				{is404 ? "페이지를 찾을 수 없습니다" : "오류가 발생했습니다"}
-			</h1>
-			<p className="text-base-700 text-style-body">
-				{is404 ? "요청하신 학교 정보를 찾을 수 없습니다." : "잠시 후 다시 시도해주세요."}
-			</p>
-			<Link className="text-primary-brown text-style-body-bold underline" to="/">
-				홈으로 돌아가기
-			</Link>
-		</div>
+		<RouteErrorFallback error={error} notFoundMessage="요청하신 학교 정보를 찾을 수 없습니다." />
 	);
 }
