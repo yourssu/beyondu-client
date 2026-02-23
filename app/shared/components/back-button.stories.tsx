@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { withRouter } from "../../../.storybook/decorators";
-
 import { BackButton } from "./back-button";
 
 const meta = {
-	title: "Components/BackButton",
 	component: BackButton,
 	decorators: [withRouter],
+	title: "Components/BackButton",
 } satisfies Meta<typeof BackButton>;
 
 export default meta;

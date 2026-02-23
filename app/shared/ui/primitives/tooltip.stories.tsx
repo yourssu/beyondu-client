@@ -4,12 +4,11 @@ import { Button } from "./button";
 import { Tooltip } from "./tooltip";
 
 const meta = {
-	title: "Primitives/Tooltip",
-	component: Tooltip,
 	args: {
-		content: "도움말 텍스트",
 		children: <Button>호버하세요</Button>,
+		content: "도움말 텍스트",
 	},
+	component: Tooltip,
 	decorators: [
 		(Story) => (
 			<div className="flex items-center justify-center p-20">
@@ -17,6 +16,7 @@ const meta = {
 			</div>
 		),
 	],
+	title: "Primitives/Tooltip",
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;

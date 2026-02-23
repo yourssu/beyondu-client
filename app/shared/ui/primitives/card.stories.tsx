@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Card } from "./card";
 
 const meta = {
-	title: "Primitives/Card",
-	component: Card,
 	args: {
 		children: <div className="p-6">카드 내용</div>,
 	},
+	component: Card,
+	title: "Primitives/Card",
 } satisfies Meta<typeof Card>;
 
 export default meta;

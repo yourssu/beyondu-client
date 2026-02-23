@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "./badge";
 
 const meta = {
-	title: "Primitives/Badge",
-	component: Badge,
 	args: {
 		children: "교환학생",
 	},
+	component: Badge,
+	title: "Primitives/Badge",
 } satisfies Meta<typeof Badge>;
 
 export default meta;

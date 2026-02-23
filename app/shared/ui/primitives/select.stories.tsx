@@ -3,19 +3,19 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Select } from "./select";
 
 const options = [
-	{ value: "toefl", label: "TOEFL" },
-	{ value: "ielts", label: "IELTS" },
-	{ value: "toeic", label: "TOEIC" },
-	{ value: "jlpt", label: "JLPT" },
+	{ label: "TOEFL", value: "toefl" },
+	{ label: "IELTS", value: "ielts" },
+	{ label: "TOEIC", value: "toeic" },
+	{ label: "JLPT", value: "jlpt" },
 ];
 
 const meta = {
-	title: "Primitives/Select",
-	component: Select,
 	args: {
 		options,
 		placeholder: "선택",
 	},
+	component: Select,
+	title: "Primitives/Select",
 } satisfies Meta<typeof Select>;
 
 export default meta;
@@ -27,6 +27,6 @@ export const WithValue: Story = {
 	args: { value: "toefl" },
 };
 
-export const Error: Story = {
+export const WithError: Story = {
 	args: { error: true },
 };

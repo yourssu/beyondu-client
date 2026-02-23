@@ -5,12 +5,12 @@ import { Combobox } from "./combobox";
 const suggestions = ["경영학과", "컴퓨터학부", "경제학과", "국제통상학과", "영어영문학과"];
 
 const meta = {
-	title: "Primitives/Combobox",
-	component: Combobox,
 	args: {
-		suggestions,
 		placeholder: "예: 경영학과, 컴퓨터학부",
+		suggestions,
 	},
+	component: Combobox,
+	title: "Primitives/Combobox",
 } satisfies Meta<typeof Combobox>;
 
 export default meta;
@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const WithSuggestions: Story = {
+export const Prefilled: Story = {
 	args: { value: "경" },
 };
 

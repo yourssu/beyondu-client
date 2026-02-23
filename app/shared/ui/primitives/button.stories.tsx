@@ -4,11 +4,11 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "./button";
 
 const meta = {
-	title: "Primitives/Button",
-	component: Button,
 	args: {
 		children: "버튼",
 	},
+	component: Button,
+	title: "Primitives/Button",
 } satisfies Meta<typeof Button>;
 
 export default meta;

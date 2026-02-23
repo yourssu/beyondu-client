@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { TextInput } from "./text-input";
 
 const meta = {
-	title: "Primitives/TextInput",
 	component: TextInput,
+	title: "Primitives/TextInput",
 } satisfies Meta<typeof TextInput>;
 
 export default meta;
@@ -16,7 +16,7 @@ export const WithPlaceholder: Story = {
 	args: { placeholder: "텍스트를 입력하세요" },
 };
 
-export const Error: Story = {
+export const WithError: Story = {
 	args: { error: true, placeholder: "잘못된 입력" },
 };
 

@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Tag } from "./tag";
 
 const meta = {
-	title: "Primitives/Tag",
-	component: Tag,
 	args: {
 		exchangeType: "교환학생",
 	},
+	component: Tag,
+	title: "Primitives/Tag",
 } satisfies Meta<typeof Tag>;
 
 export default meta;
