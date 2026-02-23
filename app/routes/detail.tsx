@@ -85,7 +85,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 							)}
 						</div>
 
-						<Tooltip content="생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!">
+						<Tooltip defaultOpen content="생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!">
 							<Button disabled={!university.hasReview}>후기 보고서 보러가기 &gt;</Button>
 						</Tooltip>
 					</div>

@@ -7,13 +7,14 @@ interface TooltipProps {
 	content: string;
 	children: ReactNode;
 	open?: boolean;
+	defaultOpen?: boolean;
 	className?: string;
 }
 
-export function Tooltip({ children, className, content, open }: TooltipProps) {
+export function Tooltip({ children, className, content, defaultOpen, open }: TooltipProps) {
 	return (
 		<TooltipPrimitive.Provider>
-			<TooltipPrimitive.Root open={open}>
+			<TooltipPrimitive.Root defaultOpen={defaultOpen} open={open}>
 				<TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
 				<TooltipPrimitive.Portal>
 					<TooltipPrimitive.Content
