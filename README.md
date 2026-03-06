@@ -1,79 +1,91 @@
-# Welcome to React Router!
+# Beyond U
 
-A modern, production-ready template for building full-stack React applications using React Router.
+교환학생 준비 가이드 앱의 클라이언트입니다.
 
-## Features
+## Tech Stack
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- **Framework:** React Router 7 (SSR)
+- **Runtime:** Cloudflare Workers
+- **Language:** TypeScript
+- **Styling:** TailwindCSS 4 + tailwindcss-spring
+- **UI:** Radix UI, lucide-react
+- **HTTP Client:** ky
+- **Linter/Formatter:** Biome
+- **Component Docs:** Storybook 10
+- **CI:** GitHub Actions (lint, typecheck, build)
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 22+
+- pnpm
+
 ### Installation
 
-Install the dependencies:
-
 ```bash
-npm install
+pnpm install
 ```
 
 ### Development
 
-Start the development server with HMR:
-
 ```bash
-npm run dev
+pnpm dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+`http://localhost:5173`에서 앱을 확인할 수 있습니다.
 
-## Previewing the Production Build
-
-Preview the production build locally:
+### Storybook
 
 ```bash
-npm run preview
+pnpm storybook
 ```
 
-## Building for Production
+`http://localhost:6006`에서 컴포넌트 문서를 확인할 수 있습니다.
 
-Create a production build:
+## Scripts
 
-```bash
-npm run build
+| Script | Description |
+| --- | --- |
+| `pnpm dev` | 개발 서버 실행 (HMR) |
+| `pnpm build` | 프로덕션 빌드 |
+| `pnpm preview` | 프로덕션 빌드 로컬 프리뷰 |
+| `pnpm deploy` | Cloudflare Workers 배포 |
+| `pnpm lint` | Biome 린트 검사 |
+| `pnpm lint:fix` | Biome 린트 자동 수정 |
+| `pnpm format` | Biome 포맷팅 |
+| `pnpm typecheck` | 타입 검사 |
+| `pnpm storybook` | Storybook 개발 서버 |
+| `pnpm build-storybook` | Storybook 빌드 |
+
+## Project Structure
+
+```
+app/
+├── routes/                  # 페이지 라우트
+│   ├── home.tsx             # / (메인 페이지)
+│   ├── search.tsx           # /search (검색)
+│   ├── detail.tsx           # /detail/:id (상세)
+│   └── api.universities.ts  # /api/universities (API 프록시)
+├── shared/
+│   ├── api/                 # API 클라이언트 및 타입
+│   ├── components/          # 공통 컴포넌트
+│   ├── ui/primitives/       # UI 프리미티브 (Button, Card, Select 등)
+│   └── types/               # 공유 타입
+├── lib/                     # 유틸리티 (cn, filter-params)
+├── app.css                  # 디자인 토큰 (@theme)
+├── root.tsx                 # 루트 레이아웃
+└── routes.ts                # 라우트 설정
 ```
 
 ## Deployment
 
-Deployment is done using the Wrangler CLI.
+Cloudflare Workers에 배포됩니다. 커스텀 도메인: `beyondu.urssu.com`
 
-To build and deploy directly to production:
+```bash
+# 프로덕션 배포
+pnpm deploy
 
-```sh
-npm run deploy
+# 프리뷰 배포
+pnpx wrangler versions upload
 ```
-
-To deploy a preview URL:
-
-```sh
-npx wrangler versions upload
-```
-
-You can then promote a version to production after verification or roll it out progressively.
-
-```sh
-npx wrangler versions deploy
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
