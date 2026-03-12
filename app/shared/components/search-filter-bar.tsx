@@ -1,8 +1,7 @@
 import { ArrowRight } from "lucide-react";
 
 import { cn } from "~/lib/cn";
-import countries from "~/shared/constants/countries.json";
-import languageCertificates from "~/shared/constants/language-certificates.json";
+import type { ExamTypeResponse } from "~/shared/api/types";
 import majors from "~/shared/constants/majors.json";
 import type { FilterFormData } from "~/shared/types/filter";
 import { Button } from "~/shared/ui/primitives/button";
@@ -16,6 +15,8 @@ interface SearchFilterBarProps {
 	filters: FilterFormData;
 	onFiltersChange: (filters: FilterFormData) => void;
 	onSubmit: () => void;
+	nations?: string[];
+	examTypes?: ExamTypeResponse[];
 	variant?: "compact" | "full";
 	disabled?: boolean;
 	className?: string;
@@ -25,6 +26,8 @@ export function SearchFilterBar({
 	filters,
 	onFiltersChange,
 	onSubmit,
+	nations = [],
+	examTypes = [],
 	variant = "compact",
 	disabled = false,
 	className,
@@ -72,7 +75,10 @@ export function SearchFilterBar({
 		<FormField label="보유한 언어 자격증">
 			<Select
 				onChange={handleLanguageCertChange}
-				options={languageCertificates}
+				options={[
+					{ label: "없음", value: "NONE" },
+					...examTypes.map((e) => ({ label: e.displayName, value: e.paramName })),
+				]}
 				placeholder="선택"
 				value={filters.languageCert}
 			/>
@@ -96,7 +102,7 @@ export function SearchFilterBar({
 				onChange={(v) => updateField("country", v)}
 				placeholder="예: 미국"
 				restrictToSuggestions
-				suggestions={countries}
+				suggestions={nations}
 				value={filters.country}
 			/>
 		</FormField>

@@ -56,6 +56,13 @@ export interface UniversityDetailResponse {
 	studentCount: string | null;
 }
 
+export interface ExamTypeResponse {
+	paramName: string;
+	displayName: string;
+	minScore: number;
+	maxScore: number;
+}
+
 export interface UniversitySearchParams {
 	/** 단일 국가 필터 (e.g. "일본") */
 	nation?: string;

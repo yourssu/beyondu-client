@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Loader2, RotateCw, Search as SearchIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
@@ -8,7 +8,7 @@ import {
 	serializeFilterParams,
 	toSearchApiParams,
 } from "~/lib/filter-params";
-import type { ApiResponse, UniversityListResponse } from "~/shared/api/types";
+import type { ApiResponse, ExamTypeResponse, UniversityListResponse } from "~/shared/api/types";
 import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
@@ -111,6 +111,22 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 	const [filters, setFilters] = useState<FilterFormData>(loaderData.filters);
 	const sentinelRef = useRef<HTMLDivElement>(null);
 
+	const { data: nationsData } = useQuery({
+		queryFn: async () => {
+			const res = await fetch("/api/meta/nations");
+			return res.json() as Promise<ApiResponse<string[]>>;
+		},
+		queryKey: ["meta", "nations"],
+	});
+
+	const { data: examTypesData } = useQuery({
+		queryFn: async () => {
+			const res = await fetch("/api/meta/exam-types");
+			return res.json() as Promise<ApiResponse<ExamTypeResponse[]>>;
+		},
+		queryKey: ["meta", "examTypes"],
+	});
+
 	useEffect(() => {
 		setFilters(loaderData.filters);
 	}, [loaderData.filters]);
@@ -174,7 +190,9 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 							</h2>
 							<SearchFilterBar
 								disabled={isLoading}
+								examTypes={examTypesData?.result ?? []}
 								filters={filters}
+								nations={nationsData?.result ?? []}
 								onFiltersChange={setFilters}
 								onSubmit={handleSearch}
 							/>
