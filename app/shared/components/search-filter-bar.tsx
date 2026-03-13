@@ -127,8 +127,8 @@ export function SearchFilterBar({
 					{languageCertField}
 					{scoreField}
 				</div>
-				{checkboxField}
 				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{countryField}</div>
+				{checkboxField}
 			</div>
 		);
 	}
@@ -136,12 +136,12 @@ export function SearchFilterBar({
 	return (
 		<div className={cn("flex flex-col gap-6", className)}>
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				<div className="flex items-end pb-3">{checkboxField}</div>
 				{majorField}
 				{gpaField}
 				{languageCertField}
 				{scoreField}
 				{countryField}
+				<div className="flex items-end pb-3">{checkboxField}</div>
 			</div>
 
 			<Button
