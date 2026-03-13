@@ -47,7 +47,7 @@ export function SearchFilterBar({
 	const isFull = variant === "full";
 
 	const majorField = (
-		<FormField label="전공">
+		<FormField label="전공" required>
 			<Combobox
 				onChange={(v) => updateField("major", v)}
 				placeholder="e.g. Business, Computer Science"
@@ -97,7 +97,7 @@ export function SearchFilterBar({
 	);
 
 	const countryField = (
-		<FormField label="희망 나라">
+		<FormField label="희망 나라" required>
 			<Combobox
 				onChange={(v) => updateField("country", v)}
 				placeholder="예: 미국"
@@ -127,8 +127,8 @@ export function SearchFilterBar({
 					{languageCertField}
 					{scoreField}
 				</div>
-				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{countryField}</div>
 				{checkboxField}
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{countryField}</div>
 			</div>
 		);
 	}
@@ -136,12 +136,12 @@ export function SearchFilterBar({
 	return (
 		<div className={cn("flex flex-col gap-6", className)}>
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				<div className="flex items-end pb-3">{checkboxField}</div>
 				{majorField}
 				{gpaField}
 				{languageCertField}
 				{scoreField}
 				{countryField}
-				<div className="flex items-end pb-3">{checkboxField}</div>
 			</div>
 
 			<Button

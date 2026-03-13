@@ -51,12 +51,7 @@ export default function Home() {
 		score: "",
 	});
 
-	const isFormComplete =
-		filters.major &&
-		filters.gpa &&
-		filters.languageCert &&
-		(filters.languageCert === "NONE" || filters.score) &&
-		filters.country;
+	const isFormComplete = filters.major && filters.country;
 
 	function handleSubmit() {
 		const params = serializeFilterParams(filters);
