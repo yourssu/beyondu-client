@@ -50,8 +50,8 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	return {
 		filters,
-		universities: response.result.universities,
 		pageInfo: response.result.pageInfo,
+		universities: response.result.universities,
 	};
 }
 
@@ -193,8 +193,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 									.join(" / ")}
 							</span>{" "}
 							] 의 조건으로 분석한{" "}
-							<span className="text-style-body-bold">{pageInfo.totalElements}개</span>
-							의 학교입니다.
+							<span className="text-style-body-bold">{pageInfo.totalElements}개</span>의 학교입니다.
 						</p>
 
 						{/* University cards grid */}
