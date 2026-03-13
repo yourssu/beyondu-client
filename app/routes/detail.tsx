@@ -1,5 +1,5 @@
 import { HTTPError } from "ky";
-import { MapPin, Users } from "lucide-react";
+import { ArrowRight, MapPin, Users } from "lucide-react";
 
 import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
@@ -12,6 +12,7 @@ import { Button } from "~/shared/ui/primitives/button";
 import { Tooltip } from "~/shared/ui/primitives/tooltip";
 
 import type { Route } from "./+types/detail";
+import { Link } from "react-router";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   return [{ title: `${loaderData?.university?.nameEng ?? "Error"} - Beyond U` }];
@@ -93,7 +94,9 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
               content="생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!"
               defaultOpen
             >
-              <Button disabled={!university.hasReview}>후기 보고서 보러가기 &gt;</Button>
+              <Link className="cursor-pointer" to="https://study.ssu.ac.kr/community/exp_list.do">
+                <Button disabled={!university.hasReview}>후기 보고서 보러가기 <ArrowRight /></Button>
+              </Link>
             </Tooltip>
           </div>
 
