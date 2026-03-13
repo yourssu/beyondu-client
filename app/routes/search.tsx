@@ -1,6 +1,6 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Loader2, RotateCw, Search as SearchIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Search as SearchIcon } from "lucide-react";
+import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 import {
@@ -8,7 +8,8 @@ import {
 	serializeFilterParams,
 	toSearchApiParams,
 } from "~/lib/filter-params";
-import type { ApiResponse, ExamTypeResponse, UniversityListResponse } from "~/shared/api/types";
+import { createApiClient, getUniversities } from "~/shared/api";
+import type { ApiResponse, ExamTypeResponse } from "~/shared/api/types";
 import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
@@ -17,6 +18,7 @@ import { SearchFilterBar } from "~/shared/components/search-filter-bar";
 import { UniversityCard } from "~/shared/components/university-card";
 import type { FilterFormData } from "~/shared/types/filter";
 import { Card } from "~/shared/ui/primitives/card";
+import { Pagination } from "~/shared/ui/primitives/pagination";
 
 import type { Route } from "./+types/search";
 
@@ -32,10 +34,25 @@ export function meta(_args: Route.MetaArgs) {
 	];
 }
 
-export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
 	const url = new URL(request.url);
 	const filters = deserializeFilterParams(url.searchParams);
-	return { filters };
+	const apiParams = toSearchApiParams(filters);
+
+	const page = Math.max(1, Number(url.searchParams.get("page") ?? "1"));
+
+	const client = createApiClient(context.cloudflare.env.API_BASE_URL);
+	const response = await getUniversities(client, {
+		...apiParams,
+		page: page - 1,
+		size: PAGE_SIZE,
+	});
+
+	return {
+		filters,
+		universities: response.result.universities,
+		pageInfo: response.result.pageInfo,
+	};
 }
 
 export function HydrateFallback() {
@@ -88,28 +105,12 @@ function SkeletonCard() {
 	);
 }
 
-async function fetchUniversities(
-	filters: FilterFormData,
-	page: number,
-): Promise<ApiResponse<UniversityListResponse>> {
-	const apiParams = toSearchApiParams(filters);
-	const searchParams = new URLSearchParams();
-
-	for (const [key, value] of Object.entries(apiParams)) {
-		if (value !== undefined) searchParams.set(key, String(value));
-	}
-	searchParams.set("page", String(page));
-	searchParams.set("size", String(PAGE_SIZE));
-
-	const response = await fetch(`/api/universities?${searchParams}`);
-	if (!response.ok) throw new Error("대학 목록을 불러올 수 없습니다.");
-	return response.json();
-}
-
 export default function Search({ loaderData }: Route.ComponentProps) {
-	const [, setSearchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [filters, setFilters] = useState<FilterFormData>(loaderData.filters);
-	const sentinelRef = useRef<HTMLDivElement>(null);
+
+	const { universities, pageInfo } = loaderData;
+	const currentPage = pageInfo.currentPage + 1;
 
 	const { data: nationsData } = useQuery({
 		queryFn: async () => {
@@ -127,45 +128,21 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 		queryKey: ["meta", "examTypes"],
 	});
 
-	useEffect(() => {
-		setFilters(loaderData.filters);
-	}, [loaderData.filters]);
-
-	const apiParams = toSearchApiParams(loaderData.filters);
-
-	const { data, isLoading, isError, refetch, isFetchingNextPage, hasNextPage, fetchNextPage } =
-		useInfiniteQuery({
-			getNextPageParam: (lastPage) => {
-				const { currentPage, isLast } = lastPage.result.pageInfo;
-				return isLast ? undefined : currentPage + 1;
-			},
-			initialPageParam: 0,
-			queryFn: ({ pageParam }) => fetchUniversities(loaderData.filters, pageParam),
-			queryKey: ["universities", apiParams],
-		});
-
-	useEffect(() => {
-		const sentinel = sentinelRef.current;
-		if (!sentinel) return;
-
-		const observer = new IntersectionObserver(
-			(entries) => {
-				if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-					fetchNextPage();
-				}
-			},
-			{ rootMargin: "200px" },
-		);
-
-		observer.observe(sentinel);
-		return () => observer.disconnect();
-	}, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-	const universities = data?.pages.flatMap((page) => page.result.universities) ?? [];
-	const totalElements = data?.pages[0]?.result.pageInfo.totalElements ?? 0;
-
 	function handleSearch() {
-		setSearchParams(serializeFilterParams(filters));
+		const params = serializeFilterParams(filters);
+		params.delete("page");
+		setSearchParams(params);
+	}
+
+	function pageHref(page: number) {
+		const params = new URLSearchParams(searchParams);
+		if (page <= 1) {
+			params.delete("page");
+		} else {
+			params.set("page", String(page));
+		}
+		const qs = params.toString();
+		return qs ? `?${qs}` : "?";
 	}
 
 	return (
@@ -189,7 +166,6 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 								내 정보를 입력하고 갈 수 있는 학교를 확인해보세요!
 							</h2>
 							<SearchFilterBar
-								disabled={isLoading}
 								examTypes={examTypesData?.result ?? []}
 								filters={filters}
 								nations={nationsData?.result ?? []}
@@ -199,50 +175,31 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 						</div>
 
 						{/* Result summary */}
-						{!isLoading && (
-							<p className="mt-8 text-base-700 text-style-body">
-								[{" "}
-								<span className="text-style-body-bold">
-									{[
-										loaderData.filters.major,
-										loaderData.filters.gpa ? `${loaderData.filters.gpa}점` : "",
-										loaderData.filters.languageCert &&
-										loaderData.filters.languageCert !== "NONE" &&
-										loaderData.filters.score
-											? `${loaderData.filters.languageCert} ${loaderData.filters.score}점`
-											: "",
-										loaderData.filters.country,
-										loaderData.filters.requireReview ? "후기 보고서 필수" : "",
-									]
-										.filter(Boolean)
-										.join(" / ")}
-								</span>{" "}
-								] 의 조건으로 분석한 <span className="text-style-body-bold">{totalElements}개</span>
-								의 학교입니다.
-							</p>
-						)}
+						<p className="mt-8 text-base-700 text-style-body">
+							[{" "}
+							<span className="text-style-body-bold">
+								{[
+									loaderData.filters.major,
+									loaderData.filters.gpa ? `${loaderData.filters.gpa}점` : "",
+									loaderData.filters.languageCert &&
+									loaderData.filters.languageCert !== "NONE" &&
+									loaderData.filters.score
+										? `${loaderData.filters.languageCert} ${loaderData.filters.score}점`
+										: "",
+									loaderData.filters.country,
+									loaderData.filters.requireReview ? "후기 보고서 필수" : "",
+								]
+									.filter(Boolean)
+									.join(" / ")}
+							</span>{" "}
+							] 의 조건으로 분석한{" "}
+							<span className="text-style-body-bold">{pageInfo.totalElements}개</span>
+							의 학교입니다.
+						</p>
 
 						{/* University cards grid */}
 						<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-							{isLoading ? (
-								Array.from({ length: PAGE_SIZE }).map((_, i) => (
-									// biome-ignore lint/suspicious/noArrayIndexKey: static skeleton list
-									<SkeletonCard key={i} />
-								))
-							) : isError ? (
-								<div className="col-span-full flex flex-col items-center justify-center gap-4 py-20">
-									<SearchIcon className="size-12 text-base-400" />
-									<p className="text-base-700 text-style-body">학교 목록을 불러오지 못했습니다</p>
-									<button
-										className="flex items-center gap-2 text-primary-green text-style-body-bold"
-										onClick={() => refetch()}
-										type="button"
-									>
-										<RotateCw className="size-4" />
-										다시 시도
-									</button>
-								</div>
-							) : universities.length > 0 ? (
+							{universities.length > 0 ? (
 								universities.map((university, index) => (
 									<div
 										className="h-full animate-card-stagger-in"
@@ -263,15 +220,13 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 							)}
 						</div>
 
-						{/* Infinite scroll sentinel */}
-						<div className="h-1" ref={sentinelRef} />
-
-						{/* Loading spinner for next page */}
-						{isFetchingNextPage && (
-							<div className="flex justify-center py-8">
-								<Loader2 className="size-6 animate-spin text-base-500" />
-							</div>
-						)}
+						{/* Pagination */}
+						<Pagination
+							buildHref={pageHref}
+							className="mt-10"
+							currentPage={currentPage}
+							totalPages={pageInfo.totalPages}
+						/>
 					</div>
 				</main>
 			</div>
