@@ -8,7 +8,7 @@
 	"compatibility_date": "2025-04-04",
 	"main": "./workers/app.ts",
 	"vars": {
-		"API_BASE_URL": "https://api.beyondu.yourssu.com"
+		"API_BASE_URL": "https://beyondu-api.yourssu.com"
 	},
 	"observability": {
 		"enabled": true
