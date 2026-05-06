@@ -1,5 +1,22 @@
-import type { UniversitySearchParams } from "~/shared/api/types";
+import type { LanguageExamParamName, UniversitySearchParams } from "~/shared/api/types";
 import type { FilterFormData } from "~/shared/types/filter";
+
+const LANGUAGE_EXAM_PARAM_NAMES = [
+	"TOEFL_IBT",
+	"TOEFL_ITP",
+	"IELTS",
+	"TOEIC",
+	"TOEIC_Speaking",
+	"HSK",
+	"JLPT",
+	"JPT",
+	"DELF",
+	"ZD",
+] as const satisfies readonly LanguageExamParamName[];
+
+function isLanguageExamParamName(value: string): value is LanguageExamParamName {
+	return LANGUAGE_EXAM_PARAM_NAMES.includes(value as LanguageExamParamName);
+}
 
 export function serializeFilterParams(filters: FilterFormData): URLSearchParams {
 	const params = new URLSearchParams();
@@ -26,10 +43,21 @@ export function deserializeFilterParams(params: URLSearchParams): FilterFormData
 }
 
 export function toSearchApiParams(filters: FilterFormData): UniversitySearchParams {
-	return {
+	const params: UniversitySearchParams = {
 		...(filters.major && { major: filters.major }),
 		...(filters.gpa !== "" && { gpa: Number(filters.gpa) }),
 		...(filters.country && { nation: filters.country }),
 		...(filters.requireReview && { hasReview: true }),
 	};
+
+	const languageScore = Number(filters.score);
+	if (
+		isLanguageExamParamName(filters.languageCert) &&
+		filters.score !== "" &&
+		Number.isFinite(languageScore)
+	) {
+		params[filters.languageCert] = languageScore;
+	}
+
+	return params;
 }

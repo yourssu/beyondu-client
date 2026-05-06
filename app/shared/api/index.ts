@@ -1,10 +1,21 @@
 export { createApiClient } from "./client";
-export { getExamTypes, getNations } from "./meta";
+export {
+	getExamTypes,
+	getLanguageGroups,
+	getMajors,
+	getNations,
+	getNationsByRegion,
+	getRegions,
+} from "./meta";
 export type {
 	ApiResponse,
 	ExamTypeResponse,
+	LanguageExamParamName,
 	LanguageRequirementResponse,
+	MajorCategoryResponse,
+	NationsByRegionResponse,
 	PageInfo,
+	SubMajorResponse,
 	UniversityDetailResponse,
 	UniversityListResponse,
 	UniversitySearchParams,
