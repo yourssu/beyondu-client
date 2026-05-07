@@ -1,32 +1,51 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
-import { SearchFilterBar } from "./search-filter-bar";
+import { SearchFilterBarCompact, SearchFilterBarFull } from "./search-filter-bar";
+
+const defaultFilters = {
+	gpa: "",
+	languageGroups: [],
+	languageTests: [],
+	majors: [],
+	nations: [],
+	regions: [],
+	requireReview: false,
+};
 
 const meta = {
 	args: {
-		filters: {
-			country: "",
-			gpa: "",
-			languageCert: "NONE",
-			major: "",
-			requireReview: false,
-			score: "",
-		},
+		filters: defaultFilters,
 		onFiltersChange: fn(),
 		onSubmit: fn(),
 	},
-	component: SearchFilterBar,
+	component: SearchFilterBarCompact,
 	title: "Components/SearchFilterBar",
-} satisfies Meta<typeof SearchFilterBar>;
+} satisfies Meta<typeof SearchFilterBarCompact>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type CompactStory = StoryObj<typeof meta>;
+type FullStory = StoryObj<typeof SearchFilterBarFull>;
 
-export const Compact: Story = {};
+export const Compact: CompactStory = {};
 
-export const Full: Story = {
+export const CompactWithChips: CompactStory = {
 	args: {
-		variant: "full",
+		filters: {
+			...defaultFilters,
+			gpa: "3.8",
+			languageTests: [{ examType: "TOEFL_IBT", score: "90" }],
+			majors: ["business", "computer science"],
+			nations: ["미국"],
+		},
 	},
+};
+
+export const Full: FullStory = {
+	args: {
+		filters: defaultFilters,
+		onFiltersChange: fn(),
+		onSubmit: fn(),
+	},
+	render: (args) => <SearchFilterBarFull {...args} />,
 };

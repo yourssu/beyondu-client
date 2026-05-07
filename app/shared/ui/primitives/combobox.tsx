@@ -6,6 +6,8 @@ interface ComboboxProps {
 	suggestions: string[];
 	value?: string;
 	onChange?: (value: string) => void;
+	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+	onSelect?: (value: string) => void;
 	placeholder?: string;
 	restrictToSuggestions?: boolean;
 	error?: boolean;
@@ -17,6 +19,8 @@ export function Combobox({
 	suggestions,
 	value = "",
 	onChange,
+	onKeyDown,
+	onSelect,
 	placeholder,
 	restrictToSuggestions = false,
 	error,
@@ -42,11 +46,15 @@ export function Combobox({
 
 	function selectItem(item: string) {
 		onChange?.(item);
+		onSelect?.(item);
 		setIsOpen(false);
 		setActiveIndex(-1);
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		onKeyDown?.(e);
+		if (e.defaultPrevented) return;
+
 		if (!isOpen && e.key === "ArrowDown") {
 			setIsOpen(true);
 			setActiveIndex(0);

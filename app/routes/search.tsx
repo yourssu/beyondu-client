@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router";
 
 import {
 	deserializeFilterParams,
-	findMajorParamName,
+	findMajorParamNames,
 	flattenMajorNames,
 	flattenNationsByRegion,
 	serializeFilterParams,
@@ -22,7 +22,7 @@ import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
-import { SearchFilterBar } from "~/shared/components/search-filter-bar";
+import { SearchFilterBarCompact } from "~/shared/components/search-filter-bar";
 import { UniversityCard } from "~/shared/components/university-card";
 import type { FilterFormData } from "~/shared/types/filter";
 import { Card } from "~/shared/ui/primitives/card";
@@ -49,10 +49,11 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const page = Math.max(1, Number(url.searchParams.get("page") ?? "1"));
 
 	const client = createApiClient(context.cloudflare.env.API_BASE_URL);
-	const majorParamName = filters.major
-		? findMajorParamName((await getMajors(client)).result, filters.major)
-		: undefined;
-	const apiParams = toSearchApiParams(filters, { majorParamName });
+	const majorParamNames =
+		filters.majors.length > 0
+			? findMajorParamNames((await getMajors(client)).result, filters.majors)
+			: undefined;
+	const apiParams = toSearchApiParams(filters, { majorParamNames });
 	const response = await getUniversities(client, {
 		...apiParams,
 		page: page - 1,
@@ -166,18 +167,21 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
 	const nations = flattenNationsByRegion(nationsByRegionData?.result);
 	const majorSuggestions = flattenMajorNames(majorsData?.result);
-	const selectedExamType = examTypesData?.result.find(
-		(examType) => examType.paramName === loaderData.filters.languageCert,
-	);
+	const examTypes = examTypesData?.result ?? [];
 	const selectedFilterLabels = [
-		loaderData.filters.major,
+		...loaderData.filters.majors,
+		...loaderData.filters.nations,
+		...loaderData.filters.regions,
+		...loaderData.filters.languageGroups,
+		...loaderData.filters.languageTests.map((test) => {
+			const displayName = examTypes.find(
+				(examType) => examType.paramName === test.examType,
+			)?.displayName;
+			return test.score
+				? `${displayName ?? test.examType} ${test.score}점`
+				: (displayName ?? test.examType);
+		}),
 		loaderData.filters.gpa ? `${loaderData.filters.gpa}점` : "",
-		loaderData.filters.languageCert &&
-		loaderData.filters.languageCert !== "NONE" &&
-		loaderData.filters.score
-			? `${selectedExamType?.displayName ?? loaderData.filters.languageCert} ${loaderData.filters.score}점`
-			: "",
-		loaderData.filters.country,
 		loaderData.filters.requireReview ? "후기 보고서 필수" : "",
 	].filter(Boolean);
 
@@ -201,8 +205,8 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 							<h2 className="mb-10 text-base-900 text-style-heading-lg">
 								내 정보를 입력하고 갈 수 있는 학교를 확인해보세요!
 							</h2>
-							<SearchFilterBar
-								examTypes={examTypesData?.result ?? []}
+							<SearchFilterBarCompact
+								examTypes={examTypes}
 								filters={filters}
 								majorSuggestions={majorSuggestions}
 								nations={nations}

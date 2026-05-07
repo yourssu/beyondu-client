@@ -28,11 +28,29 @@
 	--color-surface-glass: rgba(255, 255, 255, 0.8);
 	--color-surface-header: rgba(255, 255, 255, 0.6);
 
+	/* Colors - Chip */
+	--color-chip-green-bg: rgba(241, 255, 212, 0.4);
+	--color-chip-green-border: #bce961;
+	--color-chip-green-text: #718647;
+	--color-chip-orange-bg: rgba(255, 240, 220, 0.4);
+	--color-chip-orange-border: #fac886;
+	--color-chip-orange-text: #7c633d;
+	--color-chip-blue-bg: rgba(239, 254, 255, 0.4);
+	--color-chip-blue-border: #5ad2db;
+	--color-chip-blue-text: #2f939a;
+	--color-chip-blue-value: #165358;
+
 	/* Colors - Misc */
 	--color-logo: #062c05;
 
 	/* Spacing */
 	--spacing-header: 82px;
+	--spacing-filter-country: 360px;
+	--spacing-filter-language: 256px;
+	--spacing-filter-major: 260px;
+	--spacing-filter-gpa: 90px;
+	--spacing-filter-score: 112px;
+	--spacing-filter-button: 300px;
 
 	/* Blur */
 	--blur-campus: 25.2px;

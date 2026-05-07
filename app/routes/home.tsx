@@ -16,7 +16,7 @@ import type {
 } from "~/shared/api/types";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
-import { SearchFilterBar } from "~/shared/components/search-filter-bar";
+import { SearchFilterBarFull } from "~/shared/components/search-filter-bar";
 import type { FilterFormData } from "~/shared/types/filter";
 import { Button } from "~/shared/ui/primitives/button";
 
@@ -60,12 +60,13 @@ export default function Home() {
 	});
 
 	const [filters, setFilters] = useState<FilterFormData>({
-		country: "",
 		gpa: "",
-		languageCert: "NONE",
-		major: "",
+		languageGroups: [],
+		languageTests: [],
+		majors: [],
+		nations: [],
+		regions: [],
 		requireReview: false,
-		score: "",
 	});
 
 	const nations = flattenNationsByRegion(nationsByRegionData?.result);
@@ -96,14 +97,13 @@ export default function Home() {
 						</div>
 
 						{/* Form fields */}
-						<SearchFilterBar
+						<SearchFilterBarFull
 							examTypes={examTypesData?.result ?? []}
 							filters={filters}
 							majorSuggestions={majorSuggestions}
 							nations={nations}
 							onFiltersChange={setFilters}
 							onSubmit={handleSubmit}
-							variant="full"
 						/>
 
 						<div className="flex flex-col gap-2">
