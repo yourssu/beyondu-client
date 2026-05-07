@@ -52,9 +52,6 @@ export function Combobox({
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		onKeyDown?.(e);
-		if (e.defaultPrevented) return;
-
 		if (!isOpen && e.key === "ArrowDown") {
 			setIsOpen(true);
 			setActiveIndex(0);
@@ -62,29 +59,32 @@ export function Combobox({
 			return;
 		}
 
-		if (!isOpen) return;
-
-		switch (e.key) {
-			case "ArrowDown":
-				e.preventDefault();
-				setActiveIndex((prev) => (prev < filtered.length - 1 ? prev + 1 : prev));
-				break;
-			case "ArrowUp":
-				e.preventDefault();
-				setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
-				break;
-			case "Enter":
-				e.preventDefault();
-				if (activeIndex >= 0 && activeIndex < filtered.length) {
-					selectItem(filtered[activeIndex]);
-				}
-				break;
-			case "Escape":
-				e.preventDefault();
-				setIsOpen(false);
-				setActiveIndex(-1);
-				break;
+		if (isOpen) {
+			switch (e.key) {
+				case "ArrowDown":
+					e.preventDefault();
+					setActiveIndex((prev) => (prev < filtered.length - 1 ? prev + 1 : prev));
+					return;
+				case "ArrowUp":
+					e.preventDefault();
+					setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
+					return;
+				case "Enter":
+					if (activeIndex >= 0 && activeIndex < filtered.length) {
+						e.preventDefault();
+						selectItem(filtered[activeIndex]);
+						return;
+					}
+					break;
+				case "Escape":
+					e.preventDefault();
+					setIsOpen(false);
+					setActiveIndex(-1);
+					return;
+			}
 		}
+
+		onKeyDown?.(e);
 	}
 
 	function handleBlur() {
