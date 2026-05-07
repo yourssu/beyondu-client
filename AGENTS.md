@@ -51,7 +51,7 @@
 - API types: `app/shared/api/types.ts`
 - Environment: SSR on Cloudflare Workers
 - Base URL configured via `wrangler.jsonc` env vars
-- Validate types against Swagger docs at https://api.beyondu.yourssu.com/v3/api-docs
+- Validate types against Swagger docs at https://beyondu-api.yourssu.com/v3/api-docs
 
 ## Git & Commit Workflow
 

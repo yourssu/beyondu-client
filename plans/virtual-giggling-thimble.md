@@ -16,7 +16,7 @@
 ### 1. 환경 변수 추가
 
 **파일: `wrangler.jsonc`**
-- `vars`에 `API_BASE_URL: "https://api.beyondu.yourssu.com"` 추가
+- `vars`에 `API_BASE_URL: "https://beyondu-api.yourssu.com"` 추가
 
 **파일: `worker-configuration.d.ts`**
 - `wrangler types` 재실행하여 `Env` 타입에 `API_BASE_URL` 반영 (`pnpm wrangler types`)
