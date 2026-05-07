@@ -27,6 +27,19 @@ function normalizeFilterValue(value: string) {
 	return value.trim().toLowerCase();
 }
 
+export function normalizeFilterFormData(filters: FilterFormData): FilterFormData {
+	const languageCert = filters.languageCert;
+
+	return {
+		country: filters.country.trim(),
+		gpa: filters.gpa.trim(),
+		languageCert,
+		major: filters.major.trim(),
+		requireReview: filters.requireReview,
+		score: languageCert === "NONE" ? "" : filters.score.trim(),
+	};
+}
+
 export function flattenMajorNames(majorCategories?: MajorCategoryResponse[]): string[] {
 	return Array.from(
 		new Set(
@@ -60,50 +73,57 @@ interface SearchApiParamsOptions {
 }
 
 export function serializeFilterParams(filters: FilterFormData): URLSearchParams {
+	const normalizedFilters = normalizeFilterFormData(filters);
 	const params = new URLSearchParams();
-	if (filters.major) params.set("major", filters.major);
-	if (filters.gpa) params.set("gpa", filters.gpa);
-	if (filters.languageCert && filters.languageCert !== "NONE")
-		params.set("languageCert", filters.languageCert);
-	if (filters.languageCert && filters.languageCert !== "NONE" && filters.score)
-		params.set("score", filters.score);
-	if (filters.country) params.set("country", filters.country);
-	if (filters.requireReview) params.set("requireReview", "true");
+	if (normalizedFilters.major) params.set("major", normalizedFilters.major);
+	if (normalizedFilters.gpa) params.set("gpa", normalizedFilters.gpa);
+	if (normalizedFilters.languageCert && normalizedFilters.languageCert !== "NONE")
+		params.set("languageCert", normalizedFilters.languageCert);
+	if (
+		normalizedFilters.languageCert &&
+		normalizedFilters.languageCert !== "NONE" &&
+		normalizedFilters.score
+	)
+		params.set("score", normalizedFilters.score);
+	if (normalizedFilters.country) params.set("country", normalizedFilters.country);
+	if (normalizedFilters.requireReview) params.set("requireReview", "true");
 	return params;
 }
 
 export function deserializeFilterParams(params: URLSearchParams): FilterFormData {
-	return {
+	return normalizeFilterFormData({
 		country: params.get("country") ?? "",
 		gpa: params.get("gpa") ?? "",
 		languageCert: params.get("languageCert") ?? "NONE",
 		major: params.get("major") ?? "",
 		requireReview: params.get("requireReview") === "true",
 		score: params.get("score") ?? "",
-	};
+	});
 }
 
 export function toSearchApiParams(
 	filters: FilterFormData,
 	options?: SearchApiParamsOptions,
 ): UniversitySearchParams {
-	const major = filters.major.trim();
-	const country = filters.country.trim();
-	const gpa = Number(filters.gpa);
+	const normalizedFilters = normalizeFilterFormData(filters);
+	const gpa = Number(normalizedFilters.gpa);
 	const params: UniversitySearchParams = {
-		...(major && (options?.majorParamName ? { majors: [options.majorParamName] } : { major })),
-		...(filters.gpa !== "" && Number.isFinite(gpa) && { gpa }),
-		...(country && { nations: [country] }),
-		...(filters.requireReview && { hasReview: true }),
+		...(normalizedFilters.major &&
+			(options?.majorParamName
+				? { majors: [options.majorParamName] }
+				: { major: normalizedFilters.major })),
+		...(normalizedFilters.gpa !== "" && Number.isFinite(gpa) && { gpa }),
+		...(normalizedFilters.country && { nations: [normalizedFilters.country] }),
+		...(normalizedFilters.requireReview && { hasReview: true }),
 	};
 
-	const languageScore = Number(filters.score);
+	const languageScore = Number(normalizedFilters.score);
 	if (
-		isLanguageExamParamName(filters.languageCert) &&
-		filters.score !== "" &&
+		isLanguageExamParamName(normalizedFilters.languageCert) &&
+		normalizedFilters.score !== "" &&
 		Number.isFinite(languageScore)
 	) {
-		params[filters.languageCert] = languageScore;
+		params[normalizedFilters.languageCert] = languageScore;
 	}
 
 	return params;
