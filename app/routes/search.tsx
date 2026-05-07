@@ -5,11 +5,19 @@ import { useSearchParams } from "react-router";
 
 import {
 	deserializeFilterParams,
+	findMajorParamName,
+	flattenMajorNames,
+	flattenNationsByRegion,
 	serializeFilterParams,
 	toSearchApiParams,
 } from "~/lib/filter-params";
-import { createApiClient, getUniversities } from "~/shared/api";
-import type { ApiResponse, ExamTypeResponse } from "~/shared/api/types";
+import { createApiClient, getMajors, getUniversities } from "~/shared/api";
+import type {
+	ApiResponse,
+	ExamTypeResponse,
+	MajorCategoryResponse,
+	NationsByRegionResponse,
+} from "~/shared/api/types";
 import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
@@ -37,11 +45,14 @@ export function meta(_args: Route.MetaArgs) {
 export async function loader({ request, context }: Route.LoaderArgs) {
 	const url = new URL(request.url);
 	const filters = deserializeFilterParams(url.searchParams);
-	const apiParams = toSearchApiParams(filters);
 
 	const page = Math.max(1, Number(url.searchParams.get("page") ?? "1"));
 
 	const client = createApiClient(context.cloudflare.env.API_BASE_URL);
+	const majorParamName = filters.major
+		? findMajorParamName((await getMajors(client)).result, filters.major)
+		: undefined;
+	const apiParams = toSearchApiParams(filters, { majorParamName });
 	const response = await getUniversities(client, {
 		...apiParams,
 		page: page - 1,
@@ -112,12 +123,20 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 	const { universities, pageInfo } = loaderData;
 	const currentPage = pageInfo.currentPage + 1;
 
-	const { data: nationsData } = useQuery({
+	const { data: nationsByRegionData } = useQuery({
 		queryFn: async () => {
-			const res = await fetch("/api/meta/nations");
-			return res.json() as Promise<ApiResponse<string[]>>;
+			const res = await fetch("/api/meta/nations-by-region");
+			return res.json() as Promise<ApiResponse<NationsByRegionResponse[]>>;
 		},
-		queryKey: ["meta", "nations"],
+		queryKey: ["meta", "nationsByRegion"],
+	});
+
+	const { data: majorsData } = useQuery({
+		queryFn: async () => {
+			const res = await fetch("/api/meta/majors");
+			return res.json() as Promise<ApiResponse<MajorCategoryResponse[]>>;
+		},
+		queryKey: ["meta", "majors"],
 	});
 
 	const { data: examTypesData } = useQuery({
@@ -145,6 +164,23 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 		return qs ? `?${qs}` : "?";
 	}
 
+	const nations = flattenNationsByRegion(nationsByRegionData?.result);
+	const majorSuggestions = flattenMajorNames(majorsData?.result);
+	const selectedExamType = examTypesData?.result.find(
+		(examType) => examType.paramName === loaderData.filters.languageCert,
+	);
+	const selectedFilterLabels = [
+		loaderData.filters.major,
+		loaderData.filters.gpa ? `${loaderData.filters.gpa}점` : "",
+		loaderData.filters.languageCert &&
+		loaderData.filters.languageCert !== "NONE" &&
+		loaderData.filters.score
+			? `${selectedExamType?.displayName ?? loaderData.filters.languageCert} ${loaderData.filters.score}점`
+			: "",
+		loaderData.filters.country,
+		loaderData.filters.requireReview ? "후기 보고서 필수" : "",
+	].filter(Boolean);
+
 	return (
 		<div className="relative min-h-screen overflow-hidden">
 			<CampusBackground />
@@ -168,7 +204,8 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 							<SearchFilterBar
 								examTypes={examTypesData?.result ?? []}
 								filters={filters}
-								nations={nationsData?.result ?? []}
+								majorSuggestions={majorSuggestions}
+								nations={nations}
 								onFiltersChange={setFilters}
 								onSubmit={handleSearch}
 							/>
@@ -176,23 +213,14 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
 						{/* Result summary */}
 						<p className="mt-8 text-base-700 text-style-body">
-							[{" "}
-							<span className="text-style-body-bold">
-								{[
-									loaderData.filters.major,
-									loaderData.filters.gpa ? `${loaderData.filters.gpa}점` : "",
-									loaderData.filters.languageCert &&
-									loaderData.filters.languageCert !== "NONE" &&
-									loaderData.filters.score
-										? `${loaderData.filters.languageCert} ${loaderData.filters.score}점`
-										: "",
-									loaderData.filters.country,
-									loaderData.filters.requireReview ? "후기 보고서 필수" : "",
-								]
-									.filter(Boolean)
-									.join(" / ")}
-							</span>{" "}
-							] 의 조건으로 분석한{" "}
+							{selectedFilterLabels.length > 0 ? (
+								<>
+									[ <span className="text-style-body-bold">{selectedFilterLabels.join(" / ")}</span>{" "}
+									] 의 조건으로 분석한{" "}
+								</>
+							) : (
+								"전체 조건으로 분석한 "
+							)}
 							<span className="text-style-body-bold">{pageInfo.totalElements}개</span>의 학교입니다.
 						</p>
 

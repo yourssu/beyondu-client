@@ -3,8 +3,17 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { serializeFilterParams } from "~/lib/filter-params";
-import type { ApiResponse, ExamTypeResponse } from "~/shared/api/types";
+import {
+	flattenMajorNames,
+	flattenNationsByRegion,
+	serializeFilterParams,
+} from "~/lib/filter-params";
+import type {
+	ApiResponse,
+	ExamTypeResponse,
+	MajorCategoryResponse,
+	NationsByRegionResponse,
+} from "~/shared/api/types";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import { SearchFilterBar } from "~/shared/components/search-filter-bar";
@@ -26,12 +35,20 @@ export function meta(_args: Route.MetaArgs) {
 export default function Home() {
 	const navigate = useNavigate();
 
-	const { data: nationsData } = useQuery({
+	const { data: nationsByRegionData } = useQuery({
 		queryFn: async () => {
-			const res = await fetch("/api/meta/nations");
-			return res.json() as Promise<ApiResponse<string[]>>;
+			const res = await fetch("/api/meta/nations-by-region");
+			return res.json() as Promise<ApiResponse<NationsByRegionResponse[]>>;
 		},
-		queryKey: ["meta", "nations"],
+		queryKey: ["meta", "nationsByRegion"],
+	});
+
+	const { data: majorsData } = useQuery({
+		queryFn: async () => {
+			const res = await fetch("/api/meta/majors");
+			return res.json() as Promise<ApiResponse<MajorCategoryResponse[]>>;
+		},
+		queryKey: ["meta", "majors"],
 	});
 
 	const { data: examTypesData } = useQuery({
@@ -51,11 +68,13 @@ export default function Home() {
 		score: "",
 	});
 
-	const isFormComplete = filters.major && filters.country;
+	const nations = flattenNationsByRegion(nationsByRegionData?.result);
+	const majorSuggestions = flattenMajorNames(majorsData?.result);
 
 	function handleSubmit() {
 		const params = serializeFilterParams(filters);
-		navigate(`/search?${params.toString()}`, { viewTransition: true });
+		const query = params.toString();
+		navigate(query ? `/search?${query}` : "/search", { viewTransition: true });
 	}
 
 	return (
@@ -80,7 +99,8 @@ export default function Home() {
 						<SearchFilterBar
 							examTypes={examTypesData?.result ?? []}
 							filters={filters}
-							nations={nationsData?.result ?? []}
+							majorSuggestions={majorSuggestions}
+							nations={nations}
 							onFiltersChange={setFilters}
 							onSubmit={handleSubmit}
 							variant="full"
@@ -88,13 +108,7 @@ export default function Home() {
 
 						<div className="flex flex-col gap-2">
 							{/* CTA Button */}
-							{!isFormComplete && (
-								<p className="w-full text-center text-red-500 text-style-caption">
-									빈칸에 정보를 입력해주세요
-								</p>
-							)}
 							<Button
-								disabled={!isFormComplete}
 								fullWidth
 								onClick={handleSubmit}
 								rightIcon={<ArrowRight className="size-5" />}

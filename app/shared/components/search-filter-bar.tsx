@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 
 import { cn } from "~/lib/cn";
 import type { ExamTypeResponse } from "~/shared/api/types";
-import majors from "~/shared/constants/majors.json";
 import type { FilterFormData } from "~/shared/types/filter";
 import { Button } from "~/shared/ui/primitives/button";
 import { Checkbox } from "~/shared/ui/primitives/checkbox";
@@ -16,6 +15,7 @@ interface SearchFilterBarProps {
 	onFiltersChange: (filters: FilterFormData) => void;
 	onSubmit: () => void;
 	nations?: string[];
+	majorSuggestions?: string[];
 	examTypes?: ExamTypeResponse[];
 	variant?: "compact" | "full";
 	disabled?: boolean;
@@ -27,6 +27,7 @@ export function SearchFilterBar({
 	onFiltersChange,
 	onSubmit,
 	nations = [],
+	majorSuggestions = [],
 	examTypes = [],
 	variant = "compact",
 	disabled = false,
@@ -45,14 +46,17 @@ export function SearchFilterBar({
 	}
 
 	const isFull = variant === "full";
+	const selectedExamType = examTypes.find(
+		(examType) => examType.paramName === filters.languageCert,
+	);
 
 	const majorField = (
-		<FormField label="전공" required>
+		<FormField label="전공">
 			<Combobox
 				onChange={(v) => updateField("major", v)}
 				placeholder="e.g. Business, Computer Science"
-				restrictToSuggestions
-				suggestions={majors}
+				restrictToSuggestions={majorSuggestions.length > 0}
+				suggestions={majorSuggestions}
 				value={filters.major}
 			/>
 		</FormField>
@@ -89,19 +93,24 @@ export function SearchFilterBar({
 		<FormField label="점수">
 			<NumberInput
 				disabled={filters.languageCert === "NONE"}
+				max={selectedExamType?.maxScore}
+				min={selectedExamType?.minScore}
 				onChange={(e) => updateField("score", e.target.value)}
-				placeholder="예: 800"
+				placeholder={
+					selectedExamType ? `${selectedExamType.minScore}~${selectedExamType.maxScore}` : "예: 800"
+				}
+				step="any"
 				value={filters.score}
 			/>
 		</FormField>
 	);
 
 	const countryField = (
-		<FormField label="희망 나라" required>
+		<FormField label="희망 나라">
 			<Combobox
 				onChange={(v) => updateField("country", v)}
 				placeholder="예: 미국"
-				restrictToSuggestions
+				restrictToSuggestions={nations.length > 0}
 				suggestions={nations}
 				value={filters.country}
 			/>
