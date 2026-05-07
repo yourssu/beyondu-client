@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -18,7 +17,6 @@ import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import { SearchFilterBarFull } from "~/shared/components/search-filter-bar";
 import type { FilterFormData } from "~/shared/types/filter";
-import { Button } from "~/shared/ui/primitives/button";
 
 import type { Route } from "./+types/home";
 
@@ -72,8 +70,8 @@ export default function Home() {
 	const nations = flattenNationsByRegion(nationsByRegionData?.result);
 	const majorSuggestions = flattenMajorNames(majorsData?.result);
 
-	function handleSubmit() {
-		const params = serializeFilterParams(filters);
+	function handleSubmit(nextFilters = filters) {
+		const params = serializeFilterParams(nextFilters);
 		const query = params.toString();
 		navigate(query ? `/search?${query}` : "/search", { viewTransition: true });
 	}
@@ -87,37 +85,14 @@ export default function Home() {
 				<Header />
 
 				<main className="mx-auto flex max-w-5xl justify-center px-4 py-9">
-					<div className="flex w-full max-w-form flex-col gap-10 border border-primary-brown bg-surface-glass px-6 py-10 sm:px-18">
-						{/* Title */}
-						<div className="flex flex-col gap-2">
-							<h1 className="text-base-900 text-style-heading-lg">내 정보 입력하기</h1>
-							<p className="text-base-900 text-style-body">
-								입력하신 정보를 바탕으로 지원 가능 여부를 분석합니다
-							</p>
-						</div>
-
-						{/* Form fields */}
-						<SearchFilterBarFull
-							examTypes={examTypesData?.result ?? []}
-							filters={filters}
-							majorSuggestions={majorSuggestions}
-							nations={nations}
-							onFiltersChange={setFilters}
-							onSubmit={handleSubmit}
-						/>
-
-						<div className="flex flex-col gap-2">
-							{/* CTA Button */}
-							<Button
-								fullWidth
-								onClick={handleSubmit}
-								rightIcon={<ArrowRight className="size-5" />}
-								size="lg"
-							>
-								맞춤 학교 찾아보기
-							</Button>
-						</div>
-					</div>
+					<SearchFilterBarFull
+						examTypes={examTypesData?.result ?? []}
+						filters={filters}
+						majorSuggestions={majorSuggestions}
+						nations={nations}
+						onFiltersChange={setFilters}
+						onSubmit={handleSubmit}
+					/>
 				</main>
 			</div>
 		</div>

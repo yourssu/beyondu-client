@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 import { cn } from "~/lib/cn";
@@ -14,7 +15,7 @@ import { Select } from "~/shared/ui/primitives/select";
 interface SearchFilterBarProps {
 	filters: FilterFormData;
 	onFiltersChange: (filters: FilterFormData) => void;
-	onSubmit: () => void;
+	onSubmit: (filters?: FilterFormData) => void;
 	nations?: string[];
 	majorSuggestions?: string[];
 	examTypes?: ExamTypeResponse[];
@@ -140,16 +141,21 @@ function SelectedFilterChips({
 
 export function SearchFilterBarFull({
 	className,
+	disabled = false,
 	examTypes = [],
 	filters,
 	majorSuggestions = [],
 	nations = [],
 	onFiltersChange,
+	onSubmit,
 }: SearchFilterBarProps) {
 	const [majorInput, setMajorInput] = useState("");
 	const [nationInput, setNationInput] = useState("");
 	const [languageCert, setLanguageCert] = useState<LanguageExamParamName | "NONE">("NONE");
-	const [score, setScore] = useState("");
+	const [showValidation, setShowValidation] = useState(false);
+
+	const nationError = showValidation && filters.nations.length === 0;
+	const majorError = showValidation && filters.majors.length === 0;
 
 	function addMajor(value = majorInput) {
 		const next = upsertString(filters.majors, value);
@@ -173,94 +179,136 @@ export function SearchFilterBarFull({
 		setNationInput("");
 	}
 
-	function applyLanguageTest() {
-		if (languageCert === "NONE" || !score.trim()) return;
+	function selectLanguageCert(value: string) {
+		const nextLanguageCert = value as LanguageExamParamName | "NONE";
+		setLanguageCert(nextLanguageCert);
 		onFiltersChange({
 			...filters,
-			languageTests: upsertLanguageTest(filters.languageTests, languageCert, score),
+			languageTests:
+				nextLanguageCert === "NONE"
+					? []
+					: upsertLanguageTest(filters.languageTests, nextLanguageCert, ""),
 		});
-		setScore("");
+	}
+
+	function handleSubmit() {
+		const nextFilters = {
+			...filters,
+			majors: upsertString(filters.majors, majorInput),
+			nations: upsertString(filters.nations, nationInput),
+		};
+		setShowValidation(true);
+		onFiltersChange(nextFilters);
+		if (nextFilters.nations.length === 0 || nextFilters.majors.length === 0) return;
+		onSubmit(nextFilters);
 	}
 
 	return (
-		<div className={cn("flex w-full flex-col gap-9", className)}>
-			<SelectedFilterChips
-				examTypes={examTypes}
-				filters={filters}
-				onFiltersChange={onFiltersChange}
-			/>
+		<div
+			className={cn(
+				"mx-auto flex w-full max-w-2xl flex-col items-center gap-14 rounded-3xl border border-primary-brown bg-surface-glass px-24 pt-14 pb-12",
+				className,
+			)}
+		>
+			<div className="flex w-full max-w-md flex-col gap-16">
+				<div className="flex flex-col gap-2">
+					<h2 className="text-base-900 text-style-heading-lg">나의 조건 입력하기</h2>
+					<p className="text-base-900 text-style-body">
+						입력하신 정보를 바탕으로 지원 가능한 학교를 분석합니다
+					</p>
+				</div>
 
-			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-				<FormField label="전공">
-					<Combobox
-						onChange={setMajorInput}
-						onKeyDown={(e) => {
-							if (e.key === "Enter") addMajor();
-						}}
-						onSelect={selectMajor}
-						placeholder="e.g. Business, Computer Science"
-						restrictToSuggestions={majorSuggestions.length > 0}
-						suggestions={majorSuggestions}
-						value={majorInput}
+				<div className="flex flex-col gap-9">
+					<SelectedFilterChips
+						examTypes={examTypes}
+						filters={filters}
+						onFiltersChange={onFiltersChange}
 					/>
-				</FormField>
-				<FormField label="학점 (4.5 만점)">
-					<NumberInput
-						max={4.5}
-						min={0}
-						onBlur={(e) => onFiltersChange({ ...filters, gpa: e.target.value })}
-						onChange={(e) => onFiltersChange({ ...filters, gpa: e.target.value })}
-						placeholder="예: 3.8"
-						step={0.1}
-						value={filters.gpa}
-					/>
-				</FormField>
+
+					<FormField
+						error={nationError ? "희망하는 나라 또는 대륙을 입력해 주세요." : undefined}
+						label="희망하는 나라 또는 대륙"
+						required
+						requiredLabel="(필수)"
+					>
+						<Combobox
+							className="w-full"
+							error={nationError}
+							onChange={setNationInput}
+							onKeyDown={(e) => {
+								if (e.key === "Enter") addNation();
+							}}
+							onSelect={selectNation}
+							placeholder="미국, 유럽"
+							restrictToSuggestions={nations.length > 0}
+							suggestions={nations}
+							value={nationInput}
+						/>
+					</FormField>
+
+					<FormField className="w-64" label="준비할 언어 자격증">
+						<Select
+							onChange={selectLanguageCert}
+							options={[
+								{ label: "없음", value: "NONE" },
+								...examTypes.map((e) => ({ label: e.displayName, value: e.paramName })),
+							]}
+							placeholder="TOEIC"
+							value={languageCert}
+						/>
+					</FormField>
+
+					<FormField
+						error={majorError ? "수강 희망 전공을 입력해 주세요." : undefined}
+						label="수강 희망 전공"
+						required
+						requiredLabel="(필수)"
+					>
+						<Combobox
+							className="w-full"
+							error={majorError}
+							onChange={setMajorInput}
+							onKeyDown={(e) => {
+								if (e.key === "Enter") addMajor();
+							}}
+							onSelect={selectMajor}
+							placeholder="숭실대 전공 검색으로도 탐색할 수 있어요!"
+							restrictToSuggestions={majorSuggestions.length > 0}
+							suggestions={majorSuggestions}
+							value={majorInput}
+						/>
+					</FormField>
+
+					<FormField className="w-64" label="나의 학점 (4.5 만점)">
+						<NumberInput
+							max={4.5}
+							min={0}
+							onBlur={(e) => onFiltersChange({ ...filters, gpa: e.target.value })}
+							onChange={(e) => onFiltersChange({ ...filters, gpa: e.target.value })}
+							placeholder="3.8"
+							step={0.1}
+							value={filters.gpa}
+						/>
+					</FormField>
+				</div>
 			</div>
 
-			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-				<FormField label="보유한 언어 자격증">
-					<Select
-						onChange={(value) => setLanguageCert(value as LanguageExamParamName | "NONE")}
-						options={[
-							{ label: "없음", value: "NONE" },
-							...examTypes.map((e) => ({ label: e.displayName, value: e.paramName })),
-						]}
-						placeholder="선택"
-						value={languageCert}
-					/>
-				</FormField>
-				<FormField label="점수">
-					<NumberInput
-						disabled={languageCert === "NONE"}
-						onBlur={applyLanguageTest}
-						onChange={(e) => setScore(e.target.value)}
-						placeholder="예: 800"
-						step="any"
-						value={score}
-					/>
-				</FormField>
+			<div className="flex flex-col items-center gap-4">
+				<Checkbox
+					checked={filters.requireReview}
+					label="후기 보고서 필수 여부"
+					onChange={(requireReview) => onFiltersChange({ ...filters, requireReview })}
+				/>
+				<Button
+					className="w-80 rounded-lg"
+					disabled={disabled}
+					onClick={handleSubmit}
+					rightIcon={<ArrowRight className="size-5" />}
+					size="lg"
+				>
+					맞춤 학교 찾아보기
+				</Button>
 			</div>
-
-			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-				<FormField label="희망 나라">
-					<Combobox
-						onChange={setNationInput}
-						onKeyDown={(e) => {
-							if (e.key === "Enter") addNation();
-						}}
-						onSelect={selectNation}
-						placeholder="예: 미국"
-						restrictToSuggestions={nations.length > 0}
-						suggestions={nations}
-						value={nationInput}
-					/>
-				</FormField>
-			</div>
-			<Checkbox
-				checked={filters.requireReview}
-				label="후기 보고서 필수 여부"
-				onChange={(requireReview) => onFiltersChange({ ...filters, requireReview })}
-			/>
 		</div>
 	);
 }
@@ -381,7 +429,12 @@ export function SearchFilterBarCompact({
 					label="후기 보고서 필수 여부"
 					onChange={(requireReview) => onFiltersChange({ ...filters, requireReview })}
 				/>
-				<Button className="w-filter-button" disabled={disabled} onClick={onSubmit} size="md">
+				<Button
+					className="w-filter-button"
+					disabled={disabled}
+					onClick={() => onSubmit()}
+					size="md"
+				>
 					위의 조건으로 확인해보기
 				</Button>
 			</div>

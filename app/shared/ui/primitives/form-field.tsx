@@ -5,6 +5,7 @@ interface FormFieldProps {
 	htmlFor?: string;
 	error?: string;
 	required?: boolean;
+	requiredLabel?: string;
 	children: React.ReactNode;
 	className?: string;
 }
@@ -14,6 +15,7 @@ export function FormField({
 	htmlFor,
 	error,
 	required,
+	requiredLabel = "*",
 	children,
 	className,
 }: FormFieldProps) {
@@ -21,7 +23,13 @@ export function FormField({
 		<div className={cn("flex flex-col gap-2", className)}>
 			<label className="text-base-900 text-style-body-bold" htmlFor={htmlFor}>
 				{label}
-				{required && <span className="text-red-500"> *</span>}
+				{required && (
+					<span
+						className={cn("ml-1", requiredLabel === "*" ? "text-red-500" : "text-primary-olive")}
+					>
+						{requiredLabel}
+					</span>
+				)}
 			</label>
 			{children}
 			{error && <p className="mt-1 animate-error-in text-red-500 text-style-caption">{error}</p>}
