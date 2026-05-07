@@ -1,6 +1,5 @@
 import { HTTPError } from "ky";
 import { ArrowRight, MapPin, Users } from "lucide-react";
-import { Link } from "react-router";
 
 import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
@@ -10,6 +9,7 @@ import { InfoCard } from "~/shared/components/info-card";
 import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
 import { Badge } from "~/shared/ui/primitives/badge";
 import { Button } from "~/shared/ui/primitives/button";
+import { Tag } from "~/shared/ui/primitives/tag";
 import { Tooltip } from "~/shared/ui/primitives/tooltip";
 
 import type { Route } from "./+types/detail";
@@ -37,9 +37,13 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 export default function Detail({ loaderData }: Route.ComponentProps) {
 	const { university } = loaderData;
 
-	const languageText = university.languageRequirements
-		.map((r) => `${r.examType} ${r.minScore}`)
-		.join(" / ");
+	const languageText =
+		university.languageRequirements.length > 0
+			? university.languageRequirements.map((r) => `${r.examType} ${r.minScore}`).join(" / ")
+			: "별도 요구사항 없음";
+	const availableMajors = university.availableMajors ?? [];
+	const reviewReportUrl = university.reviewReportUrl?.trim();
+	const hasReviewReport = university.hasReview && Boolean(reviewReportUrl);
 
 	return (
 		<div className="min-h-screen">
@@ -56,9 +60,10 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 				<div className="flex flex-col gap-10">
 					{/* 상단 정보 */}
 					<div className="flex flex-col gap-2">
-						<Badge className="self-start" variant="green">
-							{university.badge}
-						</Badge>
+						<div className="flex flex-wrap items-center gap-2 self-start">
+							<Badge variant="green">{university.badge}</Badge>
+							{university.programType && <Tag programType={university.programType} />}
+						</div>
 						<h1 className="text-base-900 text-style-heading-lg">{university.nameEng}</h1>
 						<p className="text-base-900 text-style-body-bold">{university.nameKor}</p>
 						{university.websiteUrl && (
@@ -82,6 +87,12 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 									{university.nation}, {university.region}
 								</span>
 							</div>
+							{university.location && (
+								<div className="flex items-center gap-2">
+									<MapPin className="size-5 text-base-700" />
+									<span className="text-base-700 text-style-body">{university.location}</span>
+								</div>
+							)}
 							{university.studentCount && (
 								<div className="flex items-center gap-2">
 									<Users className="size-5 text-base-700" />
@@ -91,14 +102,29 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 						</div>
 
 						<Tooltip
-							content="생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!"
-							defaultOpen
+							content={
+								hasReviewReport
+									? "생활 비용이나 학교 생활과 같은 자세한 정보를 확인해볼 수 있어요!"
+									: "아직 연결된 후기 보고서가 없어요."
+							}
+							defaultOpen={hasReviewReport}
 						>
-							<Link className="cursor-pointer" to="https://study.ssu.ac.kr/community/exp_list.do">
-								<Button disabled={!university.hasReview}>
+							{hasReviewReport ? (
+								<a
+									className="spring-bounce-20 spring-duration-200 inline-flex items-center justify-center gap-2 rounded-button border border-base-900 bg-primary-brown px-6 py-3 text-style-body-bold text-white transition hover:bg-primary-brown/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-brown/50 focus-visible:ring-offset-2 active:scale-97"
+									href={reviewReportUrl}
+									rel="noopener noreferrer"
+									target="_blank"
+								>
 									후기 보고서 보러가기 <ArrowRight />
-								</Button>
-							</Link>
+								</a>
+							) : (
+								<span className="inline-flex cursor-not-allowed">
+									<Button disabled>
+										후기 보고서 보러가기 <ArrowRight />
+									</Button>
+								</span>
+							)}
 						</Tooltip>
 					</div>
 
@@ -116,11 +142,9 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 					</div>
 
 					{/* 수학 가능 학과 */}
-					{university.availableMajors && (
+					{availableMajors.length > 0 && (
 						<ContentSection title="수학 가능 학과">
-							<p className="text-base-900 text-style-body-bold">
-								{university.availableMajors.join(", ")}
-							</p>
+							<p className="text-base-900 text-style-body-bold">{availableMajors.join(", ")}</p>
 							{university.courseListUrl && (
 								<a
 									className="mt-4 block text-base-700 text-style-body underline"
