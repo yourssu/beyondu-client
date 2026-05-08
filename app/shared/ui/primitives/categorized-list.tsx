@@ -42,6 +42,12 @@ function toggleValue(values: string[], value: string) {
 	return [...values, value];
 }
 
+function scrollOffset(container: HTMLElement, target: HTMLElement) {
+	return (
+		target.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop
+	);
+}
+
 export function CategorizedList({
 	ariaLabel = "분류된 목록",
 	categories,
@@ -106,7 +112,7 @@ export function CategorizedList({
 		const section = sectionRefs.current.get(categoryId);
 		if (!container || !section) return;
 
-		container.scrollTo({ top: section.offsetTop });
+		container.scrollTo({ top: scrollOffset(container, section) });
 		setActiveCategoryId(categoryId);
 	}
 
@@ -120,7 +126,7 @@ export function CategorizedList({
 		for (const category of categories) {
 			const section = sectionRefs.current.get(category.id);
 			if (!section) continue;
-			if (section.offsetTop <= container.scrollTop + threshold) {
+			if (scrollOffset(container, section) <= container.scrollTop + threshold) {
 				next = category.id;
 			}
 		}
@@ -143,15 +149,18 @@ export function CategorizedList({
 		const nextItem = itemRefs.current.get(next.value);
 		if (!nextItem) return;
 
-		const itemTop = nextItem.offsetTop;
+		const container = listRef.current;
+		if (!container) return;
+
+		const itemTop = scrollOffset(container, nextItem);
 		const itemBottom = itemTop + nextItem.offsetHeight;
-		const visibleTop = listRef.current?.scrollTop ?? 0;
-		const visibleBottom = visibleTop + (listRef.current?.clientHeight ?? 0);
+		const visibleTop = container.scrollTop;
+		const visibleBottom = visibleTop + container.clientHeight;
 
 		if (itemTop < visibleTop) {
-			listRef.current?.scrollTo({ top: itemTop });
+			container.scrollTo({ top: itemTop });
 		} else if (itemBottom > visibleBottom) {
-			listRef.current?.scrollTo({ top: itemBottom - (listRef.current?.clientHeight ?? 0) });
+			container.scrollTo({ top: itemBottom - container.clientHeight });
 		}
 	}
 
