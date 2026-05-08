@@ -11,7 +11,7 @@ import type {
 } from "~/shared/api/types";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
-import { SearchFilterBarFull } from "~/shared/components/search-filter-bar";
+import { SearchFilterBarFull } from "~/shared/components/search/search-filter-bar-full";
 import type { FilterFormData } from "~/shared/types/filter";
 
 import type { Route } from "./+types/home";

@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
-import { SearchFilterBarCompact, SearchFilterBarFull } from "./search-filter-bar";
+import { SearchFilterBarCompact } from "./search/search-filter-bar-compact";
+import { SearchFilterBarFull } from "./search/search-filter-bar-full";
 
 const defaultFilters = {
 	gpa: "",

@@ -20,7 +20,7 @@ import { BackButton } from "~/shared/components/back-button";
 import { CampusBackground } from "~/shared/components/campus-background";
 import { Header } from "~/shared/components/header";
 import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
-import { SearchFilterBarCompact } from "~/shared/components/search-filter-bar";
+import { SearchFilterBarCompact } from "~/shared/components/search/search-filter-bar-compact";
 import { UniversityCard } from "~/shared/components/university-card";
 import type { FilterFormData } from "~/shared/types/filter";
 import { Card } from "~/shared/ui/primitives/card";
