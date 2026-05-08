@@ -102,7 +102,11 @@ export function CategorizedList({
 	}
 
 	function scrollToCategory(categoryId: string) {
-		sectionRefs.current.get(categoryId)?.scrollIntoView({ block: "start" });
+		const container = listRef.current;
+		const section = sectionRefs.current.get(categoryId);
+		if (!container || !section) return;
+
+		container.scrollTo({ top: section.offsetTop });
 		setActiveCategoryId(categoryId);
 	}
 
@@ -136,7 +140,19 @@ export function CategorizedList({
 
 		setActiveValue(next.value);
 		setActiveCategoryId(next.categoryId);
-		itemRefs.current.get(next.value)?.scrollIntoView({ block: "nearest" });
+		const nextItem = itemRefs.current.get(next.value);
+		if (!nextItem) return;
+
+		const itemTop = nextItem.offsetTop;
+		const itemBottom = itemTop + nextItem.offsetHeight;
+		const visibleTop = listRef.current?.scrollTop ?? 0;
+		const visibleBottom = visibleTop + (listRef.current?.clientHeight ?? 0);
+
+		if (itemTop < visibleTop) {
+			listRef.current?.scrollTo({ top: itemTop });
+		} else if (itemBottom > visibleBottom) {
+			listRef.current?.scrollTo({ top: itemBottom - (listRef.current?.clientHeight ?? 0) });
+		}
 	}
 
 	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {

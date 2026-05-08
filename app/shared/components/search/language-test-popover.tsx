@@ -62,18 +62,27 @@ export function LanguageTestPopover({
 		<Popover onOpenChange={handleOpenChange} open={open}>
 			<PopoverTrigger
 				className={cn(
-					"flex h-12.5 w-full items-center justify-between rounded-input border border-base-400 bg-surface-white px-4 py-3 text-left text-base-900 text-style-body focus:border-primary-brown focus:outline-none disabled:cursor-not-allowed disabled:opacity-60",
+					"flex h-12.5 w-full min-w-0 items-center justify-between rounded-input border border-base-400 bg-surface-white px-4 py-3 text-left text-base-900 text-style-body focus:border-primary-brown focus:outline-none disabled:cursor-not-allowed disabled:opacity-60",
 					className,
 				)}
 				disabled={isDisabled}
 			>
-				<span className={cn(selectedLanguageTests.length === 0 && !isDisabled && "text-base-400")}>
+				<span
+					className={cn(
+						"min-w-0 truncate",
+						selectedLanguageTests.length === 0 && !isDisabled && "text-base-400",
+					)}
+				>
 					{label}
 				</span>
 				<ChevronDown className="size-5 shrink-0 text-base-700" />
 			</PopoverTrigger>
-			<PopoverContent className="w-language-dropdown overflow-hidden p-0" sideOffset={4}>
+			<PopoverContent
+				className="h-language-dropdown-height w-language-dropdown overflow-hidden p-0"
+				sideOffset={4}
+			>
 				<LanguageTestCompoundList
+					className="h-full overflow-y-auto"
 					examTypes={examTypes}
 					onEscapeKeyDown={() => setOpen(false)}
 					onValueChange={onLanguageTestsChange}
