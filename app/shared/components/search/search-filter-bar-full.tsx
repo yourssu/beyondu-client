@@ -53,18 +53,18 @@ export function SearchFilterBarFull({
 				</div>
 
 				<div className="flex flex-col gap-9">
-					<SelectedFilterChips
-						examTypes={examTypes}
-						filters={filters}
-						onFiltersChange={onFiltersChange}
-					/>
-
 					<FormField
 						error={nationError ? "희망하는 나라 또는 대륙을 입력해 주세요." : undefined}
 						label="희망하는 나라 또는 대륙"
 						required
 						requiredLabel="(필수)"
 					>
+						<SelectedFilterChips
+							examTypes={examTypes}
+							filters={filters}
+							groups={["location"]}
+							onFiltersChange={onFiltersChange}
+						/>
 						<NationFilterPopover
 							className="w-full"
 							error={nationError}
@@ -76,6 +76,12 @@ export function SearchFilterBarFull({
 					</FormField>
 
 					<FormField className="w-64" label="준비할 언어 자격증">
+						<SelectedFilterChips
+							examTypes={examTypes}
+							filters={filters}
+							groups={["language"]}
+							onFiltersChange={onFiltersChange}
+						/>
 						<LanguageTestPopover
 							className="w-full"
 							examTypes={examTypes}
@@ -92,6 +98,12 @@ export function SearchFilterBarFull({
 						required
 						requiredLabel="(필수)"
 					>
+						<SelectedFilterChips
+							examTypes={examTypes}
+							filters={filters}
+							groups={["major"]}
+							onFiltersChange={onFiltersChange}
+						/>
 						<MajorFilterPopover
 							className="w-full"
 							error={majorError}
@@ -103,6 +115,12 @@ export function SearchFilterBarFull({
 					</FormField>
 
 					<FormField className="w-64" label="나의 학점 (4.5 만점)">
+						<SelectedFilterChips
+							examTypes={examTypes}
+							filters={filters}
+							groups={["gpa"]}
+							onFiltersChange={onFiltersChange}
+						/>
 						<NumberInput
 							max={4.5}
 							min={0}
