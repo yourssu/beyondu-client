@@ -2,18 +2,16 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 import { cn } from "~/lib/cn";
-import type { LanguageExamParamName } from "~/shared/api/types";
 import { Button } from "~/shared/ui/primitives/button";
 import { Checkbox } from "~/shared/ui/primitives/checkbox";
 import { FormField } from "~/shared/ui/primitives/form-field";
 import { NumberInput } from "~/shared/ui/primitives/number-input";
-import { Select } from "~/shared/ui/primitives/select";
 
+import { LanguageTestPopover } from "./language-test-popover";
 import { MajorFilterPopover } from "./major-filter-popover";
 import { NationFilterPopover } from "./nation-filter-popover";
 import { SelectedFilterChips } from "./selected-filter-chips";
 import type { SearchFilterBarProps } from "./types";
-import { upsertLanguageTest } from "./utils";
 
 export function SearchFilterBarFull({
 	className,
@@ -27,23 +25,10 @@ export function SearchFilterBarFull({
 	onFiltersChange,
 	onSubmit,
 }: SearchFilterBarProps) {
-	const [languageCert, setLanguageCert] = useState<LanguageExamParamName | "NONE">("NONE");
 	const [showValidation, setShowValidation] = useState(false);
 
 	const nationError = showValidation && filters.nations.length === 0;
 	const majorError = showValidation && filters.majors.length === 0;
-
-	function selectLanguageCert(value: string) {
-		const nextLanguageCert = value as LanguageExamParamName | "NONE";
-		setLanguageCert(nextLanguageCert);
-		onFiltersChange({
-			...filters,
-			languageTests:
-				nextLanguageCert === "NONE"
-					? []
-					: upsertLanguageTest(filters.languageTests, nextLanguageCert, ""),
-		});
-	}
 
 	function handleSubmit() {
 		setShowValidation(true);
@@ -91,14 +76,13 @@ export function SearchFilterBarFull({
 					</FormField>
 
 					<FormField className="w-64" label="준비할 언어 자격증">
-						<Select
-							onChange={selectLanguageCert}
-							options={[
-								{ label: "없음", value: "NONE" },
-								...examTypes.map((e) => ({ label: e.displayName, value: e.paramName })),
-							]}
-							placeholder="TOEIC"
-							value={languageCert}
+						<LanguageTestPopover
+							className="w-full"
+							examTypes={examTypes}
+							onLanguageTestsChange={(languageTests) =>
+								onFiltersChange({ ...filters, languageTests })
+							}
+							selectedLanguageTests={filters.languageTests}
 						/>
 					</FormField>
 
