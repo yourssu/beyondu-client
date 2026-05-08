@@ -2,11 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import {
-	flattenMajorNames,
-	flattenNationsByRegion,
-	serializeFilterParams,
-} from "~/lib/filter-params";
+import { serializeFilterParams } from "~/lib/filter-params";
 import type {
 	ApiResponse,
 	ExamTypeResponse,
@@ -33,7 +29,7 @@ export function meta(_args: Route.MetaArgs) {
 export default function Home() {
 	const navigate = useNavigate();
 
-	const { data: nationsByRegionData } = useQuery({
+	const { data: nationsByRegionData, isLoading: nationsLoading } = useQuery({
 		queryFn: async () => {
 			const res = await fetch("/api/meta/nations-by-region");
 			return res.json() as Promise<ApiResponse<NationsByRegionResponse[]>>;
@@ -41,7 +37,7 @@ export default function Home() {
 		queryKey: ["meta", "nationsByRegion"],
 	});
 
-	const { data: majorsData } = useQuery({
+	const { data: majorsData, isLoading: majorsLoading } = useQuery({
 		queryFn: async () => {
 			const res = await fetch("/api/meta/majors");
 			return res.json() as Promise<ApiResponse<MajorCategoryResponse[]>>;
@@ -67,9 +63,6 @@ export default function Home() {
 		requireReview: false,
 	});
 
-	const nations = flattenNationsByRegion(nationsByRegionData?.result);
-	const majorSuggestions = flattenMajorNames(majorsData?.result);
-
 	function handleSubmit(nextFilters = filters) {
 		const params = serializeFilterParams(nextFilters);
 		const query = params.toString();
@@ -88,8 +81,10 @@ export default function Home() {
 					<SearchFilterBarFull
 						examTypes={examTypesData?.result ?? []}
 						filters={filters}
-						majorSuggestions={majorSuggestions}
-						nations={nations}
+						majorCategories={majorsData?.result}
+						majorsLoading={majorsLoading}
+						nationsByRegion={nationsByRegionData?.result}
+						nationsLoading={nationsLoading}
 						onFiltersChange={setFilters}
 						onSubmit={handleSubmit}
 					/>

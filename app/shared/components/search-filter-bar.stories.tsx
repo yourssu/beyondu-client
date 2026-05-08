@@ -13,9 +13,49 @@ const defaultFilters = {
 	requireReview: false,
 };
 
+const nationsByRegion = [
+	{ nations: ["과테말라", "도미니카공화국", "멕시코", "브라질"], region: "남미" },
+	{ nations: ["미국", "캐나다"], region: "북미" },
+	{ nations: ["대만", "말레이시아", "몽골", "미얀마"], region: "아시아" },
+	{ nations: ["튀니지"], region: "아프리카" },
+	{ nations: ["호주"], region: "오세아니아" },
+	{ nations: ["그리스", "네덜란드", "독일", "라트비아"], region: "유럽" },
+];
+
+const majorCategories = [
+	{
+		category: "경영/경제 분야",
+		majors: [
+			{ enumName: "ARCHITECTURE", koreanMajors: ["건축학부"], name: "Architecture" },
+			{
+				enumName: "COMPUTER_SCIENCE",
+				koreanMajors: ["컴퓨터공학과", "소프트웨어학과"],
+				name: "Computer Science",
+			},
+			{
+				enumName: "ELECTRICAL_ENGINEERING",
+				koreanMajors: ["전기공학부", "전자정보공학부"],
+				name: "Electrical Engineering",
+			},
+		],
+	},
+	{
+		category: "IT/공학 분야",
+		majors: [
+			{
+				enumName: "MECHANICAL_ENGINEERING",
+				koreanMajors: ["기계공학부"],
+				name: "Mechanical Engineering",
+			},
+		],
+	},
+];
+
 const meta = {
 	args: {
 		filters: defaultFilters,
+		majorCategories,
+		nationsByRegion,
 		onFiltersChange: fn(),
 		onSubmit: fn(),
 	},
@@ -44,6 +84,8 @@ export const CompactWithChips: CompactStory = {
 export const Full: FullStory = {
 	args: {
 		filters: defaultFilters,
+		majorCategories,
+		nationsByRegion,
 		onFiltersChange: fn(),
 		onSubmit: fn(),
 	},

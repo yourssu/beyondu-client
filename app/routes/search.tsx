@@ -6,8 +6,6 @@ import { useSearchParams } from "react-router";
 import {
 	deserializeFilterParams,
 	findMajorParamNames,
-	flattenMajorNames,
-	flattenNationsByRegion,
 	serializeFilterParams,
 	toSearchApiParams,
 } from "~/lib/filter-params";
@@ -124,7 +122,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 	const { universities, pageInfo } = loaderData;
 	const currentPage = pageInfo.currentPage + 1;
 
-	const { data: nationsByRegionData } = useQuery({
+	const { data: nationsByRegionData, isLoading: nationsLoading } = useQuery({
 		queryFn: async () => {
 			const res = await fetch("/api/meta/nations-by-region");
 			return res.json() as Promise<ApiResponse<NationsByRegionResponse[]>>;
@@ -132,7 +130,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 		queryKey: ["meta", "nationsByRegion"],
 	});
 
-	const { data: majorsData } = useQuery({
+	const { data: majorsData, isLoading: majorsLoading } = useQuery({
 		queryFn: async () => {
 			const res = await fetch("/api/meta/majors");
 			return res.json() as Promise<ApiResponse<MajorCategoryResponse[]>>;
@@ -165,8 +163,6 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 		return qs ? `?${qs}` : "?";
 	}
 
-	const nations = flattenNationsByRegion(nationsByRegionData?.result);
-	const majorSuggestions = flattenMajorNames(majorsData?.result);
 	const examTypes = examTypesData?.result ?? [];
 	const selectedFilterLabels = [
 		...loaderData.filters.majors,
@@ -208,8 +204,10 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 							<SearchFilterBarCompact
 								examTypes={examTypes}
 								filters={filters}
-								majorSuggestions={majorSuggestions}
-								nations={nations}
+								majorCategories={majorsData?.result}
+								majorsLoading={majorsLoading}
+								nationsByRegion={nationsByRegionData?.result}
+								nationsLoading={nationsLoading}
 								onFiltersChange={setFilters}
 								onSubmit={handleSearch}
 							/>

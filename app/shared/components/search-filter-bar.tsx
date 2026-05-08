@@ -1,23 +1,34 @@
-import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { cn } from "~/lib/cn";
-import type { ExamTypeResponse, LanguageExamParamName } from "~/shared/api/types";
+import type {
+	ExamTypeResponse,
+	LanguageExamParamName,
+	MajorCategoryResponse,
+	NationsByRegionResponse,
+} from "~/shared/api/types";
 import type { FilterFormData, LanguageTestFilter } from "~/shared/types/filter";
 import { Button } from "~/shared/ui/primitives/button";
+import {
+	CategorizedList,
+	type CategorizedListCategory,
+} from "~/shared/ui/primitives/categorized-list";
 import { Checkbox } from "~/shared/ui/primitives/checkbox";
 import { Chip } from "~/shared/ui/primitives/chip";
-import { Combobox } from "~/shared/ui/primitives/combobox";
 import { FormField } from "~/shared/ui/primitives/form-field";
 import { NumberInput } from "~/shared/ui/primitives/number-input";
+import { Popover, PopoverContent, PopoverTrigger } from "~/shared/ui/primitives/popover";
 import { Select } from "~/shared/ui/primitives/select";
 
 interface SearchFilterBarProps {
 	filters: FilterFormData;
 	onFiltersChange: (filters: FilterFormData) => void;
 	onSubmit: (filters?: FilterFormData) => void;
-	nations?: string[];
-	majorSuggestions?: string[];
+	nationsByRegion?: NationsByRegionResponse[];
+	nationsLoading?: boolean;
+	majorCategories?: MajorCategoryResponse[];
+	majorsLoading?: boolean;
 	examTypes?: ExamTypeResponse[];
 	languageGroups?: string[];
 	regions?: string[];
@@ -27,14 +38,6 @@ interface SearchFilterBarProps {
 
 function normalizeValue(value: string) {
 	return value.trim().toLowerCase();
-}
-
-function upsertString(values: string[], value: string) {
-	const trimmed = value.trim();
-	if (!trimmed) return values;
-
-	const next = values.filter((item) => normalizeValue(item) !== normalizeValue(trimmed));
-	return [...next, trimmed];
 }
 
 function removeString(values: string[], value: string) {
@@ -51,6 +54,153 @@ function upsertLanguageTest(
 
 function examLabel(examTypes: ExamTypeResponse[], examType: LanguageExamParamName) {
 	return examTypes.find((item) => item.paramName === examType)?.displayName ?? examType;
+}
+
+interface NationFilterPopoverProps {
+	className?: string;
+	error?: boolean;
+	loading?: boolean;
+	nationsByRegion?: NationsByRegionResponse[];
+	onSelectedNationsChange: (nations: string[]) => void;
+	selectedNations: string[];
+}
+
+function selectTriggerLabel(
+	selectedValues: string[],
+	loading: boolean,
+	hasOptions: boolean,
+	labels: { empty: string; loading: string; noOptions: string },
+) {
+	if (loading) return labels.loading;
+	if (!hasOptions) return labels.noOptions;
+	if (selectedValues.length === 0) return labels.empty;
+	if (selectedValues.length === 1) return selectedValues[0];
+	return `${selectedValues[0]} 외 ${selectedValues.length - 1}개`;
+}
+
+function NationFilterPopover({
+	className,
+	error,
+	loading = false,
+	nationsByRegion = [],
+	onSelectedNationsChange,
+	selectedNations,
+}: NationFilterPopoverProps) {
+	const [open, setOpen] = useState(false);
+	const categories = useMemo<CategorizedListCategory[]>(
+		() =>
+			nationsByRegion
+				.filter((group) => group.nations.length > 0)
+				.map((group) => ({
+					id: group.region,
+					items: group.nations.map((nation) => ({ label: nation, value: nation })),
+					label: group.region,
+				})),
+		[nationsByRegion],
+	);
+	const hasOptions = categories.some((category) => category.items.length > 0);
+	const disabled = loading || !hasOptions;
+	const label = selectTriggerLabel(selectedNations, loading, hasOptions, {
+		empty: "나라 선택",
+		loading: "국가 불러오는 중",
+		noOptions: "선택 가능한 국가 없음",
+	});
+
+	return (
+		<Popover onOpenChange={setOpen} open={open}>
+			<PopoverTrigger
+				className={cn(
+					"flex h-12.5 w-full items-center justify-between rounded-input border border-base-400 bg-surface-white px-4 py-3 text-left text-base-900 text-style-body focus:border-primary-brown focus:outline-none disabled:cursor-not-allowed disabled:opacity-60",
+					error && "border-red-500",
+					className,
+				)}
+				disabled={disabled}
+			>
+				<span className={cn(selectedNations.length === 0 && !disabled && "text-base-400")}>
+					{label}
+				</span>
+				<ChevronDown className="size-5 shrink-0 text-base-700" />
+			</PopoverTrigger>
+			<PopoverContent className="overflow-hidden p-0" sideOffset={4}>
+				<CategorizedList
+					ariaLabel="국가 선택"
+					categories={categories}
+					onEscapeKeyDown={() => setOpen(false)}
+					onValueChange={onSelectedNationsChange}
+					value={selectedNations}
+				/>
+			</PopoverContent>
+		</Popover>
+	);
+}
+
+interface MajorFilterPopoverProps {
+	className?: string;
+	error?: boolean;
+	loading?: boolean;
+	majorCategories?: MajorCategoryResponse[];
+	onSelectedMajorsChange: (majors: string[]) => void;
+	selectedMajors: string[];
+}
+
+function MajorFilterPopover({
+	className,
+	error,
+	loading = false,
+	majorCategories = [],
+	onSelectedMajorsChange,
+	selectedMajors,
+}: MajorFilterPopoverProps) {
+	const [open, setOpen] = useState(false);
+	const categories = useMemo<CategorizedListCategory[]>(
+		() =>
+			majorCategories
+				.filter((group) => group.majors.length > 0)
+				.map((group) => ({
+					id: group.category,
+					items: group.majors.map((major) => ({
+						label: major.name,
+						tags: major.koreanMajors,
+						value: major.name,
+					})),
+					label: group.category,
+				})),
+		[majorCategories],
+	);
+	const hasOptions = categories.some((category) => category.items.length > 0);
+	const disabled = loading || !hasOptions;
+	const label = selectTriggerLabel(selectedMajors, loading, hasOptions, {
+		empty: "전공 선택",
+		loading: "전공 불러오는 중",
+		noOptions: "선택 가능한 전공 없음",
+	});
+
+	return (
+		<Popover onOpenChange={setOpen} open={open}>
+			<PopoverTrigger
+				className={cn(
+					"flex h-12.5 w-full items-center justify-between rounded-input border border-base-400 bg-surface-white px-4 py-3 text-left text-base-900 text-style-body focus:border-primary-brown focus:outline-none disabled:cursor-not-allowed disabled:opacity-60",
+					error && "border-red-500",
+					className,
+				)}
+				disabled={disabled}
+			>
+				<span className={cn(selectedMajors.length === 0 && !disabled && "text-base-400")}>
+					{label}
+				</span>
+				<ChevronDown className="size-5 shrink-0 text-base-700" />
+			</PopoverTrigger>
+			<PopoverContent className="overflow-hidden p-0" sideOffset={4}>
+				<CategorizedList
+					ariaLabel="전공 선택"
+					categories={categories}
+					onEscapeKeyDown={() => setOpen(false)}
+					onValueChange={onSelectedMajorsChange}
+					value={selectedMajors}
+				/>
+			</PopoverContent>
+		</Popover>
+	);
 }
 
 function SelectedFilterChips({
@@ -144,40 +294,18 @@ export function SearchFilterBarFull({
 	disabled = false,
 	examTypes = [],
 	filters,
-	majorSuggestions = [],
-	nations = [],
+	majorCategories,
+	majorsLoading,
+	nationsByRegion,
+	nationsLoading,
 	onFiltersChange,
 	onSubmit,
 }: SearchFilterBarProps) {
-	const [majorInput, setMajorInput] = useState("");
-	const [nationInput, setNationInput] = useState("");
 	const [languageCert, setLanguageCert] = useState<LanguageExamParamName | "NONE">("NONE");
 	const [showValidation, setShowValidation] = useState(false);
 
 	const nationError = showValidation && filters.nations.length === 0;
 	const majorError = showValidation && filters.majors.length === 0;
-
-	function addMajor(value = majorInput) {
-		const next = upsertString(filters.majors, value);
-		onFiltersChange({ ...filters, majors: next });
-		setMajorInput("");
-	}
-
-	function selectMajor(value: string) {
-		onFiltersChange({ ...filters, majors: upsertString(filters.majors, value) });
-		setMajorInput("");
-	}
-
-	function addNation(value = nationInput) {
-		const next = upsertString(filters.nations, value);
-		onFiltersChange({ ...filters, nations: next });
-		setNationInput("");
-	}
-
-	function selectNation(value: string) {
-		onFiltersChange({ ...filters, nations: upsertString(filters.nations, value) });
-		setNationInput("");
-	}
 
 	function selectLanguageCert(value: string) {
 		const nextLanguageCert = value as LanguageExamParamName | "NONE";
@@ -192,15 +320,10 @@ export function SearchFilterBarFull({
 	}
 
 	function handleSubmit() {
-		const nextFilters = {
-			...filters,
-			majors: upsertString(filters.majors, majorInput),
-			nations: upsertString(filters.nations, nationInput),
-		};
 		setShowValidation(true);
-		onFiltersChange(nextFilters);
-		if (nextFilters.nations.length === 0 || nextFilters.majors.length === 0) return;
-		onSubmit(nextFilters);
+		onFiltersChange(filters);
+		if (filters.nations.length === 0 || filters.majors.length === 0) return;
+		onSubmit(filters);
 	}
 
 	return (
@@ -231,18 +354,13 @@ export function SearchFilterBarFull({
 						required
 						requiredLabel="(필수)"
 					>
-						<Combobox
+						<NationFilterPopover
 							className="w-full"
 							error={nationError}
-							onChange={setNationInput}
-							onKeyDown={(e) => {
-								if (e.key === "Enter") addNation();
-							}}
-							onSelect={selectNation}
-							placeholder="미국, 유럽"
-							restrictToSuggestions={nations.length > 0}
-							suggestions={nations}
-							value={nationInput}
+							loading={nationsLoading}
+							nationsByRegion={nationsByRegion}
+							onSelectedNationsChange={(nations) => onFiltersChange({ ...filters, nations })}
+							selectedNations={filters.nations}
 						/>
 					</FormField>
 
@@ -264,18 +382,13 @@ export function SearchFilterBarFull({
 						required
 						requiredLabel="(필수)"
 					>
-						<Combobox
+						<MajorFilterPopover
 							className="w-full"
 							error={majorError}
-							onChange={setMajorInput}
-							onKeyDown={(e) => {
-								if (e.key === "Enter") addMajor();
-							}}
-							onSelect={selectMajor}
-							placeholder="숭실대 전공 검색으로도 탐색할 수 있어요!"
-							restrictToSuggestions={majorSuggestions.length > 0}
-							suggestions={majorSuggestions}
-							value={majorInput}
+							loading={majorsLoading}
+							majorCategories={majorCategories}
+							onSelectedMajorsChange={(majors) => onFiltersChange({ ...filters, majors })}
+							selectedMajors={filters.majors}
 						/>
 					</FormField>
 
@@ -318,35 +431,15 @@ export function SearchFilterBarCompact({
 	disabled = false,
 	examTypes = [],
 	filters,
-	majorSuggestions = [],
-	nations = [],
+	majorCategories,
+	majorsLoading,
+	nationsByRegion,
+	nationsLoading,
 	onFiltersChange,
 	onSubmit,
 }: SearchFilterBarProps) {
-	const [nationInput, setNationInput] = useState("");
-	const [majorInput, setMajorInput] = useState("");
 	const [languageCert, setLanguageCert] = useState<LanguageExamParamName | "NONE">("NONE");
 	const [score, setScore] = useState("");
-
-	function addNation() {
-		onFiltersChange({ ...filters, nations: upsertString(filters.nations, nationInput) });
-		setNationInput("");
-	}
-
-	function selectNation(value: string) {
-		onFiltersChange({ ...filters, nations: upsertString(filters.nations, value) });
-		setNationInput("");
-	}
-
-	function addMajor() {
-		onFiltersChange({ ...filters, majors: upsertString(filters.majors, majorInput) });
-		setMajorInput("");
-	}
-
-	function selectMajor(value: string) {
-		onFiltersChange({ ...filters, majors: upsertString(filters.majors, value) });
-		setMajorInput("");
-	}
 
 	function applyLanguageTest() {
 		if (languageCert === "NONE" || !score.trim()) return;
@@ -366,17 +459,12 @@ export function SearchFilterBarCompact({
 					onFiltersChange={onFiltersChange}
 				/>
 				<div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
-					<Combobox
+					<NationFilterPopover
 						className="lg:w-filter-country"
-						onChange={setNationInput}
-						onKeyDown={(e) => {
-							if (e.key === "Enter") addNation();
-						}}
-						onSelect={selectNation}
-						placeholder="나라 선택"
-						restrictToSuggestions={nations.length > 0}
-						suggestions={nations}
-						value={nationInput}
+						loading={nationsLoading}
+						nationsByRegion={nationsByRegion}
+						onSelectedNationsChange={(nations) => onFiltersChange({ ...filters, nations })}
+						selectedNations={filters.nations}
 					/>
 					<div className="hidden h-10 border-base-400 border-l lg:block" />
 					<Select
@@ -399,17 +487,12 @@ export function SearchFilterBarCompact({
 						value={score}
 					/>
 					<div className="hidden h-10 border-base-400 border-l lg:block" />
-					<Combobox
+					<MajorFilterPopover
 						className="lg:w-filter-major"
-						onChange={setMajorInput}
-						onKeyDown={(e) => {
-							if (e.key === "Enter") addMajor();
-						}}
-						onSelect={selectMajor}
-						placeholder="수강 희망 전공 선택"
-						restrictToSuggestions={majorSuggestions.length > 0}
-						suggestions={majorSuggestions}
-						value={majorInput}
+						loading={majorsLoading}
+						majorCategories={majorCategories}
+						onSelectedMajorsChange={(majors) => onFiltersChange({ ...filters, majors })}
+						selectedMajors={filters.majors}
 					/>
 					<NumberInput
 						className="lg:w-filter-gpa"
