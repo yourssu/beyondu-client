@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { cn } from "~/lib/cn";
 import type { NationsByRegionResponse } from "~/shared/api/types";
@@ -29,6 +29,7 @@ export function NationFilterPopover({
 	selectedNations,
 }: NationFilterPopoverProps) {
 	const [open, setOpen] = useState(false);
+	const triggerRef = useRef<HTMLButtonElement>(null);
 	const categories = useMemo<CategorizedListCategory[]>(
 		() =>
 			nationsByRegion
@@ -36,7 +37,7 @@ export function NationFilterPopover({
 				.map((group) => ({
 					id: group.region,
 					items: group.nations.map((nation) => ({ label: nation, value: nation })),
-					label: group.region,
+					label: group.region === "Unknown" ? "기타" : group.region,
 				})),
 		[nationsByRegion],
 	);
@@ -51,6 +52,7 @@ export function NationFilterPopover({
 	return (
 		<Popover onOpenChange={setOpen} open={open}>
 			<PopoverTrigger
+				ref={triggerRef}
 				className={cn(
 					"flex h-12.5 w-full min-w-0 items-center justify-between rounded-input border border-base-400 bg-surface-white px-4 py-3 text-left text-base-900 text-style-body focus:border-primary-brown focus:outline-none disabled:cursor-not-allowed disabled:opacity-60",
 					error && "border-red-500",

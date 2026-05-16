@@ -5,7 +5,7 @@ import { examLabel, removeString } from "./utils";
 
 type SelectedFilterChipGroup = "gpa" | "language" | "location" | "major";
 
-const allChipGroups: SelectedFilterChipGroup[] = ["location", "language", "major", "gpa"];
+const allChipGroups: SelectedFilterChipGroup[] = ["location", "language", "major"];
 
 interface SelectedFilterChipsProps
 	extends Pick<SearchFilterBarProps, "examTypes" | "filters" | "onFiltersChange"> {
@@ -21,13 +21,11 @@ export function SelectedFilterChips({
 	const showLocationChips = groups.includes("location");
 	const showLanguageChips = groups.includes("language");
 	const showMajorChips = groups.includes("major");
-	const showGpaChips = groups.includes("gpa");
 	const hasChips =
 		(showLocationChips && (filters.nations.length > 0 || filters.regions.length > 0)) ||
 		(showLanguageChips &&
 			(filters.languageGroups.length > 0 || filters.languageTests.length > 0)) ||
-		(showMajorChips && filters.majors.length > 0) ||
-		(showGpaChips && Boolean(filters.gpa));
+		(showMajorChips && filters.majors.length > 0);
 
 	if (!hasChips) return null;
 
@@ -96,13 +94,6 @@ export function SelectedFilterChips({
 						}
 					/>
 				))}
-			{showGpaChips && filters.gpa && (
-				<Chip
-					label="학점"
-					onRemove={() => onFiltersChange({ ...filters, gpa: "" })}
-					value={filters.gpa}
-				/>
-			)}
 		</div>
 	);
 }

@@ -12,6 +12,7 @@ export const PopoverClose = PopoverPrimitive.Close;
 interface PopoverContentProps extends ComponentProps<typeof PopoverPrimitive.Popup> {
 	align?: ComponentProps<typeof PopoverPrimitive.Positioner>["align"];
 	alignOffset?: ComponentProps<typeof PopoverPrimitive.Positioner>["alignOffset"];
+	collisionAvoidance?: ComponentProps<typeof PopoverPrimitive.Positioner>["collisionAvoidance"];
 	positionerClassName?: string;
 	side?: ComponentProps<typeof PopoverPrimitive.Positioner>["side"];
 	sideOffset?: ComponentProps<typeof PopoverPrimitive.Positioner>["sideOffset"];
@@ -21,6 +22,7 @@ export function PopoverContent({
 	align = "start",
 	alignOffset,
 	className,
+	collisionAvoidance = { side: "none" },
 	positionerClassName,
 	side = "bottom",
 	sideOffset = 8,
@@ -32,6 +34,7 @@ export function PopoverContent({
 				align={align}
 				alignOffset={alignOffset}
 				className={cn("z-50", positionerClassName)}
+				collisionAvoidance={collisionAvoidance}
 				side={side}
 				sideOffset={sideOffset}
 			>

@@ -37,7 +37,7 @@ export function SearchFilterBarCompact({
 						onSelectedNationsChange={(nations) => onFiltersChange({ ...filters, nations })}
 						selectedNations={filters.nations}
 					/>
-					<div className="hidden h-10 border-base-400 border-l lg:block" />
+					<div className="hidden h-10 border-primary-green border-l lg:block" />
 					<LanguageTestPopover
 						className="lg:w-filter-language"
 						examTypes={examTypes}
@@ -46,7 +46,7 @@ export function SearchFilterBarCompact({
 						}
 						selectedLanguageTests={filters.languageTests}
 					/>
-					<div className="hidden h-10 border-base-400 border-l lg:block" />
+					<div className="hidden h-10 border-primary-green border-l lg:block" />
 					<MajorFilterPopover
 						className="lg:w-filter-major"
 						loading={majorsLoading}

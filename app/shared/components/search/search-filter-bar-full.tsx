@@ -40,7 +40,7 @@ export function SearchFilterBarFull({
 	return (
 		<div
 			className={cn(
-				"mx-auto flex w-full max-w-2xl flex-col items-center gap-14 rounded-3xl border border-primary-brown bg-surface-glass px-24 pt-14 pb-12",
+				"mx-auto flex w-full max-w-2xl flex-col items-center gap-14 rounded-3xl bg-surface-glass px-24 pt-14 pb-12",
 				className,
 			)}
 		>

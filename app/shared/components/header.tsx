@@ -10,7 +10,12 @@ interface HeaderProps {
 
 export function Header({ children, className }: HeaderProps) {
 	return (
-		<header className={cn("sticky top-0 z-30 bg-surface-header backdrop-blur-sm", className)}>
+		<header
+			className={cn(
+				"sticky top-0 z-30 bg-surface-header backdrop-blur-sm",
+				className,
+			)}
+		>
 			<div className="mx-auto flex h-header max-w-5xl items-center px-8">
 				<Link
 					className="text-logo text-style-logo"

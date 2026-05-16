@@ -41,21 +41,23 @@
 	--color-chip-blue-value: #165358;
 
 	/* Colors - Misc */
-	--color-logo: #062c05;
+	--color-logo: #4f3109;
+	--color-grey-01: #434343;
 
 	/* Spacing */
-	--spacing-header: 82px;
+	--spacing-header: 70px;
 	--spacing-filter-country: 360px;
 	--spacing-filter-language: 256px;
 	--spacing-filter-major: 260px;
 	--spacing-filter-gpa: 90px;
 	--spacing-filter-score: 112px;
 	--spacing-filter-button: 300px;
+	--spacing-detail-bottom: 500px;
 	--spacing-compound-list-field: 150px;
-	--spacing-language-dropdown: 262px;
-	--spacing-language-dropdown-height: 516px;
-	--spacing-country-dropdown: 376px;
-	--spacing-country-dropdown-height: 516px;
+	--spacing-language-dropdown: 256px;
+	--spacing-language-dropdown-height: 400px;
+	--spacing-country-dropdown: 360px;
+	--spacing-country-dropdown-height: 400px;
 
 	/* Shadows */
 	--shadow-elevation-1:
@@ -99,6 +101,13 @@
 
 	/* Card stagger delay */
 	--delay-card-stagger: 50ms;
+}
+
+@utility scrollbar-hidden {
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 /* Typography utilities */
