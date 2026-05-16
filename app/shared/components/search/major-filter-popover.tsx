@@ -56,13 +56,13 @@ export function MajorFilterPopover({
 	return (
 		<Popover onOpenChange={setOpen} open={open}>
 			<PopoverTrigger
-				ref={triggerRef}
 				className={cn(
 					"flex h-12.5 w-full min-w-0 items-center justify-between rounded-input border border-base-400 bg-surface-white px-4 py-3 text-left text-base-900 text-style-body focus:border-primary-brown focus:outline-none disabled:cursor-not-allowed disabled:opacity-60",
 					error && "border-red-500",
 					className,
 				)}
 				disabled={disabled}
+				ref={triggerRef}
 			>
 				<span
 					className={cn(

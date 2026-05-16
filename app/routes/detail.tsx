@@ -47,7 +47,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 	return (
 		<div className="min-h-screen">
 			<Header>
-				<div className="mx-auto max-w-5xl -mt-2 px-8 pb-3">
+				<div className="mx-auto -mt-2 max-w-5xl px-8 pb-3">
 					<BackButton href="/search" />
 				</div>
 			</Header>
