@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { cn } from "~/lib/cn";
 import type { NationsByRegionResponse } from "~/shared/api/types";
@@ -29,7 +29,6 @@ export function NationFilterPopover({
 	selectedNations,
 }: NationFilterPopoverProps) {
 	const [open, setOpen] = useState(false);
-	const triggerRef = useRef<HTMLButtonElement>(null);
 	const categories = useMemo<CategorizedListCategory[]>(
 		() =>
 			nationsByRegion
@@ -58,7 +57,6 @@ export function NationFilterPopover({
 					className,
 				)}
 				disabled={disabled}
-				ref={triggerRef}
 			>
 				<span
 					className={cn(

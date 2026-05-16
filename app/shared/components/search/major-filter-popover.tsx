@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { cn } from "~/lib/cn";
 import type { MajorCategoryResponse } from "~/shared/api/types";
@@ -29,7 +29,6 @@ export function MajorFilterPopover({
 	selectedMajors,
 }: MajorFilterPopoverProps) {
 	const [open, setOpen] = useState(false);
-	const triggerRef = useRef<HTMLButtonElement>(null);
 	const categories = useMemo<CategorizedListCategory[]>(
 		() =>
 			majorCategories
@@ -62,7 +61,6 @@ export function MajorFilterPopover({
 					className,
 				)}
 				disabled={disabled}
-				ref={triggerRef}
 			>
 				<span
 					className={cn(
