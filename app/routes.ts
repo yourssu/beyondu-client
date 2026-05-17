@@ -4,6 +4,7 @@ export default [
 	index("routes/home.tsx"),
 	route("search", "routes/search.tsx"),
 	route("detail/:id", "routes/detail.tsx"),
+	route("terms", "routes/terms.tsx"),
 	route("api/meta/nations", "routes/api.meta.nations.ts"),
 	route("api/meta/nations-by-region", "routes/api.meta.nations-by-region.ts"),
 	route("api/meta/regions", "routes/api.meta.regions.ts"),
