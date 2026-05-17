@@ -41,7 +41,6 @@
 	--color-chip-blue-value: #165358;
 
 	/* Colors - Misc */
-	--color-logo: #4f3109;
 	--color-grey-01: #434343;
 
 	/* Spacing */
@@ -67,8 +66,16 @@
 		0px 1px 8px 0px rgba(0, 0, 0, 0.12), 0px 3px 4px 0px rgba(0, 0, 0, 0.14),
 		0px 3px 3px -2px rgba(0, 0, 0, 0.2);
 
+	/* Gradients */
+	--background-image-card-hover: radial-gradient(
+		74.56% 74.56% at 50% 50%,
+		var(--color-primary-green) 0%,
+		var(--color-surface-white) 100%
+	);
+
 	/* Blur */
 	--blur-campus: 25.2px;
+	--blur-campus-overlay: 50px;
 
 	/* Container */
 	--container-form: 700px;
@@ -103,10 +110,40 @@
 	--delay-card-stagger: 50ms;
 }
 
+@utility mask-fade-to-top {
+	mask-image: linear-gradient(to top, black 0%, transparent 100%);
+	-webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+}
+
+@utility noise-overlay {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-repeat: repeat;
+	background-size: 200px 200px;
+	opacity: 0.15;
+	mix-blend-mode: overlay;
+}
+
+@utility mask-fade-to-bottom {
+	mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+	-webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
 @utility scrollbar-hidden {
 	scrollbar-width: none;
 	&::-webkit-scrollbar {
 		display: none;
+	}
+}
+
+@utility no-spinner {
+	-moz-appearance: textfield;
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
 }
 
@@ -159,14 +196,6 @@
 	line-height: 20px;
 	letter-spacing: 0;
 	font-weight: 600;
-}
-
-@utility text-style-logo {
-	font-family: var(--font-display);
-	font-size: 32px;
-	line-height: normal;
-	letter-spacing: 0;
-	font-weight: 400;
 }
 
 /* Keyframe animations */

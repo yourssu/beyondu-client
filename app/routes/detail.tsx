@@ -68,16 +68,6 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 						</div>
 						<h1 className="text-base-900 text-style-heading-lg">{university.nameEng}</h1>
 						<p className="text-base-900 text-style-body-bold">{university.nameKor}</p>
-						{university.websiteUrl && (
-							<a
-								className="text-base-700 text-style-body underline"
-								href={university.websiteUrl}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								{university.nameKor} 홈페이지 가기→
-							</a>
-						)}
 					</div>
 
 					{/* 메타 정보 + 후기 버튼 */}
@@ -94,6 +84,16 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 									<Users className="size-5 text-base-700" />
 									<span className="text-base-700 text-style-body">{university.studentCount}</span>
 								</div>
+							)}
+							{university.websiteUrl && (
+								<a
+									className="mt-2 text-base-700 text-style-body underline"
+									href={university.websiteUrl}
+									rel="noopener noreferrer"
+									target="_blank"
+								>
+									{university.nameKor} 홈페이지 가기→
+								</a>
 							)}
 						</div>
 

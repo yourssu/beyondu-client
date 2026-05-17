@@ -27,7 +27,7 @@ export function UniversityCard({
 		<Link className="group block h-full" to={`/detail/${id}`} viewTransition>
 			<Card
 				className={cn(
-					"spring-duration-200 spring-bounce-20 flex h-full flex-col gap-3 border-0 p-5 transition group-hover:scale-97 group-hover:shadow-elevation-1",
+					"spring-duration-200 spring-bounce-20 flex h-full flex-col gap-3 p-5 transition group-hover:scale-97 group-hover:border-primary-green group-hover:bg-card-hover group-hover:shadow-elevation-1",
 					className,
 				)}
 				style={isTransitioning ? { viewTransitionName: "university-hero" } : undefined}
