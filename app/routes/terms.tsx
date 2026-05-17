@@ -1,7 +1,9 @@
 import { BackButton } from "~/shared/components/back-button";
 import { Header } from "~/shared/components/header";
 
-export function meta() {
+import type { Route } from "./+types/terms";
+
+export function meta(_args: Route.MetaArgs) {
 	return [{ title: "이용약관 - Beyond U" }];
 }
 
