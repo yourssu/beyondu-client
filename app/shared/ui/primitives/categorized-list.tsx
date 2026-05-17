@@ -20,6 +20,7 @@ export interface CategorizedListCategory {
 export interface CategorizedListProps {
 	ariaLabel?: string;
 	categories: CategorizedListCategory[];
+	categoryLabel?: string;
 	className?: string;
 	emptyMessage?: string;
 	onEscapeKeyDown?: () => void;
@@ -51,6 +52,7 @@ function scrollOffset(container: HTMLElement, target: HTMLElement) {
 export function CategorizedList({
 	ariaLabel = "분류된 목록",
 	categories,
+	categoryLabel = "대륙",
 	className,
 	emptyMessage = "선택 가능한 항목이 없습니다.",
 	onEscapeKeyDown,
@@ -195,8 +197,8 @@ export function CategorizedList({
 			)}
 		>
 			<div className="flex shrink-0 flex-col gap-2.5 border-primary-green border-b px-6 pt-3 pb-6">
-				<p className="text-base-700 text-style-body-bold">대륙</p>
-				<div className="flex gap-1 overflow-x-auto">
+				<p className="text-base-700 text-style-body-bold">{categoryLabel}</p>
+				<div className="flex flex-wrap gap-1">
 					{categories.map((category) => (
 						<button
 							aria-current={category.id === activeCategoryId ? "true" : undefined}
@@ -218,7 +220,7 @@ export function CategorizedList({
 			<div
 				aria-label={ariaLabel}
 				aria-multiselectable="true"
-				className="min-h-0 flex-1 overflow-y-auto outline-none"
+				className="scrollbar-hidden min-h-0 flex-1 overflow-y-auto outline-none"
 				onKeyDown={handleKeyDown}
 				onScroll={updateActiveCategory}
 				ref={listRef}

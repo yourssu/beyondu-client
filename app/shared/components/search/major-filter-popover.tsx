@@ -76,6 +76,7 @@ export function MajorFilterPopover({
 				<CategorizedList
 					ariaLabel="전공 선택"
 					categories={categories}
+					categoryLabel="학과"
 					onEscapeKeyDown={() => setOpen(false)}
 					onValueChange={onSelectedMajorsChange}
 					value={selectedMajors}

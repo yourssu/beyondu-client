@@ -82,7 +82,7 @@ export function LanguageTestPopover({
 				sideOffset={4}
 			>
 				<LanguageTestCompoundList
-					className="h-full overflow-y-auto"
+					className="scrollbar-hidden h-full overflow-y-auto"
 					examTypes={examTypes}
 					onEscapeKeyDown={() => setOpen(false)}
 					onValueChange={onLanguageTestsChange}

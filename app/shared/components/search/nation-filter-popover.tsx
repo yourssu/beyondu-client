@@ -36,7 +36,7 @@ export function NationFilterPopover({
 				.map((group) => ({
 					id: group.region,
 					items: group.nations.map((nation) => ({ label: nation, value: nation })),
-					label: group.region,
+					label: group.region === "Unknown" ? "기타" : group.region,
 				})),
 		[nationsByRegion],
 	);

@@ -9,7 +9,6 @@ import { InfoCard } from "~/shared/components/info-card";
 import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
 import { Badge } from "~/shared/ui/primitives/badge";
 import { Button } from "~/shared/ui/primitives/button";
-import { Tag } from "~/shared/ui/primitives/tag";
 import { Tooltip } from "~/shared/ui/primitives/tooltip";
 
 import type { Route } from "./+types/detail";
@@ -48,21 +47,24 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 	return (
 		<div className="min-h-screen">
 			<Header>
-				<div className="mx-auto max-w-5xl px-8">
+				<div className="mx-auto -mt-2 max-w-5xl px-8 pb-3">
 					<BackButton href="/search" />
 				</div>
 			</Header>
 
 			<main
-				className="mx-auto max-w-5xl px-8 py-10"
+				className="mx-auto max-w-5xl px-8 py-10 pb-detail-bottom"
 				style={{ viewTransitionName: "university-hero" }}
 			>
 				<div className="flex flex-col gap-10">
 					{/* 상단 정보 */}
 					<div className="flex flex-col gap-2">
 						<div className="flex flex-wrap items-center gap-2 self-start">
-							<Badge variant="green">{university.badge}</Badge>
-							{university.programType && <Tag programType={university.programType} />}
+							<Badge variant="green">
+								{university.programType
+									? `${university.badge} | ${university.programType}`
+									: university.badge}
+							</Badge>
 						</div>
 						<h1 className="text-base-900 text-style-heading-lg">{university.nameEng}</h1>
 						<p className="text-base-900 text-style-body-bold">{university.nameKor}</p>
@@ -87,12 +89,6 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 									{university.nation}, {university.region}
 								</span>
 							</div>
-							{university.location && (
-								<div className="flex items-center gap-2">
-									<MapPin className="size-5 text-base-700" />
-									<span className="text-base-700 text-style-body">{university.location}</span>
-								</div>
-							)}
 							{university.studentCount && (
 								<div className="flex items-center gap-2">
 									<Users className="size-5 text-base-700" />
@@ -130,10 +126,10 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 
 					{/* InfoCards */}
 					<div className="flex flex-col gap-3 sm:flex-row">
-						<InfoCard className="flex-1" title="어학 요구사항">
+						<InfoCard className="flex-[2]" title="어학 요구사항">
 							<p className="text-primary-olive text-style-heading-lg">{languageText}</p>
 							{university.significantNote && (
-								<p className="text-base-700 text-style-body">{university.significantNote}</p>
+								<p className="text-grey-01 text-style-body">{university.significantNote}</p>
 							)}
 						</InfoCard>
 						<InfoCard className="flex-1" title="학점 요구사항">
@@ -147,7 +143,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 							<p className="text-base-900 text-style-body-bold">{availableMajors.join(", ")}</p>
 							{university.courseListUrl && (
 								<a
-									className="mt-4 block text-base-700 text-style-body underline"
+									className="mt-4 block text-grey-01 text-style-body underline"
 									href={university.courseListUrl}
 									rel="noopener noreferrer"
 									target="_blank"
@@ -161,7 +157,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 					{/* 참고사항 */}
 					{university.remark && (
 						<ContentSection title="참고사항">
-							<div className="text-base-900 text-style-body-bold">
+							<div className="text-grey-01 text-style-body-bold">
 								{university.remark.split("\n").map((line) => (
 									<p key={line}>{line}</p>
 								))}
