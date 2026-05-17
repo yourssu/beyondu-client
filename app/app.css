@@ -67,6 +67,9 @@
 		0px 1px 8px 0px rgba(0, 0, 0, 0.12), 0px 3px 4px 0px rgba(0, 0, 0, 0.14),
 		0px 3px 3px -2px rgba(0, 0, 0, 0.2);
 
+	/* Gradients */
+	--background-image-card-hover: radial-gradient(74.56% 74.56% at 50% 50%, var(--color-primary-green) 0%, #ffffff 100%);
+
 	/* Blur */
 	--blur-campus: 25.2px;
 
@@ -107,6 +110,18 @@
 	scrollbar-width: none;
 	&::-webkit-scrollbar {
 		display: none;
+	}
+}
+
+@utility no-spinner {
+	-moz-appearance: textfield;
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
 }
 
