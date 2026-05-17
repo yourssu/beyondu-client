@@ -41,7 +41,6 @@
 	--color-chip-blue-value: #165358;
 
 	/* Colors - Misc */
-	--color-logo: #4f3109;
 	--color-grey-01: #434343;
 
 	/* Spacing */
@@ -71,7 +70,7 @@
 	--background-image-card-hover: radial-gradient(
 		74.56% 74.56% at 50% 50%,
 		var(--color-primary-green) 0%,
-		#ffffff 100%
+		var(--color-surface-white) 100%
 	);
 
 	/* Blur */
@@ -197,14 +196,6 @@
 	line-height: 20px;
 	letter-spacing: 0;
 	font-weight: 600;
-}
-
-@utility text-style-logo {
-	font-family: var(--font-display);
-	font-size: 32px;
-	line-height: normal;
-	letter-spacing: 0;
-	font-weight: 400;
 }
 
 /* Keyframe animations */
