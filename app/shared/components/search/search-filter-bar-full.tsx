@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 import { cn } from "~/lib/cn";
 import { Button } from "~/shared/ui/primitives/button";
@@ -149,6 +150,9 @@ export function SearchFilterBarFull({
 				>
 					맞춤 학교 찾아보기
 				</Button>
+				<Link className="text-base-400 text-style-caption underline" to="/terms">
+					이용약관
+				</Link>
 			</div>
 		</div>
 	);
