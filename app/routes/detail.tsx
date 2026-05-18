@@ -1,5 +1,6 @@
 import { HTTPError } from "ky";
 import { ArrowRight, MapPin, Users } from "lucide-react";
+import { useLocation } from "react-router";
 
 import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
@@ -10,8 +11,6 @@ import { RouteErrorFallback } from "~/shared/components/route-error-fallback";
 import { Badge } from "~/shared/ui/primitives/badge";
 import { Button } from "~/shared/ui/primitives/button";
 import { Tooltip } from "~/shared/ui/primitives/tooltip";
-
-import { useLocation } from "react-router";
 
 import type { Route } from "./+types/detail";
 
