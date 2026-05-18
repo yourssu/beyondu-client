@@ -1,5 +1,6 @@
 import { HTTPError } from "ky";
 import { ArrowRight, MapPin, Users } from "lucide-react";
+import { useLocation } from "react-router";
 
 import { createApiClient, getUniversityDetail } from "~/shared/api";
 import { BackButton } from "~/shared/components/back-button";
@@ -35,6 +36,8 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
 export default function Detail({ loaderData }: Route.ComponentProps) {
 	const { university } = loaderData;
+	const location = useLocation();
+	const backHref = (location.state as { from?: string } | null)?.from ?? "/search";
 
 	const languageText =
 		university.languageRequirements.length > 0
@@ -48,7 +51,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 		<div className="min-h-screen">
 			<Header>
 				<div className="mx-auto -mt-2 max-w-5xl px-8 pb-3">
-					<BackButton href="/search" />
+					<BackButton href={backHref} />
 				</div>
 			</Header>
 

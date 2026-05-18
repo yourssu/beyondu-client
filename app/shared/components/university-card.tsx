@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import { Link, useViewTransitionState } from "react-router";
+import { Link, useLocation, useViewTransitionState } from "react-router";
 
 import { cn } from "~/lib/cn";
 import type { UniversitySummaryDto } from "~/shared/api/types";
@@ -21,10 +21,16 @@ export function UniversityCard({
 	reviewStatus,
 	className,
 }: UniversityCardProps) {
+	const location = useLocation();
 	const isTransitioning = useViewTransitionState(`/detail/${id}`);
 
 	return (
-		<Link className="group block h-full" to={`/detail/${id}`} viewTransition>
+		<Link
+			className="group block h-full"
+			state={{ from: location.pathname + location.search }}
+			to={`/detail/${id}`}
+			viewTransition
+		>
 			<Card
 				className={cn(
 					"spring-duration-200 spring-bounce-20 flex h-full flex-col gap-3 p-5 transition group-hover:scale-97 group-hover:border-primary-green group-hover:bg-card-hover group-hover:shadow-elevation-1",
