@@ -115,7 +115,20 @@ export function LanguageTestCompoundList({
 									max={examType.maxScore}
 									min={examType.minScore}
 									onBlur={(event) => {
-										if (!event.currentTarget.value.trim()) removeTest(examType.paramName);
+										const val = event.currentTarget.value.trim();
+										if (!val) {
+											removeTest(examType.paramName);
+											return;
+										}
+										const numVal = Number(val);
+										if (Number.isNaN(numVal)) return;
+										const step = scoreStep(examType.paramName);
+										const rounded = Math.round(numVal / step) * step;
+										const clamped = Math.min(
+											Math.max(rounded, examType.minScore),
+											examType.maxScore,
+										);
+										updateScore(examType.paramName, String(clamped));
 									}}
 									onChange={(event) => updateScore(examType.paramName, event.currentTarget.value)}
 									placeholder="점수 (필수 아님)"
