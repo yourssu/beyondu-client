@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -50,6 +50,10 @@ export function SearchFilterBarFull({
 					<h2 className="text-base-900 text-style-heading-lg">나의 조건 입력하기</h2>
 					<p className="text-base-900 text-style-body">
 						입력하신 정보를 바탕으로 지원 가능한 학교를 분석합니다
+					</p>
+					<p className="flex items-center gap-1.5 text-base-400 text-style-caption">
+						<Info className="size-3.5 shrink-0" />
+						PC 뷰에 최적화되어 있습니다&nbsp;·&nbsp;2026년 2학기 기준 데이터
 					</p>
 				</div>
 
