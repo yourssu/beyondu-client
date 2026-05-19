@@ -41,11 +41,11 @@ export function SearchFilterBarFull({
 	return (
 		<div
 			className={cn(
-				"mx-auto flex w-full max-w-2xl flex-col items-center gap-14 rounded-3xl bg-surface-glass px-24 pt-14 pb-12",
+				"mx-auto flex w-full max-w-2xl flex-col items-center gap-8 rounded-3xl bg-surface-glass px-6 pt-14 pb-12 sm:gap-14 sm:px-24",
 				className,
 			)}
 		>
-			<div className="flex w-full max-w-md flex-col gap-16">
+			<div className="flex w-full max-w-md flex-col gap-10 sm:gap-16">
 				<div className="flex flex-col gap-2">
 					<h2 className="text-base-900 text-style-heading-lg">나의 조건 입력하기</h2>
 					<p className="text-base-900 text-style-body">
@@ -80,7 +80,7 @@ export function SearchFilterBarFull({
 						/>
 					</FormField>
 
-					<FormField className="w-64" label="준비할 언어 자격증">
+					<FormField className="w-full sm:w-64" label="준비할 언어 자격증">
 						<SelectedFilterChips
 							examTypes={examTypes}
 							filters={filters}
@@ -119,7 +119,7 @@ export function SearchFilterBarFull({
 						/>
 					</FormField>
 
-					<FormField className="w-64" label="나의 학점 (4.5 만점)">
+					<FormField className="w-full sm:w-64" label="나의 학점 (4.5 만점)">
 						<SelectedFilterChips
 							examTypes={examTypes}
 							filters={filters}
@@ -146,7 +146,7 @@ export function SearchFilterBarFull({
 					onChange={(requireReview) => onFiltersChange({ ...filters, requireReview })}
 				/>
 				<Button
-					className="w-80 rounded-lg"
+					className="w-full rounded-lg sm:w-80"
 					disabled={disabled}
 					onClick={handleSubmit}
 					rightIcon={<ArrowRight className="size-5" />}
