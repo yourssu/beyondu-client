@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Search as SearchIcon } from "lucide-react";
+import { Info, Search as SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 
@@ -214,7 +214,11 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 						</div>
 
 						{/* Result summary */}
-						<p className="mt-8 text-base-700 text-style-body">
+						<p className="mt-8 flex items-center gap-1.5 text-base-400 text-style-caption">
+							<Info className="size-3.5 shrink-0" />
+							PC 뷰에 최적화되어 있습니다&nbsp;·&nbsp;2026년 2학기 기준 데이터
+						</p>
+						<p className="mt-2 text-base-700 text-style-body">
 							{selectedFilterLabels.length > 0 ? (
 								<>
 									[ <span className="text-style-body-bold">{selectedFilterLabels.join(" / ")}</span>{" "}
