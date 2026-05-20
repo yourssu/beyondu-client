@@ -14,7 +14,7 @@ const meta = {
 		nameKor: "캘리포니아 대학교 버클리",
 		nation: "미국",
 		programType: "",
-		reviewStatus: "없음",
+		reviewStatus: "후기 없음",
 	},
 	component: UniversityCard,
 	decorators: [withRouter],
@@ -28,7 +28,7 @@ export const Default: Story = {};
 
 export const WithReview: Story = {
 	args: {
-		reviewStatus: "있음",
+		reviewStatus: "후기 있음 (2020-2025)",
 	},
 };
 
@@ -36,6 +36,6 @@ export const WithLanguageReqs: Story = {
 	args: {
 		languageRequirementSummary: "TOEFL 90 / IELTS 6.5",
 		programType: "GKS",
-		reviewStatus: "있음",
+		reviewStatus: "후기 있음 (2020-2025)",
 	},
 };

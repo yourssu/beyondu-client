@@ -59,9 +59,9 @@ export function UniversityCard({
 
 				<Badge
 					className="mt-auto self-start rounded-tag"
-					variant={reviewStatus === "있음" ? "green" : "neutral"}
+					variant={reviewStatus !== "후기 없음" ? "green" : "neutral"}
 				>
-					{reviewStatus === "있음" ? "후기 있음" : "후기 없음"}
+					{reviewStatus}
 				</Badge>
 			</Card>
 		</Link>
