@@ -35,6 +35,7 @@ export function SearchFilterBarFull({
 		setShowValidation(true);
 		onFiltersChange(filters);
 		if (filters.nations.length === 0 || filters.majors.length === 0) return;
+		window.dataLayer?.push({ event: "search_submit" });
 		onSubmit(filters);
 	}
 
