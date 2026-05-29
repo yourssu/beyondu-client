@@ -44,7 +44,24 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 			? university.languageRequirements.map((r) => `${r.examType} ${r.minScore}`).join(" / ")
 			: "별도 요구사항 없음";
 	const availableMajors = university.availableMajors ?? [];
-	const reviewReportUrl = university.reviewReportUrl?.trim();
+	const reviewReportUrl = (() => {
+		const raw = university.reviewReportUrl?.trim();
+		if (!raw) return undefined;
+		return raw.replace(/([?&]searchVal=)([^&]+)/, (_, prefix, val) => {
+			try {
+				// Base64 decode → 괄호 안 내용 전체 제거(중국어·약어 등) → re-encode
+				const bytes = Uint8Array.from(atob(val), (c) => c.charCodeAt(0));
+				const text = new TextDecoder().decode(bytes);
+				const cleaned = text.replace(/\s*\([^)]*\)\s*/g, "").trim();
+				const cleanedBytes = new TextEncoder().encode(cleaned);
+				const newB64 = btoa(String.fromCharCode(...Array.from(cleanedBytes)));
+				return prefix + newB64.replace(/\+/g, "%2B").replace(/=/g, "%3D");
+			} catch {
+				// decode 실패 시 최소한 +/= 인코딩만 처리
+				return prefix + val.replace(/\+/g, "%2B").replace(/=/g, "%3D");
+			}
+		});
+	})();
 	const hasReviewReport = university.hasReview && Boolean(reviewReportUrl);
 
 	return (
