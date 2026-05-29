@@ -52,7 +52,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 				// Base64 decode → 괄호 안 비ASCII(중국어 등) 제거 → re-encode
 				const bytes = Uint8Array.from(atob(val), (c) => c.charCodeAt(0));
 				const text = new TextDecoder().decode(bytes);
-				const cleaned = text.replace(/\s*\(\P{ASCII}+\)\s*/gu, "").trim();
+				const cleaned = text.replace(/\s*\([^)]*\)\s*/g, "").trim();
 				const cleanedBytes = new TextEncoder().encode(cleaned);
 				const newB64 = btoa(String.fromCharCode(...Array.from(cleanedBytes)));
 				return prefix + newB64.replace(/\+/g, "%2B").replace(/=/g, "%3D");
