@@ -49,7 +49,7 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 		if (!raw) return undefined;
 		return raw.replace(/([?&]searchVal=)([^&]+)/, (_, prefix, val) => {
 			try {
-				// Base64 decode → 괄호 안 비ASCII(중국어 등) 제거 → re-encode
+				// Base64 decode → 괄호 안 내용 전체 제거(중국어·약어 등) → re-encode
 				const bytes = Uint8Array.from(atob(val), (c) => c.charCodeAt(0));
 				const text = new TextDecoder().decode(bytes);
 				const cleaned = text.replace(/\s*\([^)]*\)\s*/g, "").trim();
