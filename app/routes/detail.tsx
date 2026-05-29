@@ -44,7 +44,14 @@ export default function Detail({ loaderData }: Route.ComponentProps) {
 			? university.languageRequirements.map((r) => `${r.examType} ${r.minScore}`).join(" / ")
 			: "별도 요구사항 없음";
 	const availableMajors = university.availableMajors ?? [];
-	const reviewReportUrl = university.reviewReportUrl?.trim();
+	const reviewReportUrl = (() => {
+		const raw = university.reviewReportUrl?.trim();
+		if (!raw) return undefined;
+		// Base64 searchVal의 +와 =이 URL 쿼리스트링에서 오해석되는 것 방지
+		return raw.replace(/([?&]searchVal=)([^&]+)/, (_, prefix, val) =>
+			prefix + val.replace(/\+/g, '%2B').replace(/=/g, '%3D'),
+		);
+	})();
 	const hasReviewReport = university.hasReview && Boolean(reviewReportUrl);
 
 	return (
